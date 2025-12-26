@@ -1,0 +1,33 @@
+<odoo>
+    <record id="view_erp_build_form" model="ir.ui.view">
+        <field name="name">erp.build.form</field>
+        <field name="model">erp.build</field>
+        <field name="arch" type="xml">
+            <form string="Build">
+                <group>
+                    <field name="name"/>
+                    <field name="description"/>
+                </group>
+
+                <footer>
+                    <button string="Xác nhận"
+                            type="object"
+                            name="action_confirm"
+                            class="btn-primary"/>
+
+                    <button string="Hủy"
+                            special="cancel"
+                            class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_erp_build" model="ir.actions.act_window">
+        <field name="name">Build</field>
+        <field name="res_model">erp.build</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
