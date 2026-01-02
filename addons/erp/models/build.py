@@ -7,7 +7,7 @@ title = {
     '1': 'Pick Options',
     '2': 'Please create your model name',
     '3': 'Please set menu',
-    '4': 'Please pick your model to delete',
+    '4': 'Please pick your model',
 }
 previous_stage = {
     '2': '1',
@@ -206,7 +206,7 @@ class Build(models.TransientModel):
     menu_id = fields.Many2one(
         "ir.ui.menu",
         string="Menu",
-        domain=[('parent_id', '!=', False), ('is_custom', '=', True)],
+        domain=[('parent_id', '!=', False), ('is_custom', '=', True), ('action', '=', False)],
     )
     parent_menu_id = fields.Many2one(
         "ir.ui.menu",
