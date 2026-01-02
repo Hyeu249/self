@@ -90,63 +90,63 @@
                 <header><!-- used for override --></header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button class="oe_stat_button" name="action_view_menus"
-                                type="object" icon="fa-bars">
+                        <button class="oe_stat_button"
+                                name="action_view_menus"
+                                type="object"
+                                icon="fa-bars">
                             <div class="o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="menu_count"/>
                                 </span>
-                                <span class="o_stat_text">
-                                    Menus
-                                </span>
+                                <span class="o_stat_text">Menus</span>
                             </div>
                         </button>
-                        <button class="oe_stat_button" name="action_view_views"
-                                type="object" icon="fa-bars">
+                        <button class="oe_stat_button"
+                                name="action_view_views"
+                                type="object"
+                                icon="fa-eye">
                             <div class="o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="view_count"/>
                                 </span>
-                                <span class="o_stat_text">
-                                    Views
-                                </span>
+                                <span class="o_stat_text">Views</span>
                             </div>
                         </button>
-                        <button class="oe_stat_button" name="action_view_server_actions"
-                                type="object" icon="fa-bars">
+                        <button class="oe_stat_button"
+                                name="action_view_server_actions"
+                                type="object"
+                                icon="fa-bolt">
                             <div class="o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="server_action_count"/>
                                 </span>
-                                <span class="o_stat_text">
-                                    Servers
-                                </span>
+                                <span class="o_stat_text">Server Actions</span>
                             </div>
                         </button>
-                        <button class="oe_stat_button" name="action_view_base_automation"
-                                type="object" icon="fa-bars">
+                        <button class="oe_stat_button"
+                                name="action_view_base_automation"
+                                type="object"
+                                icon="fa-cogs">
                             <div class="o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="base_automation_count"/>
                                 </span>
-                                <span class="o_stat_text">
-                                    Automations
-                                </span>
+                                <span class="o_stat_text">Automations</span>
                             </div>
                         </button>
-                        <button class="oe_stat_button" name="action_view_scheduled_actions"
-                                type="object" icon="fa-bars">
+                        <button class="oe_stat_button"
+                                name="action_view_scheduled_actions"
+                                type="object"
+                                icon="fa-clock-o">
                             <div class="o_stat_info">
                                 <span class="o_stat_value">
                                     <field name="scheduled_action_count"/>
                                 </span>
-                                <span class="o_stat_text">
-                                    Scheduled Actions
-                                </span>
+                                <span class="o_stat_text">Scheduled Actions</span>
                             </div>
                         </button>
-                        
                     </div>
+
                     <group>
                         <group>
                             <field name="name"/>
@@ -168,7 +168,7 @@
                                     <field name="required"/>
                                     <field name="readonly"/>
                                     <field name="index" groups="base.group_no_one"/>
-                                    <field name="state" groups="base.group_no_one"/>
+                                    <field name="store" groups="base.group_no_one"/>
                                 </list>
                                 <form string="Fields Description">
                                     <group>
