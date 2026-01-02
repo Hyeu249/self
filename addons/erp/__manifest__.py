@@ -3,7 +3,7 @@
     "version": "1.0",
     "author": "Hieu",
     "summary": "ERP",
-    "depends": ["mail"],
+    "depends": ["mail", "base_automation"],
     "data": [
         "security/role.xml",
         "security/ir.model.access.csv",
