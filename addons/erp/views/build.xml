@@ -160,8 +160,9 @@
                     </group>
                     <notebook>
                         <page string="Fields" name="fields">
-                            <field name="field_id" domain="[('state', '=', 'manual')]">
+                            <field name="field_id">
                                 <list string="Fields Description">
+                                    <field name="sequence" widget='handle'/>
                                     <field name="name"/>
                                     <field name="field_description"/>
                                     <field name="ttype"/>

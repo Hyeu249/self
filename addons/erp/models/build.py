@@ -20,6 +20,11 @@ class IrUiMenu(models.Model):
 
     is_custom = fields.Boolean(string="Is Custom")
 
+class IrModelFields(models.Model):
+    _inherit = "ir.model.fields"
+
+    sequence = fields.Integer("Sequence")
+
 class IrModel(models.Model):
     _inherit = "ir.model"
     def _default_field_id(self):
@@ -169,7 +174,7 @@ class Build(models.TransientModel):
                 ('delete', 'Delete'),
             ],
             string='Action',
-            default='create',
+            default='edit',
             required=True,
         )
     mode = fields.Selection(
