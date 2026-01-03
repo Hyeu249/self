@@ -183,6 +183,18 @@
                                         </group>
                                     </group>
                                     <notebook>
+                                        <page name="meta" string="Meta">
+                                            <group>
+                                                <group>
+                                                    <field name="state" groups="base.group_no_one"/>
+                                                    <field name="modules" groups="base.group_no_one"/>
+                                                </group>
+                                                <group>
+                                                    <field name="selected_model_id" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']" required="ttype in ['many2one', 'one2many', 'many2many']"/>
+                                                    <field name="selected_field_id" invisible="ttype != 'one2many'" readonly="ttype != 'one2many'" required="ttype == 'one2many'"/>
+                                                </group>
+                                            </group>
+                                        </page>
                                         <page name="base" string="Properties">
                                             <group>
                                                 <group>
@@ -191,8 +203,6 @@
                                                     <field name="store" groups="base.group_no_one"/>
                                                     <field name="index" groups="base.group_no_one"/>
                                                     <field name="copied" groups="base.group_no_one"/>
-                                                    <field name="state" groups="base.group_no_one"/>
-                                                    <field name="modules" groups="base.group_no_one"/>
                                                 </group>
                                                 <group>
                                                     <field name="translate" invisible="ttype not in ['char', 'text', 'html']" readonly="ttype not in ['char', 'text', 'html']"/>
