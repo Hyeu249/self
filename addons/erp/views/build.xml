@@ -216,15 +216,6 @@
                                                     <field name="domain" groups="base.group_no_one" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']"/>
                                                 </group>
                                             </group>
-                                            <group invisible="ttype not in ['selection', 'reference']" readonly="ttype not in ['selection', 'reference']">
-                                                <field name="selection_ids">
-                                                    <list editable="bottom">
-                                                        <field name="sequence" widget="handle"/>
-                                                        <field name="value"/>
-                                                        <field name="name"/>
-                                                    </list>
-                                                </field>
-                                            </group>
                                         </page>
                                         <page name="compute" string="Compute" groups="base.group_no_one">
                                             <group>
@@ -262,6 +253,18 @@
                                         </page>
                                         <page name="groups" string="Access Rights">
                                             <field name="groups"/>
+                                        </page>
+                                        <page string="Selection Options" name="Selection Options" 
+                                            invisible="ttype not in ['selection', 'reference']" 
+                                            readonly="ttype not in ['selection', 'reference']"
+                                        >
+                                            <field name="selection_ids">
+                                                <list editable="bottom">
+                                                    <field name="sequence" widget="handle"/>
+                                                    <field name="value"/>
+                                                    <field name="name"/>
+                                                </list>
+                                            </field>
                                         </page>
                                     </notebook>
                                 </form>
