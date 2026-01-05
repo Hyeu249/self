@@ -23,6 +23,8 @@ class IrUiMenu(models.Model):
 class IrModelFields(models.Model):
     _inherit = "ir.model.fields"
 
+    invisible = fields.Boolean("Invisible", default=False)
+    approval_field = fields.Boolean("Approval Field", default=False)
     sequence = fields.Integer("Sequence")
     selected_model_id = fields.Many2one(
         'ir.model', 
@@ -441,8 +443,10 @@ class IrUiView(models.Model):
 
     def update_form_view(self):
         normal_field_ids, one2many_fields = self.get_custom_fields()
+        field_ids = normal_field_ids.filtered(lambda f: not f.approval_field)
+        approval_fields = normal_field_ids.filtered(lambda f: f.approval_field)
 
-        field_tags = [f"<field name='{field.name}'/>\n" for field in normal_field_ids]
+        field_tags = [f"<field name='{field.name}'/>\n" for field in field_ids]
         one2many_pages = [
             f"""
                 <page string="{field.field_description}" name="{field.name}">
@@ -451,9 +455,16 @@ class IrUiView(models.Model):
             """
             for field in one2many_fields
         ]
+        approval_tags = [
+            f"<field name='{field.name}' widget='statusbar' options='{{clickable: 1}}'/>"
+            for field in approval_fields
+        ]
 
         self.arch_base = f"""  
             <form>
+                <header>
+                    {''.join(approval_tags)}
+                </header>
                 <sheet>
                     <group>
                         {''.join(field_tags)}
