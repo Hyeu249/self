@@ -456,7 +456,7 @@ class IrUiView(models.Model):
             for field in one2many_fields
         ]
         approval_tags = [
-            f"<field name='{field.name}' widget='statusbar' options='{{clickable: 1}}'/>"
+            f"<field name='{field.name}' widget='statusbar' options=\"{{'clickable': 1}}\"/>"
             for field in approval_fields
         ]
 
