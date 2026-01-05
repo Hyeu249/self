@@ -27,14 +27,13 @@ class IrUiView(models.Model):
             return self.update_search_view()
 
     def get_custom_fields(self):
-        return self.model_id.field_id.filtered(lambda f: f.state == 'manual').sorted(key=lambda self: self.sequence)
+        one2many = lambda s: s.ttype == "one2many"
+        field_ids = self.model_id.field_id.filtered(lambda f: f.state == 'manual').sorted(key=lambda self: self.sequence)
+        return field_ids.filtered(lambda s: not one2many(s)), field_ids.filtered(one2many)
 
     def update_list_view(self):
-        one2many = lambda s: s.ttype == "one2many"
+        normal_field_ids, one2many_fields = self.get_custom_fields()
 
-        field_ids = self.get_custom_fields()
-        normal_field_ids = field_ids.filtered(lambda s: not one2many(s))
-        one2many_fields = field_ids.filtered(one2many)
         field_tags = [f"<field name='{field.name}' optional='show'/>\n" for field in normal_field_ids]
         one2many_tags = [
             f"<field name='{field.name}' widget='many2many_tags' optional='show'/>\n"
@@ -49,11 +48,35 @@ class IrUiView(models.Model):
         """
 
     def update_form_view(self):
-        return
+        normal_field_ids, one2many_fields = self.get_custom_fields()
+
+        field_tags = [f"<field name='{field.name}'/>\n" for field in normal_field_ids]
+        one2many_pages = [
+            f"""
+                <page string="{field.field_description}" name="{field.name}">
+                    <field name="{field.name}"/>
+                </page>\n
+            """
+            for field in one2many_fields
+        ]
+
+        self.arch_base = f"""  
+            <form>
+                <sheet>
+                    <group>
+                        {''.join(field_tags)}
+                    </group>
+
+                    <notebook>
+                        {''.join(one2many_pages)}
+                    </notebook>
+                </sheet>
+            </form>
+        """
 
     def update_search_view(self):
-        field_ids = self.get_custom_fields()
-        field_tags = [f"<field name='{field.name}'/>\n" for field in field_ids]
+        normal_field_ids, one2many_fields = self.get_custom_fields()
+        field_tags = [f"<field name='{field.name}'/>\n" for field in normal_field_ids + one2many_fields]
 
         self.arch_base = f"""
             <search>
