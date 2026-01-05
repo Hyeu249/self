@@ -15,6 +15,45 @@ previous_stage = {
     '4': '1',
 }
 
+class IrUiView(models.Model):
+    _inherit = "ir.ui.view"
+
+    def update_view(self):
+        if self.type == 'list':
+            return self.update_list_view()
+        elif self.type == 'form':
+            return self.update_form_view()
+        elif self.type == 'search':
+            return self.update_search_view()
+
+    def get_custom_fields(self):
+        return self.model_id.field_id.filtered(lambda f: f.state == 'manual').sorted(key=lambda self: self.sequence)
+
+    def update_list_view(self):
+        one2many = lambda s: s.ttype == "one2many"
+
+        field_ids = self.get_custom_fields()
+        normal_field_ids = field_ids.filtered(lambda s: not one2many(s))
+        one2many_fields = field_ids.filtered(one2many)
+        field_tags = [f"<field name='{field.name}' optional='show'/>\n" for field in normal_field_ids]
+        one2many_tags = [
+            f"<field name='{field.name}' widget='many2many_tags' optional='show'/>\n"
+            for field in one2many_fields
+        ]
+
+        self.arch_base = f"""
+            <list>
+                {''.join(field_tags)}
+                {''.join(one2many_tags)}
+            </list>
+        """
+
+    def update_form_view(self):
+        return
+
+    def update_search_view(self):
+        return
+
 class IrUiMenu(models.Model):
     _inherit = "ir.ui.menu"
 
