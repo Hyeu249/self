@@ -60,9 +60,17 @@ class IrModel(models.Model):
         'ir.model.fields',
         'model_id', string='Fields',
         required=True, copy=True,
-        domain=[('state', '=', 'manual')],
+        domain=lambda self: self._get_field_id_domain(),
         default=_default_field_id
     )
+    is_filter_manual = fields.Boolean(
+        string="Is Filter Manual",
+    )
+    def _get_field_id_domain(self):
+        if self.is_filter_manual:
+            return [('state', '=', 'manual')]
+        else:
+            return []
 
     server_action_count = fields.Integer(
         compute="_compute_server_action_count"
@@ -317,6 +325,7 @@ class Build(models.TransientModel):
                 "state": "manual",
                 "is_mail_thread": True,
                 "is_mail_activity": True,
+                "is_filter_manual": True
             }
         )
 
