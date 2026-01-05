@@ -52,7 +52,14 @@ class IrUiView(models.Model):
         return
 
     def update_search_view(self):
-        return
+        field_ids = self.get_custom_fields()
+        field_tags = [f"<field name='{field.name}'/>\n" for field in field_ids]
+
+        self.arch_base = f"""
+            <search>
+                {''.join(field_tags)}
+            </search>
+        """
 
 class IrUiMenu(models.Model):
     _inherit = "ir.ui.menu"
