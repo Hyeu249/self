@@ -21,6 +21,25 @@ class IrUiMenu(models.Model):
     is_custom = fields.Boolean(string="Is Custom")
 
 class IrModelFields(models.Model):
+    _inherit = "ir.model.fields.selection"
+
+    selected_model_id = fields.Many2one(
+        'ir.model', 
+        string='Model',
+        domain=[('state', '=', 'manual')]
+    )
+
+    @api.onchange('selected_model_id')
+    def _onchange_selected_model_id(self):
+        for record in self:
+            if record.selected_model_id:
+                record.value = record.selected_model_id.model
+                record.name = record.selected_model_id.name
+            else:
+                record.value = ""
+                record.name = ""
+
+class IrModelFields(models.Model):
     _inherit = "ir.model.fields"
 
     invisible = fields.Boolean("Invisible", default=False)
@@ -29,18 +48,13 @@ class IrModelFields(models.Model):
     selected_model_id = fields.Many2one(
         'ir.model', 
         string='Model',
-        domain=lambda self: self._get_selected_model_id()
     )
     selected_field_id = fields.Many2one(
         'ir.model.fields',
         string='Relation Field',
         domain="[('state', '=', 'manual'), ('model_id', '=', selected_model_id)]"
     )
-    def _get_selected_model_id(self):
-        if self.model_id.is_filter_manual:
-            return [('state', '=', 'manual')]
-        else:
-            return []
+
     @api.onchange('selected_model_id')
     def _onchange_selected_model_id(self):
         for record in self:
