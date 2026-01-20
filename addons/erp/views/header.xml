@@ -355,7 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             </div>
                         </li>
                         <li><a href="/vi_VN/pricing">Bảng giá</a></li>
-                        <li><a href="/vi_VN/help">Trợ giúp</a></li>
+                        <li><a href="/contactus">Trợ giúp</a></li>
 
 
                 </ul>
