@@ -37,9 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     <i class="fa fa-bars" focusable="false"></i><span class="visually-hidden sr-only">Menu</span>
                 </a>
                 <ul class="o_header_buttons list-unstyled">
-            <li class="o_wsale_my_cart nav-item me-lg-0 d-none">
-                <a href="/vi_VN/shop/cart" class="nav-link px-1" aria-label="Shopping Cart">
-                    <i class="fa fa-shopping-cart"></i><sup class="my_cart_quantity rounded-pill bg-o-color-1 ms-1 py-1 px-2">0</sup>
+            <li class="o_wsale_my_cart nav-item me-lg-0">
+                <a href="/shop/cart" class="nav-link px-1" aria-label="Shopping Cart">
+                    <i class="fa fa-shopping-cart"></i><sup class="my_cart_quantity rounded-pill bg-o-color-1 ms-1 py-1 px-2">0 + n</sup>
                 </a>
             </li>
             <li class="nav-item o_no_autohide_item">
@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 </span>
                             </div>
                         </li>
-                        <li><a href="/vi_VN/pricing">Bảng giá</a></li>
+                        <li><a href="/shop">Bảng giá</a></li>
                         <li><a href="/contactus">Trợ giúp</a></li>
 
 
