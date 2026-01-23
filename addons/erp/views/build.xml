@@ -264,8 +264,8 @@
                                             <field name="selection_ids">
                                                 <list editable="bottom">
                                                     <field name="sequence" widget="handle"/>
-                                                    <field name="selected_model_id"/>
-                                                    <field name="value" column_invisible="1"/>
+                                                    <field name="selected_model_id" column_invisible="parent.ttype == 'selection'"/>
+                                                    <field name="value" column_invisible="parent.ttype == 'reference'"/>
                                                     <field name="name"/>
                                                 </list>
                                             </field>

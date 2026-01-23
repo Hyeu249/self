@@ -39,6 +39,17 @@ class IrModelFields(models.Model):
                 record.value = ""
                 record.name = ""
 
+    @api.onchange('value')
+    def _onchange_value(self):
+        for record in self:
+            if record.selected_model_id:
+                return
+
+            if record.value:
+                record.name = record.value
+            else:
+                record.name = ""
+
 class IrModelFields(models.Model):
     _inherit = "ir.model.fields"
 
