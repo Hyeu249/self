@@ -315,15 +315,17 @@ class Build(models.TransientModel):
         self.create_tree_view_id(self.model_name)
         self.create_form_view_id(self.model_name)
         self.create_search_view_id(self.model_name)
-        self.create_menu(self.model_description, self.model_name, self.menu_id.id)
+
+        action_id = self.create_model_act_window(self.model_description, self.model_name)
+        self.menu_id.action = f"ir.actions.act_window,{action_id.id}"
         self.menu_id.parent_id = self.parent_menu_id.id
     
     def delete_model(self):
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', self.model_id.model)])
-        if actions:
-            menus = self.env['ir.ui.menu'].search([('action', '=', f"ir.actions.act_window,{actions[0].id}")])
+        for action in actions:
+            menus = self.env['ir.ui.menu'].search([('action', '=', f"ir.actions.act_window,{action.id}")])
             menus.unlink()
-            actions.unlink()
+            action.unlink()
         self.model_id.view_ids.unlink()
         self.model_id.unlink()
 

@@ -151,6 +151,7 @@
                         <group>
                             <field name="name"/>
                             <field name="model" readonly="id"/>
+                            <field name="transient"/>
                             <field name="order"/>
                         </group>
                         <group>
