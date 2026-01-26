@@ -166,14 +166,30 @@ class IrModelFields(models.Model):
             new_xml = ET.tostring(root, encoding="unicode")
             view.arch_base = new_xml
 
+    def remove_field_view(self):
+        views = self.env['ir.ui.view'].search([('model', '=', self.model_id.model)])
+        for view in views:
+            parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+            root = ET.fromstring(view.arch_base, parser=parser)
+            for parent in root.iter():
+                children = list(parent)
+                for i, child in enumerate(children):
+                    if child.tag == "field" and child.attrib.get("name") == self.name:
+                        parent.remove(child)
+
+            ET.indent(root, space="    ")
+            new_xml = ET.tostring(root, encoding="unicode")
+            view.arch_base = new_xml
+
     def write(self, vals):
-        new_name = vals['name']
         is_comment = False
-        for record in self:
-            old_name = record.name
-            if 'name' in vals and old_name != new_name:
-                record.comment_field_view(new_name, old_name)
-                is_comment = True
+        if "name" in vals:
+            new_name = vals['name']
+            for record in self:
+                old_name = record.name
+                if 'name' in vals and old_name != new_name:
+                    record.comment_field_view(new_name, old_name)
+                    is_comment = True
         result = super(IrModelFields, self).write(vals)
 
         for record in self:
@@ -181,6 +197,12 @@ class IrModelFields(models.Model):
                 record.uncomment_field_view()
 
         return result
+
+    def unlink(self):
+        for record in self:
+            record.remove_field_view()
+
+        return super(IrModelFields, self).unlink()
 
 class IrModel(models.Model):
     _inherit = "ir.model"
