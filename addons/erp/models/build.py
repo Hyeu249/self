@@ -118,7 +118,7 @@ class IrModelFields(models.Model):
             new_xml = ET.tostring(root, encoding="unicode")
             view.arch_base = new_xml
 
-    def change_field_view(self, new_name, old_name):
+    def comment_field_view(self, new_name, old_name):
         views = self.env['ir.ui.view'].search([('model', '=', self.model_id.model)])
         for view in views:
             root = ET.fromstring(view.arch_base)
@@ -139,17 +139,21 @@ class IrModelFields(models.Model):
             ET.indent(root, space="    ")
             new_xml = ET.tostring(root, encoding="unicode")
 
-            raise ValidationError(f"{new_xml}")
-
             view.arch_base = new_xml
 
     def write(self, vals):
+        new_name = vals['name']
+        is_comment = False
         for record in self:
-            if 'name' in vals:
-                old_name = record.name
-                new_name = vals['name']
-                record.change_field_view(new_name, old_name)
+            old_name = record.name
+            if 'name' in vals and old_name != new_name:
+                record.comment_field_view(new_name, old_name)
+                is_comment = True
         result = super(IrModelFields, self).write(vals)
+
+        for record in self:
+            if 'name' in vals and is_comment:
+                record.uncomment_field_view()
 
         return result
 
