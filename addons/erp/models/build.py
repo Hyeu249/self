@@ -3,7 +3,6 @@ from odoo.exceptions import ValidationError
 import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
-from xml.dom import minidom
 
 title = {
     '1': 'Pick Options',
@@ -98,7 +97,8 @@ class IrModelFields(models.Model):
             ], 
         limit=1)
         for view in views:
-            root = ET.fromstring(view.arch_base)
+            parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+            root = ET.fromstring(view.arch_base, parser=parser)
             if self.has_field(root, self.name):
                 continue
             for parent in root.iter():
@@ -121,7 +121,9 @@ class IrModelFields(models.Model):
     def comment_field_view(self, new_name, old_name):
         views = self.env['ir.ui.view'].search([('model', '=', self.model_id.model)])
         for view in views:
-            root = ET.fromstring(view.arch_base)
+            parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+            root = ET.fromstring(view.arch_base, parser=parser)
+
             if self.has_field(root, new_name):
                 continue
             for parent in root.iter():
@@ -139,6 +141,26 @@ class IrModelFields(models.Model):
             ET.indent(root, space="    ")
             new_xml = ET.tostring(root, encoding="unicode")
 
+            view.arch_base = new_xml
+
+    def uncomment_field_view(self):
+        views = self.env['ir.ui.view'].search([('model', '=', self.model_id.model)])
+        for view in views:
+            parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+            root = ET.fromstring(view.arch_base, parser=parser)
+            for parent in root.iter():
+                children = list(parent)
+                for i, child in enumerate(children):
+                    if child.tag is ET.Comment:
+                        text = (child.text or "").strip()
+                        parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+                        field = ET.fromstring(text, parser=parser)
+                        if field.tag == "field" and field.attrib.get("name") == self.name:
+                            parent.insert(i, field)
+                            parent.remove(child)
+
+            ET.indent(root, space="    ")
+            new_xml = ET.tostring(root, encoding="unicode")
             view.arch_base = new_xml
 
     def write(self, vals):
