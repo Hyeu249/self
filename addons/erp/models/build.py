@@ -2,6 +2,8 @@ from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 import uuid
 from odoo.fields import Command, Domain
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
 
 title = {
     '1': 'Pick Options',
@@ -80,6 +82,76 @@ class IrModelFields(models.Model):
                 record.relation_field = record.selected_field_id.name
             else:
                 record.relation_field = ""
+
+    def has_field(self, root, field_name):
+        for field in root.iter("field"):
+            if field.attrib.get("name") == field_name:
+                return True
+        return False
+
+    def update_view(self):
+        views = self.env['ir.ui.view'].search([('model', '=', self.model_id.model)])
+        t_field = self.env['ir.model.fields'].search([
+            ('model', '=', self.model_id.model),
+            ('state', '=', 'manual'),
+            ('sequence', '=', self.sequence - 1)
+            ], 
+        limit=1)
+        for view in views:
+            root = ET.fromstring(view.arch_base)
+            if self.has_field(root, self.name):
+                continue
+            for parent in root.iter():
+                children = list(parent)
+
+                for i, child in enumerate(children):
+                    if child.tag == "field" and child.attrib.get("name") == t_field.name:
+
+                        new_field = ET.Element("field", {
+                            "name": self.name
+                        })
+
+                        parent.insert(i + 1, new_field)
+
+                        break
+            ET.indent(root, space="    ")
+            new_xml = ET.tostring(root, encoding="unicode")
+            view.arch_base = new_xml
+
+    def change_field_view(self, new_name, old_name):
+        views = self.env['ir.ui.view'].search([('model', '=', self.model_id.model)])
+        for view in views:
+            root = ET.fromstring(view.arch_base)
+            if self.has_field(root, new_name):
+                continue
+            for parent in root.iter():
+                children = list(parent)
+
+                for i, child in enumerate(children):
+                    if child.tag == "field" and child.attrib.get("name") == old_name:
+
+                        child.set("name", new_name)
+                        full_tag = ET.tostring(child, encoding="unicode").strip()
+                        comment = ET.Comment(full_tag)
+
+                        parent.insert(i, comment)
+                        parent.remove(child)
+            ET.indent(root, space="    ")
+            new_xml = ET.tostring(root, encoding="unicode")
+
+            raise ValidationError(f"{new_xml}")
+
+            view.arch_base = new_xml
+
+    def write(self, vals):
+        for record in self:
+            if 'name' in vals:
+                old_name = record.name
+                new_name = vals['name']
+                record.change_field_view(new_name, old_name)
+        result = super(IrModelFields, self).write(vals)
+
+        return result
 
 class IrModel(models.Model):
     _inherit = "ir.model"
@@ -460,62 +532,81 @@ class IrUiView(models.Model):
     def update_list_view(self):
         normal_field_ids, one2many_fields = self.get_custom_fields()
 
-        field_tags = [f"<field name='{field.name}' optional='show'/>\n" for field in normal_field_ids]
-        one2many_tags = [
-            f"<field name='{field.name}' widget='many2many_tags' optional='show'/>\n"
-            for field in one2many_fields
-        ]
+        root = ET.Element("list")
 
-        self.arch_base = f"""
-            <list>
-                {''.join(field_tags)}
-                {''.join(one2many_tags)}
-            </list>
-        """
+        for field in normal_field_ids:
+            ET.SubElement(root, "field", {
+                "name": field.name,
+                "optional": "show"
+            })
+
+        for field in one2many_fields:
+            ET.SubElement(root, "field", {
+                "name": field.name,
+                "widget": "many2many_tags",
+                "optional": "show"
+            })
+        
+        ET.indent(root, space="    ")
+        new_xml = ET.tostring(root, encoding="unicode")
+        self.arch_base = new_xml
 
     def update_form_view(self):
         normal_field_ids, one2many_fields = self.get_custom_fields()
         field_ids = normal_field_ids.filtered(lambda f: not f.approval_field)
         approval_fields = normal_field_ids.filtered(lambda f: f.approval_field)
 
-        field_tags = [f"<field name='{field.name}'/>\n" for field in field_ids]
-        one2many_pages = [
-            f"""
-                <page string="{field.field_description}" name="{field.name}">
-                    <field name="{field.name}"/>
-                </page>\n
-            """
-            for field in one2many_fields
-        ]
-        approval_tags = [
-            f"<field name='{field.name}' widget='statusbar' options=\"{{'clickable': 1}}\"/>"
-            for field in approval_fields
-        ]
+        form = ET.Element("form")
 
-        self.arch_base = f"""  
-            <form>
-                <header>
-                    {''.join(approval_tags)}
-                </header>
-                <sheet>
-                    <group>
-                        {''.join(field_tags)}
-                    </group>
+        # header
+        header = ET.SubElement(form, "header")
+        for field in approval_fields:
+            ET.SubElement(header, "field", {
+                "name": field.name,
+                "widget": "statusbar",
+                "options": "{'clickable': 1}"
+            })
 
-                    <notebook>
-                        {''.join(one2many_pages)}
-                    </notebook>
-                </sheet>
-                <chatter/>
-            </form>
-        """
+        # sheet
+        sheet = ET.SubElement(form, "sheet")
+
+        # group
+        group = ET.SubElement(sheet, "group")
+        for field in field_ids:
+            ET.SubElement(group, "field", {
+                "name": field.name
+            })
+
+        # notebook
+        notebook = ET.SubElement(sheet, "notebook")
+        for field in one2many_fields:
+            page = ET.SubElement(notebook, "page", {
+                "string": field.field_description,
+                "name": field.name
+            })
+            ET.SubElement(page, "field", {
+                "name": field.name
+            })
+
+        # chatter
+        ET.SubElement(form, "chatter")
+
+        ET.indent(form, space="    ")
+        new_xml = ET.tostring(form, encoding="unicode")
+
+
+        self.arch_base = new_xml
 
     def update_search_view(self):
         normal_field_ids, one2many_fields = self.get_custom_fields()
-        field_tags = [f"<field name='{field.name}'/>\n" for field in normal_field_ids + one2many_fields]
 
-        self.arch_base = f"""
-            <search>
-                {''.join(field_tags)}
-            </search>
-        """
+        root = ET.Element("search")
+
+        for field in normal_field_ids:
+            ET.SubElement(root, "field", {
+                "name": field.name
+            })
+        
+        ET.indent(root, space="    ")
+        new_xml = ET.tostring(root, encoding="unicode")
+        self.arch_base = new_xml

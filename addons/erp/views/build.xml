@@ -324,4 +324,15 @@
         </field>
     </record>
 
+    <record id="erp_ir_fields_action_update_view" model="ir.actions.server">
+        <field name="name">Update View</field>
+        <field name="model_id" ref="base.model_ir_model_fields"/>
+        <field name="binding_model_id" ref="base.model_ir_model_fields" />
+        <field name="state">code</field>
+        <field name="code">
+            for r in records:
+                r.update_view()
+        </field>
+    </record>
+
 </odoo>
