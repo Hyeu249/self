@@ -134,7 +134,7 @@ class IrModelFields(models.Model):
 
                         child.set("name", new_name)
                         full_tag = ET.tostring(child, encoding="unicode").strip()
-                        comment = ET.Comment(full_tag)
+                        comment = ET.Comment(f"WHATSUP,{full_tag}")
 
                         parent.insert(i, comment)
                         parent.remove(child)
@@ -153,6 +153,9 @@ class IrModelFields(models.Model):
                 for i, child in enumerate(children):
                     if child.tag is ET.Comment:
                         text = (child.text or "").strip()
+                        if not text.startswith("WHATSUP,"):
+                            continue
+                        text = text.replace("WHATSUP,", "", 1).strip()
                         parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
                         field = ET.fromstring(text, parser=parser)
                         if field.tag == "field" and field.attrib.get("name") == self.name:
