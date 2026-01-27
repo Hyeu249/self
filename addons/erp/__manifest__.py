@@ -3,11 +3,12 @@
     "version": "1.0",
     "author": "Hieu",
     "summary": "ERP",
-    "depends": ["mail"],
+    "depends": ["mail", "base_automation", "website"],
     "data": [
         "security/role.xml",
         "security/ir.model.access.csv",
         "views/build.xml",
+        "views/header.xml",
     ],
     "application": True,
     "assets": {
