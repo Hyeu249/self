@@ -93,8 +93,9 @@ class IrModelFields(models.Model):
         t_field = self.env['ir.model.fields'].search([
             ('model', '=', self.model_id.model),
             ('state', '=', 'manual'),
-            ('sequence', '=', self.sequence - 1)
+            ('sequence', '<=', self.sequence - 1)
             ], 
+        order='sequence desc',
         limit=1)
         for view in views:
             parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
