@@ -112,9 +112,9 @@ class IrModelFields(models.Model):
                             "name": self.name
                         })
                         if view.type == "list":
-                            new_field.set("optional", "show")
                             if self.ttype in ["many2many", "one2many"]:
                                 new_field.set("widget", "many2many_tags")
+                            new_field.set("optional", "show")
 
                         parent.insert(i + 1, new_field)
 
