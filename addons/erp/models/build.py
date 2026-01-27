@@ -440,10 +440,8 @@ class Build(models.TransientModel):
         self.create_form_view_id(self.model_name)
         self.create_search_view_id(self.model_name)
 
-        action_id = self.create_model_act_window(self.model_description, self.model_name)
-        self.menu_id.action = f"ir.actions.act_window,{action_id.id}"
-        self.menu_id.parent_id = self.parent_menu_id.id
-    
+        self.create_menu(self.model_description, self.model_name, self.parent_menu_id.id)
+
     def delete_model(self):
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', self.model_id.model)])
         for action in actions:
