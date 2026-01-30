@@ -344,16 +344,16 @@ class IrModel(models.Model):
     def action_view_menus(self):
         self.ensure_one()
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', self.model)])
-        if actions:
-            action_name = f"ir.actions.act_window,{actions[0].id}"
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Menus',
-                'res_model': 'ir.ui.menu',
-                'view_mode': 'list,form',
-                'domain': [('action', '=', action_name)],
-                'context': {'default_action': action_name},
-            }
+        action_names = [f"ir.actions.act_window,{a.id}" for a in actions]
+
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Menus',
+            'res_model': 'ir.ui.menu',
+            'view_mode': 'list,form',
+            'domain': [('action', 'in', action_names)],
+            'context': {'default_action': action_names[0] if action_names else False},
+        }
 
 class Build(models.TransientModel):
     _name = 'erp.build'
