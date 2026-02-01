@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
+import os
 
 title = {
     '1': 'Pick Options',
@@ -226,6 +227,11 @@ class IrModel(models.Model):
     is_filter_manual = fields.Boolean(
         string="Is Filter Manual",
     )
+    from_app_id = fields.Many2one(
+        'erp.custom.app',
+        string='From App',
+    )
+
     def _get_field_id_domain(self):
         if self.is_filter_manual:
             return [('state', '=', 'manual')]
@@ -354,6 +360,61 @@ class IrModel(models.Model):
             'domain': [('action', 'in', action_names)],
             'context': {'default_action': action_names[0] if action_names else False},
         }
+
+class CustomApp(models.Model):
+    _name = 'erp.custom.app'
+    _description = 'Custom App'
+
+    name = fields.Char(string='Name')
+    description = fields.Text(string='Description')
+
+    model_ids = fields.One2many(
+        'ir.model',
+        'from_app_id',
+        string='Models'
+    )
+    @api.model_create_multi
+    def create(self, vals_list):
+
+        result =  super(CustomApp, self).create(vals_list)
+
+        for record in result:
+            record.init_module()
+
+        return result
+
+    def init_module(self):
+        current_file = os.path.abspath(__file__)
+
+        models_dir = os.path.dirname(current_file)
+        erp_dir = os.path.dirname(models_dir)
+        addons_dir = os.path.dirname(erp_dir)
+        new_folder = os.path.join(addons_dir, self.name)
+        init_file_path = os.path.join(new_folder, '__init__.py')
+        manifest_file_path = os.path.join(new_folder, '__manifest__.py')
+        os.makedirs(new_folder, exist_ok=True)
+
+        with open(init_file_path, 'w', encoding='utf-8') as f:
+            f.write("""
+def post_init_hook(env):
+    pass
+
+def uninstall_hook(env):
+    pass
+""")
+
+        with open(manifest_file_path, 'w', encoding='utf-8') as f:
+            f.write(f"""{{
+    "name": "{self.description}",
+    "version": "1.0",
+    "author": "{self.env.user.name}",
+    "summary": "{self.description}",
+    "depends": ["mail", "base_automation"],
+    "application": True,
+    "post_init_hook": "post_init_hook",
+}}""")
+
+        return True
 
 class Build(models.TransientModel):
     _name = 'erp.build'

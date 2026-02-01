@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
 erp.access_erp_build_for_base,access_erp_build_for_base,erp.model_erp_build,base.group_user,1,1,1,1
+
+erp.access_erp_custom_app_for_base,access_erp_custom_app_for_base,erp.model_erp_custom_app,base.group_user,1,1,1,1

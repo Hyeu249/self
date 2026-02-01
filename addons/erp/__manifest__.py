@@ -8,6 +8,7 @@
         "security/role.xml",
         "security/ir.model.access.csv",
         "views/build.xml",
+        "views/app.xml",
         "views/header.xml",
     ],
     "application": True,

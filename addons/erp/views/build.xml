@@ -157,6 +157,7 @@
                             <field name="is_filter_manual"/>
                             <field name="state" readonly="1" groups="base.group_no_one"/>
                             <field name="modules" groups="base.group_no_one"/>
+                            <field name="from_app_id"/>
                         </group>
                     </group>
                     <notebook>
