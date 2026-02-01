@@ -4,6 +4,7 @@ import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
+import shutil
 
 title = {
     '1': 'Pick Options',
@@ -389,13 +390,17 @@ class CustomApp(models.Model):
 
         return super(CustomApp, self).unlink()
 
-    def init_module(self):
+    def get_folder_path(self):
         current_file = os.path.abspath(__file__)
 
         models_dir = os.path.dirname(current_file)
         erp_dir = os.path.dirname(models_dir)
         addons_dir = os.path.dirname(erp_dir)
         new_folder = os.path.join(addons_dir, self.name)
+        return new_folder
+
+    def init_module(self):
+        new_folder = self.get_folder_path()
         init_file_path = os.path.join(new_folder, '__init__.py')
         manifest_file_path = os.path.join(new_folder, '__manifest__.py')
         os.makedirs(new_folder, exist_ok=True)
@@ -426,7 +431,10 @@ def uninstall_hook(env):
         raise ValidationError("Module removal not implemented 22222.")
     
     def remove_module(self):
-        raise ValidationError("Module removal not implemented yet.")
+        folder = self.get_folder_path()
+
+        if os.path.exists(folder):
+            shutil.rmtree(folder)
 
 class Build(models.TransientModel):
     _name = 'erp.build'
