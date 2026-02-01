@@ -383,6 +383,12 @@ class CustomApp(models.Model):
 
         return result
 
+    def unlink(self):
+        for record in self:
+            record.remove_module()
+
+        return super(CustomApp, self).unlink()
+
     def init_module(self):
         current_file = os.path.abspath(__file__)
 
@@ -415,6 +421,12 @@ def uninstall_hook(env):
 }}""")
 
         return True
+
+    def update_module(self):
+        raise ValidationError("Module removal not implemented 22222.")
+    
+    def remove_module(self):
+        raise ValidationError("Module removal not implemented yet.")
 
 class Build(models.TransientModel):
     _name = 'erp.build'
