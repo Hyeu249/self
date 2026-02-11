@@ -372,6 +372,8 @@ class IrModel(models.Model):
                 "model": "{self.model}",
                 "from_app_id": custom_module_id.id if custom_module_id else False,
                 "state": "manual",
+                "transient": {self.transient},
+                "is_filter_manual": {self.is_filter_manual},
                 "is_mail_thread": True,
                 "is_mail_activity": True,
                 "is_filter_manual": True
@@ -384,29 +386,27 @@ class IrModel(models.Model):
 
         def create_fields_str():
             fields_strs = ""
-            for field in self.field_id:
-                compute_value = (
-                    f'"""\n{field.compute}\n"""'
-                    if field.compute else
-                    'False'
-                )
+            fields = sorted(
+                self.field_id,
+                key=lambda f: bool(f.related or f.depends)
+            )
+            for field in fields:
                 fields_strs += f'''
         env['ir.model.fields'].create({{
             "name": "{field.name}",
             "field_description": "{field.field_description}",
             "ttype": "{field.ttype}",
-            "help": "{field.help}",
+            "help": {f"{field.help}" if field.help else 'False'},
 
             "model_id": model_id.id,
 
-            "relation": "{field.relation}",
-            "relation_field": "{field.relation_field}",
+            "relation": {f'"{field.relation}"' if field.relation else 'False'},
+            "relation_field": {f'"{field.relation_field}"' if field.relation_field else 'False'},
             "domain": "{field.domain}",
 
-            "related": "{field.related}",
-            "depends": "{field.depends}",
-            "compute": {compute_value},
-
+            "related": {f'"{field.related}"' if field.related else 'False'},
+            "depends": {f'"{field.depends}"' if field.depends else 'False'},
+            "compute": {f'"""\n{field.compute}\n"""' if field.compute else 'False'},
             "required": {field.required},
             "readonly": {field.readonly},
             "invisible": {field.invisible},
