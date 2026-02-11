@@ -374,6 +374,11 @@ class CustomApp(models.Model):
         'from_app_id',
         string='Models'
     )
+    menu_id = fields.Many2one(
+        'ir.ui.menu',
+        string='Menu',
+    )
+
     @api.model_create_multi
     def create(self, vals_list):
 
@@ -381,12 +386,23 @@ class CustomApp(models.Model):
 
         for record in result:
             record.init_module()
+            record.create_menu()
 
         return result
+
+    def create_menu(self):
+        menu_id = self.env["ir.ui.menu"].create(
+            {
+                "name": self.name,
+                "is_custom": True,
+            }
+        )
+        self.menu_id = menu_id.id
 
     def unlink(self):
         for record in self:
             record.remove_module()
+            record.menu_id.unlink()
 
         return super(CustomApp, self).unlink()
 

@@ -19,6 +19,7 @@
                     <group>
                         <field name="name"/>
                         <field name="description"/>
+                        <field name="menu_id"/>
                     </group>
 
                     <notebook>
@@ -39,6 +40,7 @@
             <search>
                 <field name="name"/>
                 <field name="description"/>
+                <field name="menu_id"/>
             </search>
         </field>
     </record>
