@@ -361,6 +361,24 @@ class IrModel(models.Model):
             'domain': [('action', 'in', action_names)],
             'context': {'default_action': action_names[0] if action_names else False},
         }
+    def get_model_str(self):
+
+        return f'''
+    def {self.model}():
+        """{self.name}"""
+        env['ir.model'].create(
+            {{
+                "name": "{self.name}",
+                "model": "{self.model}",
+                "from_app_id": custom_module_id.id if custom_module_id else False,
+                "state": "manual",
+                "is_mail_thread": True,
+                "is_mail_activity": True,
+                "is_filter_manual": True
+            }}
+        )
+    {self.model}()
+'''
 
 class CustomApp(models.Model):
     _name = 'erp.custom.app'
@@ -423,17 +441,19 @@ class CustomApp(models.Model):
         manifest_file_path = os.path.join(new_folder, '__manifest__.py')
         os.makedirs(new_folder, exist_ok=True)
 
-        with open(init_file_path, 'w', encoding='utf-8') as f:
-            f.write("""
+        if not os.path.exists(init_file_path):
+            with open(init_file_path, 'w', encoding='utf-8') as f:
+                f.write("""
 def post_init_hook(env):
     pass
 
 def uninstall_hook(env):
     pass
-""")
+    """)
 
-        with open(manifest_file_path, 'w', encoding='utf-8') as f:
-            f.write(f"""{{
+        if not os.path.exists(manifest_file_path):
+            with open(manifest_file_path, 'w', encoding='utf-8') as f:
+                f.write(f"""{{
     "name": "{self.description}",
     "version": "1.0",
     "author": "{self.env.user.name}",
@@ -446,8 +466,26 @@ def uninstall_hook(env):
         return True
 
     def update_module(self):
-        raise ValidationError("Module removal not implemented 22222.")
-    
+        model_strs = ""
+        for model in self.model_ids:
+            model_strs += model.get_model_str()
+        new_folder = self.get_folder_path()
+        init_file_path = os.path.join(new_folder, '__init__.py')
+        with open(init_file_path, 'w', encoding='utf-8') as f:
+            f.write(f"""
+def post_init_hook(env):
+    custom_module_id = False
+    if 'erp.custom.app' in env:
+        custom_module_id = env['erp.custom.app'].create({{
+            "name": "{self.name}",
+            "description": "{self.description}",
+        }})
+    {model_strs}
+
+def uninstall_hook(env):
+    pass
+""")
+
     def remove_module(self):
         # folder = self.get_folder_path()
 
