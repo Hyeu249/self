@@ -431,10 +431,13 @@ def uninstall_hook(env):
         raise ValidationError("Module removal not implemented 22222.")
     
     def remove_module(self):
-        folder = self.get_folder_path()
+        # folder = self.get_folder_path()
 
-        if os.path.exists(folder):
-            shutil.rmtree(folder)
+        # if os.path.exists(folder):
+        #     shutil.rmtree(folder)
+        build = self.env['erp.build']
+        for model in self.model_ids:
+            build.delete_model(model)
 
 class Build(models.TransientModel):
     _name = 'erp.build'
@@ -527,14 +530,15 @@ class Build(models.TransientModel):
 
         self.create_menu(self.model_description, self.model_name, self.parent_menu_id.id)
 
-    def delete_model(self):
-        actions = self.env["ir.actions.act_window"].search([('res_model', '=', self.model_id.model)])
+    def delete_model(self, model=False):
+        model_id = model or self.model_id
+        actions = self.env["ir.actions.act_window"].search([('res_model', '=', model_id.model)])
         for action in actions:
             menus = self.env['ir.ui.menu'].search([('action', '=', f"ir.actions.act_window,{action.id}")])
             menus.unlink()
             action.unlink()
-        self.model_id.view_ids.unlink()
-        self.model_id.unlink()
+        model_id.view_ids.unlink()
+        model_id.unlink()
 
     def confirm_stage_4(self):
         if self.action_type == 'delete':
