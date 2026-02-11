@@ -9,7 +9,7 @@ import shutil
 title = {
     '1': 'Pick Options',
     '2': 'Please create your model name',
-    '3': 'Please set menu',
+    '3': 'Please set your module',
     '4': 'Please pick your model',
 }
 previous_stage = {
@@ -500,15 +500,9 @@ class Build(models.TransientModel):
         string="Model",
         domain=[('state', '=', "manual")],
     )
-    menu_id = fields.Many2one(
-        "ir.ui.menu",
-        string="Menu",
-        domain=[('parent_id', '!=', False), ('is_custom', '=', True), ('action', '=', False)],
-    )
-    parent_menu_id = fields.Many2one(
-        "ir.ui.menu",
-        string="Parent Menu",
-        domain=[('parent_id', '=', False), ('is_custom', '=', True)],
+    custom_app_id = fields.Many2one(
+        "erp.custom.app",
+        string="Custom App",
     )
 
     def go_to_stage(self):
@@ -544,7 +538,7 @@ class Build(models.TransientModel):
         self.create_form_view_id(self.model_name)
         self.create_search_view_id(self.model_name)
 
-        self.create_menu(self.model_description, self.model_name, self.parent_menu_id.id)
+        self.create_menu(self.model_description, self.model_name, self.custom_app_id.menu_id.id)
 
     def delete_model(self, model=False):
         model_id = model or self.model_id
@@ -583,6 +577,7 @@ class Build(models.TransientModel):
             {
                 "name": name,
                 "model": model,
+                "from_app_id": self.custom_app_id.id,
                 "state": "manual",
                 "is_mail_thread": True,
                 "is_mail_activity": True,
@@ -605,6 +600,8 @@ class Build(models.TransientModel):
         return model
 
     def create_menu(self, name, model, parent_menu_id):
+        if not parent_menu_id:
+            raise ValidationError("Parent menu is required to create menu.")
         action_id = self.create_model_act_window(name, model)
 
         return self.env["ir.ui.menu"].create(

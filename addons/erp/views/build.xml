@@ -15,7 +15,7 @@
                 </group>
 
                 <group invisible="stage != '3'">
-                    <field name="parent_menu_id" context="{'default_is_custom': True}"/>
+                    <field name="custom_app_id"/>
                 </group>
 
                 <group invisible="stage != '4'">
