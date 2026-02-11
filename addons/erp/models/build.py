@@ -362,11 +362,11 @@ class IrModel(models.Model):
             'context': {'default_action': action_names[0] if action_names else False},
         }
     def get_model_str(self):
-
-        return f'''
+        def create_model_str():
+            return f'''
     def {self.model}():
         """{self.name}"""
-        env['ir.model'].create(
+        model_id = env['ir.model'].create(
             {{
                 "name": "{self.name}",
                 "model": "{self.model}",
@@ -377,6 +377,51 @@ class IrModel(models.Model):
                 "is_filter_manual": True
             }}
         )
+        x_name = env['ir.model.fields'].search([('model_id', '=', model_id.id), ('name', '=', 'x_name')], limit=1)
+        if x_name:
+            x_name.unlink()
+'''
+
+        def create_fields_str():
+            fields_strs = ""
+            for field in self.field_id:
+                compute_value = (
+                    f'"""\n{field.compute}\n"""'
+                    if field.compute else
+                    'False'
+                )
+                fields_strs += f'''
+        env['ir.model.fields'].create({{
+            "name": "{field.name}",
+            "field_description": "{field.field_description}",
+            "ttype": "{field.ttype}",
+            "help": "{field.help}",
+
+            "model_id": model_id.id,
+
+            "relation": "{field.relation}",
+            "relation_field": "{field.relation_field}",
+            "domain": "{field.domain}",
+
+            "related": "{field.related}",
+            "depends": "{field.depends}",
+            "compute": {compute_value},
+
+            "required": {field.required},
+            "readonly": {field.readonly},
+            "invisible": {field.invisible},
+            "store": {field.store},
+            "index": {field.index},
+            "copied": {field.copied},
+            "tracking": {field.tracking},
+        }})
+
+'''
+            return fields_strs
+
+        return f'''
+        {create_model_str()}
+        {create_fields_str()}
     {self.model}()
 '''
 
