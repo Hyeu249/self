@@ -381,6 +381,8 @@ class CustomApp(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        for vals in vals_list:
+            vals["description"] = vals.get("description") or vals.get("name") or "No Description"
 
         result =  super(CustomApp, self).create(vals_list)
 
