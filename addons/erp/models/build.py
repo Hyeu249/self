@@ -468,7 +468,7 @@ class CustomApp(models.Model):
         result =  super(CustomApp, self).create(vals_list)
 
         for record in result:
-            record.init_module()
+            # record.init_module()
             record.create_menu()
 
         return result
