@@ -205,6 +205,24 @@ class IrModelFields(models.Model):
 
         return result
 
+    @api.onchange('compute')
+    def _onchange_compute(self):
+        for record in self:
+            fus = ["PRODUCT", "SUM"]
+            compute = record.compute
+            if compute:
+                if any(word in compute for word in fus):
+                    normalized = compute.replace("'", '"')
+
+                    fields_part = normalized.split('"')[3]
+                    fields = fields_part.split(':')
+
+                    depends = ", ".join(fields)
+                    if record.depends != depends:
+                        record.depends = depends
+            else:
+                record.depends = False
+
     def unlink(self):
         for record in self:
             record.remove_field_view()
