@@ -52,9 +52,24 @@ class IrActionsServer(models.Model):
 
         eval_context.update({
             'CREATE_OR_WRITE': lambda _name, fields, data: self.create_or_write(_name, fields, data),
+            'GET_FIFO': lambda lines, basic_rate: self.calc_fifo(lines, basic_rate),
+            'SEARCH_READ': lambda model_name=False, **args: self.search_read_data(model_name, **args),
+            'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
 
         })
         return eval_context
+    
+    def search_read_data(self, model_name=False, **args):
+        if not model_name:
+            model_name = self.model_id.model
+        model = self.env[model_name]
+        return model.search_read(**args)
+
+    def write_record(self, id, data, model_name=False):
+        if not model_name:
+            model_name = self.model_id.model
+        record = self.env[model_name].browse(id)
+        record.write(data)
 
     def create_or_write(self, model_name, fields, values):
         model = self.env[model_name]
@@ -70,3 +85,43 @@ class IrActionsServer(models.Model):
             return record
         else:
             return model.create(values)
+
+    def calc_fifo(self, lines, basic_rate=120000):
+        fifo = []
+        result = []
+
+        for line in lines:
+            if line['x_loai_nhap_xuat'] == 'Nhập hàng':
+                fifo.append({
+                    'qty': line['x_sl'],
+                    'price': line['x_don_gia'],
+                })
+
+            elif line['x_loai_nhap_xuat'] == 'Xuất hàng':
+                need = line['x_sl']
+                cost = 0.0
+
+                # lấy FIFO trước
+                for lot in fifo:
+                    if need <= 0:
+                        break
+
+                    take = min(need, lot['qty'])
+                    cost += take * lot['price']
+                    lot['qty'] -= take
+                    need -= take
+
+                # nếu còn dư → tính theo basic_rate
+                if need > 0:
+                    cost += need * basic_rate
+
+                fifo_price = cost / line['x_sl']
+
+                # chỉ trả nếu GIÁ SAI
+                if round(line['x_don_gia'], 2) != round(fifo_price, 2):
+                    result.append({
+                        'id': line['id'],
+                        'x_don_gia': fifo_price,
+                    })
+
+        return result
