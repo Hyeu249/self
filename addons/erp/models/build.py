@@ -569,7 +569,7 @@ class Build(models.TransientModel):
                 ('delete', 'Delete'),
             ],
             string='Action',
-            default='edit',
+            default='create',
             required=True,
         )
     mode = fields.Selection(
