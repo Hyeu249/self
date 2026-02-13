@@ -119,6 +119,8 @@ class IrActionsServer(models.Model):
 
                 # chỉ trả nếu GIÁ SAI
                 if round(line['x_gia_von'], 2) != round(fifo_price, 2):
-                    result.append(line)
+                    new_line = dict(line)
+                    new_line['x_gia_von'] = fifo_price
+                    result.append(new_line)
 
         return result
