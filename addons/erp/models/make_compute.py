@@ -91,14 +91,14 @@ class IrActionsServer(models.Model):
         result = []
 
         for line in lines:
-            if line['x_muc_dich'] == 'Nhập hàng':
+            if line['x_sl'] > 0:
                 fifo.append({
                     'qty': line['x_sl'],
                     'price': line['x_gia_von'],
                 })
 
-            elif line['x_muc_dich'] == 'Xuất hàng':
-                need = line['x_sl']
+            elif line['x_sl'] < 0:
+                need = -line['x_sl']
                 cost = 0.0
 
                 # lấy FIFO trước
@@ -115,7 +115,7 @@ class IrActionsServer(models.Model):
                 if need > 0:
                     cost += need * basic_rate
 
-                fifo_price = cost / line['x_sl']
+                fifo_price = cost / -line['x_sl']
 
                 # chỉ trả nếu GIÁ SAI
                 if round(line['x_gia_von'], 2) != round(fifo_price, 2):
