@@ -57,8 +57,13 @@ class IrActionsServer(models.Model):
             'CREATE_OR_WRITE': lambda model_name, fields, data: self.create_or_write(model_name, fields, data),
             "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
             "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
+            "UNIQUE_MODEL": lambda name: self.env[self.get_model_name(name)],
         })
         return eval_context
+    
+    def get_model_name(self, model_name):
+        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
+        return t.model if t else None
     
     def expand_array(self, model_name, map_str, domain2, record=None):
         data = {
