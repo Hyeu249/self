@@ -49,13 +49,14 @@ class IrActionsServer(models.Model):
 
     def _get_eval_context(self, action=None):
         eval_context = super()._get_eval_context(action=action)
+        record = eval_context.get('record')
 
         eval_context.update({
-            'CREATE_OR_WRITE': lambda _name, fields, data: self.create_or_write(_name, fields, data),
-            'GET_FIFO': lambda lines, basic_rate: self.calc_fifo(lines, basic_rate),
             'SEARCH_READ': lambda model_name=False, **args: self.search_read_data(model_name, **args),
             'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
-
+            'CREATE_OR_WRITE': lambda _name, fields, data: self.create_or_write(_name, fields, data),
+            'GET_FIFO': lambda lines, basic_rate: self.calc_fifo(lines, basic_rate),
+            'GET_CURRENT_FIFO': lambda ledger_name, warehouse_goods_map : self.get_current_fifo(ledger_name, warehouse_goods_map, record),
         })
         return eval_context
     
@@ -98,6 +99,8 @@ class IrActionsServer(models.Model):
                 })
 
             elif line['x_sl'] < 0:
+                if not fifo:
+                    continue
                 need = -line['x_sl']
                 cost = 0.0
 
@@ -124,3 +127,40 @@ class IrActionsServer(models.Model):
                     result.append(new_line)
 
         return result
+
+    def get_current_fifo(self, ledger_name, warehouse_goods_map, record):
+        data = {
+            k.strip(): v.strip()
+            for k, v in (p.split(":", 1) for p in warehouse_goods_map.split(","))
+        }
+        warehouse = data.get("kho")
+        goods = data.get("hang_hoa")
+
+        x_loai_chung_tu_id = f"{record._name},{record.id}"
+        lines = self.env[ledger_name].search_read(
+            domain=[
+                ('x_hang_hoa_id', '=', record[goods].id),
+                ('x_kho_hang_id', '=', record[warehouse].id),
+                ('x_loai_chung_tu_id', '!=', x_loai_chung_tu_id),
+            ],
+            fields=['x_sl', 'x_gia_von'],
+            order='x_ngay_thang, id'
+        )
+
+        current = {
+            "id": record.id,
+            "x_sl": -record.x_sl,
+            "x_gia_von": record.x_gia_von,
+            "current": True
+        }
+
+        lines.append(current)
+        result = self.calc_fifo(lines, record[goods].x_gia_von)
+        x_gia_von = False
+
+        for r in result:
+            if r["current"]:
+                x_gia_von = r["x_gia_von"]
+                break
+
+        return x_gia_von
