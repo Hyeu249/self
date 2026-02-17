@@ -54,7 +54,7 @@ class IrActionsServer(models.Model):
         eval_context.update({
             'SEARCH_READ': lambda model_name=False, **args: self.search_read_data(model_name, **args),
             'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
-            'CREATE_OR_WRITE': lambda _name, fields, data: self.create_or_write(_name, fields, data),
+            'CREATE_OR_WRITE': lambda model_name, fields, data: self.create_or_write(model_name, fields, data),
             "EXPAND_ARRAY": lambda model_name, value, duplicate=False, before=False: self.expand_array(model_name, value, duplicate, before, record),
         })
         return eval_context
@@ -91,18 +91,23 @@ class IrActionsServer(models.Model):
 
     def search_read_data(self, model_name=False, **args):
         if not model_name:
-            model_name = self.model_id.model
-        model = self.env[model_name]
+            model_name = self.model_id.name
+        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
+
+        model = self.env[t.model]
         return model.search_read(**args)
 
     def write_record(self, id, data, model_name=False):
         if not model_name:
-            model_name = self.model_id.model
-        record = self.env[model_name].browse(id)
+            model_name = self.model_id.name
+        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
+
+        record = self.env[t.model].browse(id)
         record.write(data)
 
     def create_or_write(self, model_name, fields, values):
-        model = self.env[model_name]
+        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
+        model = self.env[t.model]
 
         domain = []
         for field in fields.split(','):
