@@ -55,11 +55,19 @@ class IrActionsServer(models.Model):
             'SEARCH_READ': lambda model_name=False, **args: self.search_read_data(model_name, **args),
             'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
             'CREATE_OR_WRITE': lambda model_name, fields, data: self.create_or_write(model_name, fields, data),
-            "EXPAND_ARRAY": lambda model_name, value, duplicate=False, before=False: self.expand_array(model_name, value, duplicate, before, record),
+            "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
         })
         return eval_context
     
-    def expand_array(self, model_name, value, duplicate=False, before=False, record=None):
+    def expand_array(self, model_name, map_str, domain2, record=None):
+        data = {
+            k.strip(): v.strip()
+            for k, v in (p.split(":", 1) for p in map_str.split(","))
+        }
+        value = data.get("value")
+        duplicate = data.get("duplicate")
+        before = data.get("before")
+
         t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
         domain = []
         order = "id"
@@ -70,6 +78,9 @@ class IrActionsServer(models.Model):
         if before:
             domain.append((before, '<', record[before]))
             order = f"{before}, id"
+        if domain2:
+            for v in domain2:
+                domain.append(v)
 
         lines = self.env[t.model].search_read(
             domain=domain,
