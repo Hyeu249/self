@@ -56,6 +56,7 @@ class IrActionsServer(models.Model):
             'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
             'CREATE_OR_WRITE': lambda model_name, fields, data: self.create_or_write(model_name, fields, data),
             "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
+            "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
         })
         return eval_context
     
@@ -131,3 +132,9 @@ class IrActionsServer(models.Model):
             return record
         else:
             return model.create(values)
+
+class IrActionsAct_window(models.Model):
+    _inherit = 'ir.actions.act_window'
+
+    def open(self):
+        return self.read()[0]

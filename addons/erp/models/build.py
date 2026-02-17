@@ -252,10 +252,11 @@ class IrModel(models.Model):
     )
 
     def _get_field_id_domain(self):
-        if self.is_filter_manual:
-            return [('state', '=', 'manual')]
-        else:
-            return []
+        for record in self:
+            if record.is_filter_manual:
+                return [('state', '=', 'manual')]
+            else:
+                return []
 
     server_action_count = fields.Integer(
         compute="_compute_server_action_count"
