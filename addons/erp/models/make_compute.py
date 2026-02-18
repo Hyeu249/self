@@ -1,6 +1,5 @@
 from odoo import models, api
 from odoo.tools.safe_eval import safe_eval, datetime, dateutil, time
-from odoo.addons.base.models import ir_model
 from odoo.exceptions import ValidationError
 
 SAFE_EVAL_BASE = {
@@ -27,22 +26,30 @@ def product_c(self, name, range2):
             total *= record[field] or 0
         record[name] = total
 
-def make_compute_patched(text, deps):
+def make_compute_patched(field_name, text, deps):
 
     def func(self):
         ctx = SAFE_EVAL_BASE.copy()
         ctx.update({
             'self': self,
-            'SUM': lambda name, range2: sum_c(self, name, range2),
-            'PRODUCT': lambda name, range2: product_c(self, name, range2),
+            'SUM': lambda range2: sum_c(self, field_name, range2),
+            'PRODUCT': lambda range2: product_c(self, field_name, range2),
         })
         return safe_eval(text, ctx, mode="exec")
 
     deps = [d.strip() for d in deps.split(",")] if deps else []
     return api.depends(*deps)(func)
 
-# 🔥 monkey patch
-ir_model.make_compute = make_compute_patched
+class IrModelFields(models.Model):
+    _inherit = 'ir.model.fields'
+
+    def _instanciate_attrs(self, field_data):
+        attrs = super(IrModelFields, self)._instanciate_attrs(field_data=field_data)
+
+        if field_data['compute']:
+            attrs['compute'] = make_compute_patched(field_data["name"], field_data['compute'], field_data['depends'])
+
+        return attrs
 
 class IrActionsServer(models.Model):
     _inherit = 'ir.actions.server'

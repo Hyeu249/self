@@ -214,10 +214,12 @@ class IrModelFields(models.Model):
                 if any(word in compute for word in fus):
                     normalized = compute.replace("'", '"')
 
-                    fields_part = normalized.split('"')[3]
-                    fields = fields_part.split(':')
+                    start = normalized.find('("')
+                    end = normalized.rfind('")')
 
-                    depends = ", ".join(fields)
+                    fields_part = normalized[start + 2:end]
+                    depends = fields_part.replace(':', ', ')
+
                     if record.depends != depends:
                         record.depends = depends
             else:
