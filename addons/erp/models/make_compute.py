@@ -1,3 +1,4 @@
+from dataclasses import fields
 from odoo import models, api
 from odoo.tools.safe_eval import safe_eval, datetime, dateutil, time
 from odoo.exceptions import ValidationError
@@ -26,6 +27,12 @@ def product_c(self, name, range2):
             total *= record[field] or 0
         record[name] = total
 
+def sum_col(self, name, sum_field, relation):
+
+    for record in self:
+        total = record[relation].mapped(sum_field)
+        record[name] = sum(total)
+
 def make_compute_patched(field_name, text, deps):
 
     def func(self):
@@ -34,6 +41,7 @@ def make_compute_patched(field_name, text, deps):
             'self': self,
             'SUM': lambda range2: sum_c(self, field_name, range2),
             'PRODUCT': lambda range2: product_c(self, field_name, range2),
+            'SUM_COL': lambda sum_field, relation: sum_col(self, field_name, sum_field, relation),
         })
         return safe_eval(text, ctx, mode="exec")
 
