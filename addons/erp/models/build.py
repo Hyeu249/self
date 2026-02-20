@@ -208,7 +208,7 @@ class IrModelFields(models.Model):
     @api.onchange('compute')
     def _onchange_compute(self):
         for record in self:
-            fus = ["PRODUCT(", "SUM("]
+            fus = ["PRODUCT(", "SUM(", "MINUS("]
             compute = record.compute
             if compute:
                 if any(word in compute for word in fus):
