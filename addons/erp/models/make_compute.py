@@ -33,6 +33,11 @@ def sum_col(self, name, sum_field, relation):
         total = record[relation].mapped(sum_field)
         record[name] = sum(total)
 
+def fnc(self, name, lb):
+
+    for record in self:
+        record[name] = lb(record)
+
 def make_compute_patched(field_name, text, deps):
 
     def func(self):
@@ -42,6 +47,7 @@ def make_compute_patched(field_name, text, deps):
             'SUM': lambda range2: sum_c(self, field_name, range2),
             'PRODUCT': lambda range2: product_c(self, field_name, range2),
             'SUM_COL': lambda sum_field, relation: sum_col(self, field_name, sum_field, relation),
+            'SET': lambda lb: fnc(self, field_name, lb),
         })
         return safe_eval(text, ctx, mode="exec")
 
