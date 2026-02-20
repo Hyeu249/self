@@ -88,14 +88,20 @@ class IrActionsServer(models.Model):
             'CREATE_OR_WRITE': lambda model_name, fields, data: self.create_or_write(model_name, fields, data),
             "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
             "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
-            "UNIQUE_MODEL": lambda name: self.env[self.get_model_name(name)],
+            "UNIQUE_MODEL": lambda name: self.get_model(name),
+            "DELETE": lambda model_name, domain=False: self.delete_records(model_name, domain),
         })
         return eval_context
     
-    def get_model_name(self, model_name):
+    def get_model(self, model_name):
         t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
-        return t.model if t else None
+        return self.env[t.model] if t else None
     
+    def delete_records(self, model_name, domain):
+        model = self.get_model(model_name)
+        records = model.search(domain)
+        records.unlink()
+
     def expand_array(self, model_name, map_str, domain2, record=None):
         data = {
             k.strip(): v.strip()
@@ -105,7 +111,6 @@ class IrActionsServer(models.Model):
         duplicate = data.get("duplicate")
         before = data.get("before")
 
-        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
         domain = []
         order = "id"
         fields = [value]
@@ -119,7 +124,7 @@ class IrActionsServer(models.Model):
             for v in domain2:
                 domain.append(v)
 
-        lines = self.env[t.model].search_read(
+        lines = self.get_model(model_name).search_read(
             domain=domain,
             fields=fields,
             order=order
@@ -140,22 +145,19 @@ class IrActionsServer(models.Model):
     def search_read_data(self, model_name=False, **args):
         if not model_name:
             model_name = self.model_id.name
-        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
 
-        model = self.env[t.model]
+        model = self.get_model(model_name)
         return model.search_read(**args)
 
     def write_record(self, id, data, model_name=False):
         if not model_name:
             model_name = self.model_id.name
-        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
 
-        record = self.env[t.model].browse(id)
+        record = self.get_model(model_name).browse(id)
         record.write(data)
 
     def create_or_write(self, model_name, fields, values):
-        t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
-        model = self.env[t.model]
+        model = self.get_model(model_name)
 
         domain = []
         for field in fields.split(','):
