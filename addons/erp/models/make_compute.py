@@ -18,6 +18,15 @@ def sum_c(self, name, range2):
             total += record[field] or 0
         record[name] = total
 
+def minus_c(self, name, range2):
+    fields = range2.split(':')
+
+    for record in self:
+        total = record[fields[0]] or 0
+        for field in fields[1:]:
+            total -= record[field] or 0
+        record[name] = total
+
 def product_c(self, name, range2):
     fields = range2.split(':')
 
@@ -45,6 +54,7 @@ def make_compute_patched(field_name, text, deps):
         ctx.update({
             'self': self,
             'SUM': lambda range2: sum_c(self, field_name, range2),
+            'MINUS': lambda range2: minus_c(self, field_name, range2),
             'PRODUCT': lambda range2: product_c(self, field_name, range2),
             'SUM_COL': lambda sum_field, relation: sum_col(self, field_name, sum_field, relation),
             'SET': lambda lb: fnc(self, field_name, lb),
