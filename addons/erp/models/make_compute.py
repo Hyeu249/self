@@ -90,6 +90,7 @@ class IrActionsServer(models.Model):
             "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
             "UNIQUE_MODEL": lambda name: self.get_model(name),
             "DELETE": lambda model_name, domain=False: self.delete_records(model_name, domain),
+            "REFERENCE_ID" : f"{record._name},{record.id}" if record else False,
         })
         return eval_context
     
