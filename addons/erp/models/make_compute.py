@@ -85,7 +85,7 @@ class IrActionsServer(models.Model):
         eval_context.update({
             'SEARCH_READ': lambda model_name=False, **args: self.search_read_data(model_name, **args),
             'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
-            'CREATE_OR_WRITE': lambda model_name, fields, data: self.create_or_write(model_name, fields, data),
+            'CREATE_OR_WRITE': lambda model_name, fields, data, key=False, condition=True: self.create_or_write(model_name, fields, data, key, condition),
             "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
             "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
             "UNIQUE_MODEL": lambda name: self.get_model(name),
@@ -163,20 +163,36 @@ class IrActionsServer(models.Model):
         record = self.get_model(model_name).browse(id)
         record.write(data)
 
-    def create_or_write(self, model_name, fields, values):
+    def create_or_write(self, model_name, fields, values, key=False, condition=True):
         model = self.get_model(model_name)
 
         domain = []
+        clear_domain = []
         for field in fields.split(','):
             field = field.strip()
             domain.append((field, '=', values.get(field)))
 
-        record = model.search(domain, limit=1)
-        if record:
-            record.write(values)
-            return record
+            if not key:
+                continue
+
+            if field in list(map(str.strip, key.split(","))):
+                clear_domain.append((field, '!=', values.get(field)))
+            else:
+                clear_domain.append((field, '=', values.get(field)))
+
+        records = model.search(domain)
+        clear_records = model.search(clear_domain)
+
+        if clear_records:
+            clear_records.unlink()
+
+        if not condition:
+            records.unlink()
+        elif records:
+            records.write(values)
         else:
-            return model.create(values)
+            records = model.create(values)
+        return records
 
 class IrActionsAct_window(models.Model):
     _inherit = 'ir.actions.act_window'
