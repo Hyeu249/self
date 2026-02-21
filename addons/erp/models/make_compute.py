@@ -90,10 +90,16 @@ class IrActionsServer(models.Model):
             "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
             "UNIQUE_MODEL": lambda name: self.get_model(name),
             "DELETE": lambda model_name, domain=False: self.delete_records(model_name, domain),
-            "REFERENCE_ID" : f"{record._name},{record.id}" if record else False,
+            "DISPLAY_SEQUENCE" : lambda: self.display_sequence(record),
+            "REF_ID" : f"{record._name},{record.id}" if record else False,
+            "REF" : lambda model, id: f"{model},{id}",
         })
         return eval_context
-    
+
+    def display_sequence(self, record):
+        sequence = self.env['ir.sequence'].search([('code', '=', record._description)], limit=1)
+        record.write({"x_name": sequence.get_next_char(sequence.number_next_actual)})
+
     def get_model(self, model_name):
         t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)
         return self.env[t.model] if t else None
@@ -177,3 +183,11 @@ class IrActionsAct_window(models.Model):
 
     def open(self):
         return self.read()[0]
+    
+class IrSequence(models.Model):
+    _inherit = 'ir.sequence'
+
+    @api.onchange("name")
+    def _onchange_code(self):
+        for record in self:
+            record.code = record.name
