@@ -15,24 +15,25 @@ services:
   db:
     image: postgres:15
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=odoo_db
       - POSTGRES_USER=odoo
       - POSTGRES_PASSWORD=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - odoo-db-data:/var/lib/postgresql/data/pgdata
+      - ./init-db:/docker-entrypoint-initdb.d
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pg_admin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: test@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: test
-    ports:
-      - "82:80"
-    depends_on:
-      - db
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pg_admin
+  #   restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: test@gmail.com
+  #     PGADMIN_DEFAULT_PASSWORD: test
+  #   ports:
+  #     - "82:80"
+  #   depends_on:
+  #     - db
 
 volumes:
   odoo-web-data:
