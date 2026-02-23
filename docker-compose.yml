@@ -36,17 +36,18 @@ services:
     volumes:
       - ./nginx/odoo.conf:/etc/nginx/conf.d/default.conf:ro
 
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pg_admin
-  #   restart: always
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: test@gmail.com
-  #     PGADMIN_DEFAULT_PASSWORD: test
-  #   ports:
-  #     - "82:80"
-  #   depends_on:
-  #     - db
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pg_admin
+    profiles:
+      - pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: test
+    ports:
+      - "82:80"
+    depends_on:
+      - db
 
 volumes:
   odoo-web-data:
