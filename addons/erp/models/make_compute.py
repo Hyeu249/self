@@ -84,12 +84,13 @@ class IrActionsServer(models.Model):
 
         eval_context.update({
             'SEARCH_READ': lambda model_name=False, **args: self.search_read_data(model_name, **args),
+            'CREATE': lambda model_name=False, data=None: self.create_record(data, model_name=model_name),
             'WRITE': lambda id, data, model_name=False: self.write_record(id, data, model_name=model_name),
+            "DELETE": lambda model_name, domain=False: self.delete_records(model_name, domain),
             'CREATE_OR_WRITE': lambda model_name, fields, data, key=False, condition=True: self.create_or_write(model_name, fields, data, key, condition),
             "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
-            "ACT_WINDOW": lambda id: self.env['ir.actions.act_window'].browse(id),
+            "ACT_WINDOW": lambda model_name: self.env['ir.actions.act_window'].search([('name', '=', model_name)], limit=1),
             "UNIQUE_MODEL": lambda name: self.get_model(name),
-            "DELETE": lambda model_name, domain=False: self.delete_records(model_name, domain),
             "DISPLAY_SEQUENCE" : lambda: self.display_sequence(record),
             "REF_ID" : f"{record._name},{record.id}" if record else False,
             "REF" : lambda model, id: f"{model},{id}",
@@ -162,6 +163,13 @@ class IrActionsServer(models.Model):
 
         record = self.get_model(model_name).browse(id)
         record.write(data)
+
+    def create_record(self, data, model_name=False):
+        if not model_name:
+            model_name = self.model_id.name
+
+        model = self.get_model(model_name)
+        return model.create(data)
 
     def create_or_write(self, model_name, fields, values, key=False, condition=True):
         model = self.get_model(model_name)

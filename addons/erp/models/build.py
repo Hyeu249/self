@@ -833,9 +833,12 @@ class IrUiView(models.Model):
         # group
         group = ET.SubElement(sheet, "group")
         for field in field_ids:
-            ET.SubElement(group, "field", {
-                "name": field.name
-            })
+            attrs = {
+                "name": field.name,
+            }
+            if field.invisible:
+                attrs["invisible"] = "1"
+            ET.SubElement(group, "field", attrs)
 
         # notebook
         notebook = ET.SubElement(sheet, "notebook")
@@ -846,6 +849,24 @@ class IrUiView(models.Model):
             })
             ET.SubElement(page, "field", {
                 "name": field.name
+            })
+
+        # footer
+        if self.model_id.transient:
+            footer = ET.SubElement(sheet, "footer")
+            ok_action = self.env["ir.actions.server"].search([('name', '=', 'ok'), ("model_id", "=", self.model_id.id)], limit=1)
+            if ok_action:
+                ET.SubElement(footer, "button", {
+                    "name": f"{ok_action.id}",
+                    "type": "action",
+                    "string": "Xác nhận",
+                    "class": "btn-primary"
+                })
+
+            ET.SubElement(footer, "button", {
+                "special": "cancel",
+                "string": "Huỷ",
+                "class": "btn-secondary"
             })
 
         # chatter
