@@ -20,7 +20,7 @@ export class Build extends Component {
 
 Build.template = xml`
 <div class="d-flex flex-row">
-    <button class="btn btn-primary d-flex align-items-center gap-1"
+    <button class="btn text-white d-flex align-items-center gap-1"
         t-on-click="onClickBuild"
         t-if="isDebug"
     >
@@ -28,7 +28,7 @@ Build.template = xml`
         <span>Build</span>
     </button>
 
-    <button class="btn btn-primary d-flex align-items-center justify-content-center"
+    <button class="btn text-white d-flex align-items-center justify-content-center"
         t-on-click="onClickBug"
         title="Bug"
     >
