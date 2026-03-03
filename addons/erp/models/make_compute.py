@@ -89,13 +89,19 @@ class IrActionsServer(models.Model):
             "DELETE": lambda model_name, domain=False: self.delete_records(model_name, domain),
             'CREATE_OR_WRITE': lambda model_name, fields, data, key=False, condition=True: self.create_or_write(model_name, fields, data, key, condition),
             "EXPAND_ARRAY": lambda model_name, map_str, domain=False: self.expand_array(model_name, map_str, domain, record),
-            "ACT_WINDOW": lambda model_name: self.env['ir.actions.act_window'].search([('name', '=', model_name)], limit=1),
+            "ACT_WINDOW": lambda model_name: self.get_act_window(model_name),
             "UNIQUE_MODEL": lambda name: self.get_model(name),
             "DISPLAY_SEQUENCE" : lambda: self.display_sequence(record),
             "REF_ID" : f"{record._name},{record.id}" if record else False,
             "REF" : lambda model, id: f"{model},{id}",
         })
         return eval_context
+    
+    def get_act_window(self, model_name):
+        if isinstance(model_name, int):
+            return self.env['ir.actions.act_window'].browse(model_name)
+        else:
+            return self.env['ir.actions.act_window'].search([('name', '=', model_name)], limit=1)
 
     def display_sequence(self, record):
         sequence = self.env['ir.sequence'].search([('code', '=', record._description)], limit=1)
