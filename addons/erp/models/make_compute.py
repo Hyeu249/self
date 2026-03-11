@@ -2,6 +2,13 @@ from dataclasses import fields
 from odoo import models, api
 from odoo.tools.safe_eval import safe_eval, datetime, dateutil, time
 from odoo.exceptions import ValidationError
+import unicodedata
+
+def dash_text(text):
+    text = unicodedata.normalize('NFD', text)
+    text = "".join(c for c in text if unicodedata.category(c) != 'Mn')
+    text = "_".join(text.split(" "))
+    return text.lower()
 
 SAFE_EVAL_BASE = {
     'datetime': datetime,
@@ -74,6 +81,13 @@ class IrModelFields(models.Model):
             attrs['compute'] = make_compute_patched(field_data["name"], field_data['compute'], field_data['depends'])
 
         return attrs
+
+    @api.onchange('field_description')
+    def _onchange_field_description(self):
+        for record in self:
+            name = "x_" + dash_text(record.field_description)
+            if record.name != name:
+                record.name = name
 
 class IrActionsServer(models.Model):
     _inherit = 'ir.actions.server'
