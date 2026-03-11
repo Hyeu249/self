@@ -1,12 +1,18 @@
 /** @odoo-module **/
 
-import { Component, xml } from "@odoo/owl";
+import { Component, xml, useState, onWillStart } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { router } from "@web/core/browser/router";
+import { user } from "@web/core/user";
 
 export class Build extends Component {
   setup() {
     this.isDebug = Boolean(odoo.debug);
+    this.state = useState({ isErpAdmin: false });
+
+    onWillStart(async () => {
+      this.state.isErpAdmin = await user.hasGroup("erp.group_erp_admin");
+    });
   }
   async onClickBuild() {
     await this.env.services.action.doAction("erp.action_erp_build");
@@ -19,7 +25,7 @@ export class Build extends Component {
 }
 
 Build.template = xml`
-<div class="d-flex flex-row">
+<div class="d-flex flex-row" t-if="state.isErpAdmin">
     <button class="btn text-white d-flex align-items-center gap-1"
         t-on-click="onClickBuild"
         t-if="isDebug"
