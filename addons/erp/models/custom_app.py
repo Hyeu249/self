@@ -92,14 +92,8 @@ class CustomApp(models.Model):
         self.create_or_get_manifest(new_folder)
         return new_folder
 
-    def update_module(self):
-        model_strs = ""
-        for model in self.model_ids:
-            model_strs += model.transfer_to_python_str()
-        new_folder = self.create_or_get_folder()
-        init_file_path = os.path.join(new_folder, '__init__.py')
-        with open(init_file_path, 'w', encoding='utf-8') as f:
-            f.write(f"""
+    def create_module_py_str(self):
+        strs = f'''
 from odoo.exceptions import ValidationError
 
 def post_init_hook(env):
@@ -109,7 +103,65 @@ def post_init_hook(env):
             "name": "{self.name}",
             "description": "{self.description}",
         }})
-    {model_strs}
+'''
+        return strs
+
+    def create_model_access_right_py_str(self, model_id):
+        strs = ""
+        model = self.env['ir.model'].browse(model_id)
+        for access in model.access_ids:
+            vals = access.read()[0]
+            new_vals = {}
+            for f in ['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
+                new_vals[f] = vals.get(f)
+            strs += f'''
+        vals = {new_vals}
+        group_id = env['{access.group_id._name}'].search([('name', '=', '{access.group_id.name}')], limit=1)
+        if not group_id:
+            raise ValidationError('Group {access.group_id.name} not found, please create it first.')
+
+        vals['group_id'] = group_id.id
+        vals['model_id'] = model_id.id
+        env['{access._name}'].create(vals)
+'''
+        return strs
+
+    def create_models_and_prepare_fields(self):
+        strs = f'''
+    payloads = []
+    def create_models():
+'''
+        for model in self.model_ids:
+            vals = model.read()[0]
+            new_vals = {}
+            for f in ['name', 'model', 'state', 'transient', 'is_filter_manual', 'is_mail_thread', 'is_mail_activity']:
+                new_vals[f] = vals.get(f)
+            strs += f'''
+        #model {model.name}
+        vals = {new_vals}
+        vals['from_app_id'] = custom_module_id.id if custom_module_id else False
+        model_id = env['ir.model'].create(vals)
+        x_name = env['ir.model.fields'].search([('model_id', '=', model_id.id), ('name', '=', 'x_name')], limit=1)
+        if x_name:
+            x_name.unlink()
+        {self.create_model_access_right_py_str(model.id)}
+        payloads.append(model_id)
+'''
+        strs += '''
+    create_models()
+'''
+        return strs
+
+    def update_module(self):
+        model_strs = ""
+        for model in self.model_ids:
+            model_strs += model.transfer_to_python_str()
+        new_folder = self.create_or_get_folder()
+        init_file_path = os.path.join(new_folder, '__init__.py')
+        with open(init_file_path, 'w', encoding='utf-8') as f:
+            f.write(f"""
+    {self.create_module_py_str()}
+    {self.create_models_and_prepare_fields()}
 
 def uninstall_hook(env):
     rec = env['{self._name}'].search([('name', '=', '{self.name}')], limit=1)
