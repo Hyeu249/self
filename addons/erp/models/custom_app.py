@@ -192,7 +192,7 @@ def post_init_hook(env):
     #create fields for all models
     fields = sorted(
         payloads,
-        key=lambda f: bool(f['related'] or f['depends'] or f['ttype'] == 'one2many')
+        key=lambda f: bool(f['related'] or f['depends'] or f['ttype'] == 'one2many' or f['ttype'] == 'many2many')
     )
     for field in fields:
         selection_vals = field.pop('selection_vals', False)
