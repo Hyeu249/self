@@ -160,6 +160,7 @@ def post_init_hook(env):
                 for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
                     new_vals[f] = vals.get(f)
                 strs += f'''
+        groups = []
         field_vals = {new_vals}
         field_vals['model_id'] = model_id.id
         field_vals['selection_vals'] = []
@@ -171,6 +172,17 @@ def post_init_hook(env):
                         new_vals[f] = vals.get(f)
                     strs += f'''
         field_vals['selection_vals'].append({new_vals})
+'''
+                for group in field.groups:
+                    strs += f'''
+        group_id = env['{group._name}'].search([('name', '=', '{group.name}')], limit=1)
+        if not group_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+        else:
+            groups.append(group_id.id)
+'''
+                strs += f'''
+        field_vals['groups_vals'] = [(6, 0, groups)]
 '''
                 strs += '''
         payloads.append(field_vals)
