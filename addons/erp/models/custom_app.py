@@ -145,7 +145,19 @@ def post_init_hook(env):
         if x_name:
             x_name.unlink()
         {self.create_model_access_right_py_str(model.id)}
-        payloads.append(model_id)
+'''
+            strs += f'''
+        #prepare fields for model {model.name}
+'''
+            for field in model.field_id:
+                vals = field.read()[0]
+                new_vals = {}
+                for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
+                    new_vals[f] = vals.get(f)
+                strs += f'''
+        vals = {new_vals}
+        vals['model_id'] = model_id.id
+        payloads.append(vals)
 '''
         strs += '''
     create_models()
