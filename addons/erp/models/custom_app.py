@@ -107,7 +107,9 @@ def post_init_hook(env):
         return strs
 
     def create_model_access_right_py_str(self, model_id):
-        strs = ""
+        strs = f'''
+        #model access right
+'''
         model = self.env['ir.model'].browse(model_id)
         for access in model.access_ids:
             vals = access.read()[0]
@@ -115,14 +117,46 @@ def post_init_hook(env):
             for f in ['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
                 new_vals[f] = vals.get(f)
             strs += f'''
-        vals = {new_vals}
+        access_vals = {new_vals}
         group_id = env['{access.group_id._name}'].search([('name', '=', '{access.group_id.name}')], limit=1)
         if not group_id:
             raise ValidationError('Group {access.group_id.name} not found, please create it first.')
 
-        vals['group_id'] = group_id.id
-        vals['model_id'] = model_id.id
-        env['{access._name}'].create(vals)
+        access_vals['group_id'] = group_id.id
+        access_vals['model_id'] = model_id.id
+        env['{access._name}'].create(access_vals)
+'''
+        return strs
+
+    def create_model_rules_py_str(self, model_id):
+        strs = f'''
+        #model rules
+        rule_group_ids = []
+'''
+        model = self.env['ir.model'].browse(model_id)
+        for rule in model.rule_ids:
+            vals = rule.read()[0]
+            new_vals = {}
+            for f in ['name', 'domain_force', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
+                new_vals[f] = vals.get(f)
+
+            for group in rule.groups:
+                strs += f'''
+        group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+        privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+        if not group_id or not privilege_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+        elif not privilege_id:
+            raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+        else:
+            rule_group_ids.append(group_id.id)
+'''
+            strs += f'''
+        rule_vals = {new_vals}
+        rule_vals['groups'] = [(6, 0, rule_group_ids)]
+        rule_vals['model_id'] = model_id.id
+        env['ir.rule'].create(rule_vals)
 '''
         return strs
 
@@ -145,6 +179,7 @@ def post_init_hook(env):
         if x_name:
             x_name.unlink()
         {self.create_model_access_right_py_str(model.id)}
+        {self.create_model_rules_py_str(model.id)}
 '''
             strs += f'''
         #prepare fields for model {model.name}
