@@ -4,6 +4,13 @@ import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
+import unicodedata
+
+def dash_text(text):
+    text = unicodedata.normalize('NFD', text)
+    text = "".join(c for c in text if unicodedata.category(c) != 'Mn')
+    text = "_".join(text.split(" "))
+    return text.lower().strip()
 
 class CustomApp(models.Model):
     _name = 'erp.custom.app'
@@ -56,7 +63,7 @@ class CustomApp(models.Model):
         models_dir = os.path.dirname(current_file)
         erp_dir = os.path.dirname(models_dir)
         addons_dir = os.path.dirname(erp_dir)
-        new_folder = os.path.join(addons_dir, self.name)
+        new_folder = os.path.join(addons_dir, dash_text(self.name))
         return new_folder
 
     def create_or_get_manifest(self, new_folder):

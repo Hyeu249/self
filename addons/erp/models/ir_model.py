@@ -157,23 +157,18 @@ class IrModel(models.Model):
             'context': {'default_action': action_names[0] if action_names else False},
         }
     def get_model_str(self):
+        vals = self.read()[0]
+        new_vals = {}
+        for f in ['name', 'model', 'state', 'transient', 'is_filter_manual', 'is_mail_thread', 'is_mail_activity']:
+            new_vals[f] = vals.get(f)
+
         def create_model_str():
             return f'''
     def {self.model}():
         """{self.name}"""
-        model_id = env['ir.model'].create(
-            {{
-                "name": "{self.name}",
-                "model": "{self.model}",
-                "from_app_id": custom_module_id.id if custom_module_id else False,
-                "state": "manual",
-                "transient": {self.transient},
-                "is_filter_manual": {self.is_filter_manual},
-                "is_mail_thread": True,
-                "is_mail_activity": True,
-                "is_filter_manual": True
-            }}
-        )
+        vals = {new_vals}
+        vals['from_app_id'] = custom_module_id.id if custom_module_id else False
+        model_id = env['ir.model'].create(vals)
         x_name = env['ir.model.fields'].search([('model_id', '=', model_id.id), ('name', '=', 'x_name')], limit=1)
         if x_name:
             x_name.unlink()
@@ -186,31 +181,14 @@ class IrModel(models.Model):
                 key=lambda f: bool(f.related or f.depends)
             )
             for field in fields:
+                vals = field.read()[0]
+                new_vals = {}
+                for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking']:
+                    new_vals[f] = vals.get(f)
                 fields_strs += f'''
-        env['ir.model.fields'].create({{
-            "name": "{field.name}",
-            "field_description": "{field.field_description}",
-            "ttype": "{field.ttype}",
-            "help": {f"{field.help}" if field.help else 'False'},
-
-            "model_id": model_id.id,
-
-            "relation": {f'"{field.relation}"' if field.relation else 'False'},
-            "relation_field": {f'"{field.relation_field}"' if field.relation_field else 'False'},
-            "domain": "{field.domain}",
-
-            "related": {f'"{field.related}"' if field.related else 'False'},
-            "depends": {f'"{field.depends}"' if field.depends else 'False'},
-            "compute": {f'"""\n{field.compute}\n"""' if field.compute else 'False'},
-            "required": {field.required},
-            "readonly": {field.readonly},
-            "invisible": {field.invisible},
-            "store": {field.store},
-            "index": {field.index},
-            "copied": {field.copied},
-            "tracking": {field.tracking},
-        }})
-
+        vals = {new_vals}
+        vals['model_id'] = model_id.id
+        env['ir.model.fields'].create(vals)
 '''
             return fields_strs
 
