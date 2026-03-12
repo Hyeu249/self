@@ -156,14 +156,41 @@ class IrModel(models.Model):
             'domain': [('action', 'in', action_names)],
             'context': {'default_action': action_names[0] if action_names else False},
         }
-    def get_model_str(self):
+
+    def create_fields_py_str(self):
+        fields_strs = ""
+        fields = sorted(
+            self.field_id,
+            key=lambda f: bool(f.related or f.depends)
+        )
+        for field in fields:
+            vals = field.read()[0]
+            new_vals = {}
+            for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
+                new_vals[f] = vals.get(f)
+            fields_strs += f'''
+        vals = {new_vals}
+        vals['model_id'] = model_id.id
+        field_id = env['ir.model.fields'].create(vals)
+'''
+            for selection in field.selection_ids:
+                vals = selection.read()[0]
+                new_vals = {}
+                for f in ['sequence', 'value', 'name']:
+                    new_vals[f] = vals.get(f)
+                fields_strs += f'''
+        vals = {new_vals}
+        vals['field_id'] = field_id.id
+        env['{selection._name}'].create(vals)
+'''
+        return fields_strs
+
+    def create_model_py_str(self):
         vals = self.read()[0]
         new_vals = {}
         for f in ['name', 'model', 'state', 'transient', 'is_filter_manual', 'is_mail_thread', 'is_mail_activity']:
             new_vals[f] = vals.get(f)
-
-        def create_model_str():
-            return f'''
+        return f'''
     def {self.model}():
         """{self.name}"""
         vals = {new_vals}
@@ -173,37 +200,9 @@ class IrModel(models.Model):
         if x_name:
             x_name.unlink()
 '''
-
-        def create_fields_str():
-            fields_strs = ""
-            fields = sorted(
-                self.field_id,
-                key=lambda f: bool(f.related or f.depends)
-            )
-            for field in fields:
-                vals = field.read()[0]
-                new_vals = {}
-                for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
-                    new_vals[f] = vals.get(f)
-                fields_strs += f'''
-        vals = {new_vals}
-        vals['model_id'] = model_id.id
-        field_id = env['ir.model.fields'].create(vals)
-'''
-                for selection in field.selection_ids:
-                    vals = selection.read()[0]
-                    new_vals = {}
-                    for f in ['sequence', 'value', 'name']:
-                        new_vals[f] = vals.get(f)
-                    fields_strs += f'''
-        vals = {new_vals}
-        vals['field_id'] = field_id.id
-        env['{selection._name}'].create(vals)
-'''
-            return fields_strs
-
+    def transfer_to_python_str(self):
         return f'''
-        {create_model_str()}
-        {create_fields_str()}
+        {self.create_model_py_str()}
+        {self.create_fields_py_str()}
     {self.model}()
 '''

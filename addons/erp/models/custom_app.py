@@ -90,7 +90,7 @@ class CustomApp(models.Model):
     def update_module(self):
         model_strs = ""
         for model in self.model_ids:
-            model_strs += model.get_model_str()
+            model_strs += model.transfer_to_python_str()
         new_folder = self.create_or_get_folder()
         init_file_path = os.path.join(new_folder, '__init__.py')
         with open(init_file_path, 'w', encoding='utf-8') as f:
