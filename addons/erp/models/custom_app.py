@@ -212,7 +212,7 @@ def post_init_hook(env):
             temp_vals['field_id'] = field_id.id
             if field['ttype'] == 'reference':
                 t_model = env['ir.model'].search([('model', '=', temp_vals['value'])], limit=1)
-                field['selected_model_id'] = t_model.id if t_model else False
+                temp_vals['selected_model_id'] = t_model.id if t_model else False
             env['ir.model.fields.selection'].create(temp_vals)
         field_id.groups = [(6, 0, groups_vals)]
 '''
