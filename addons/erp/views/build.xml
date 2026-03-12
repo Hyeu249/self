@@ -176,8 +176,8 @@
                                 <form string="Fields Description">
                                     <group>
                                         <group>
-                                            <field name="name"/>
                                             <field name="field_description"/>
+                                            <field name="name"/>
                                         </group>
                                         <group>
                                             <field name="ttype"/>

@@ -188,7 +188,17 @@ class IrModel(models.Model):
                 fields_strs += f'''
         vals = {new_vals}
         vals['model_id'] = model_id.id
-        env['ir.model.fields'].create(vals)
+        field_id = env['ir.model.fields'].create(vals)
+'''
+                for selection in field.selection_ids:
+                    vals = selection.read()[0]
+                    new_vals = {}
+                    for f in ['sequence', 'value', 'name']:
+                        new_vals[f] = vals.get(f)
+                    fields_strs += f'''
+        vals = {new_vals}
+        vals['field_id'] = field_id.id
+        env['{selection._name}'].create(vals)
 '''
             return fields_strs
 
