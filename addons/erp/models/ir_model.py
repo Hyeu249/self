@@ -183,16 +183,20 @@ class IrModel(models.Model):
         vals['field_id'] = field_id.id
         env['{selection._name}'].create(vals)
 '''
-
+            strs += f'''
+        groups = []
+'''
             for group in field.groups:
                 strs += f'''
         group_id = env['{group._name}'].search([('name', '=', '{group.name}')], limit=1)
         if not group_id:
             raise ValidationError('Group {group.name} not found, please create it first.')
+        else:
+            groups.append(group_id.id)
 '''
-            if field.groups.ids:
-                strs += f'''
-        field_id.groups = [(6, 0, {field.groups.ids})]
+            strs += f'''
+        if groups:
+            field_id.groups = [(6, 0, groups)]
 '''
         return strs
 
