@@ -158,7 +158,7 @@ class IrModel(models.Model):
         }
 
     def create_fields_py_str(self):
-        fields_strs = ""
+        strs = ""
         fields = sorted(
             self.field_id,
             key=lambda f: bool(f.related or f.depends)
@@ -168,7 +168,7 @@ class IrModel(models.Model):
             new_vals = {}
             for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
                 new_vals[f] = vals.get(f)
-            fields_strs += f'''
+            strs += f'''
         vals = {new_vals}
         vals['model_id'] = model_id.id
         field_id = env['ir.model.fields'].create(vals)
@@ -178,12 +178,22 @@ class IrModel(models.Model):
                 new_vals = {}
                 for f in ['sequence', 'value', 'name']:
                     new_vals[f] = vals.get(f)
-                fields_strs += f'''
+                strs += f'''
         vals = {new_vals}
         vals['field_id'] = field_id.id
         env['{selection._name}'].create(vals)
 '''
-        return fields_strs
+
+            for group in field.groups:
+                strs += f'''
+        group_id = env['{group._name}'].search([('name', '=', '{group.name}')], limit=1)
+        if not group_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+'''
+            strs += f'''
+        field_id.groups = [(4, {field.groups.ids})]
+'''
+        return strs
 
     def create_model_py_str(self):
         vals = self.read()[0]
@@ -200,9 +210,30 @@ class IrModel(models.Model):
         if x_name:
             x_name.unlink()
 '''
+
+    def create_model_access_right_py_str(self):
+        strs = ""
+        for access in self.access_ids:
+            vals = access.read()[0]
+            new_vals = {}
+            for f in ['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
+                new_vals[f] = vals.get(f)
+            strs += f'''
+        vals = {new_vals}
+        group_id = env['{access.group_id._name}'].search([('name', '=', '{access.group_id.name}')], limit=1)
+        if not group_id:
+            raise ValidationError('Group {access.group_id.name} not found, please create it first.')
+
+        vals['group_id'] = {access.group_id.id}
+        vals['model_id'] = model_id.id
+        env['{access._name}'].create(vals)
+'''
+        return strs
+
     def transfer_to_python_str(self):
         return f'''
         {self.create_model_py_str()}
+        {self.create_model_access_right_py_str()}
         {self.create_fields_py_str()}
     {self.model}()
 '''

@@ -95,6 +95,8 @@ class CustomApp(models.Model):
         init_file_path = os.path.join(new_folder, '__init__.py')
         with open(init_file_path, 'w', encoding='utf-8') as f:
             f.write(f"""
+from odoo.exceptions import ValidationError
+
 def post_init_hook(env):
     custom_module_id = False
     if 'erp.custom.app' in env:
