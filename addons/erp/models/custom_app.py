@@ -197,19 +197,28 @@ def post_init_hook(env):
     for field in fields:
         selection_vals = field.pop('selection_vals', False)
         groups_vals = field.pop('groups_vals', False)
+
+        if field['relation']:
+            t_model = env['ir.model'].search([('model', '=', field['relation'])], limit=1)
+            field['selected_model_id'] = t_model.id if t_model else False
+
+            if field['relation_field']:
+                t_field = env['ir.model.fields'].search([('model', '=', field['relation']), ('name', '=', field['relation_field'])], limit=1)
+                field['selected_field_id'] = t_field.id if t_field else False
+
         field_id = env['ir.model.fields'].create(field)
         for selection in selection_vals:
             temp_vals = selection
             temp_vals['field_id'] = field_id.id
+            if field['ttype'] == 'reference':
+                t_model = env['ir.model'].search([('model', '=', temp_vals['value'])], limit=1)
+                field['selected_model_id'] = t_model.id if t_model else False
             env['ir.model.fields.selection'].create(temp_vals)
         field_id.groups = [(6, 0, groups_vals)]
 '''
         return strs
 
     def update_module(self):
-        model_strs = ""
-        for model in self.model_ids:
-            model_strs += model.transfer_to_python_str()
         new_folder = self.create_or_get_folder()
         init_file_path = os.path.join(new_folder, '__init__.py')
         with open(init_file_path, 'w', encoding='utf-8') as f:
