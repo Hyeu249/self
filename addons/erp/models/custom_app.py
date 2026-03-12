@@ -126,11 +126,6 @@ def post_init_hook(env):
 '''
         return strs
 
-    def create_fields(self):
-        strs = f'''
-'''
-        return strs
-
     def create_models_and_prepare_fields(self):
         strs = f'''
     payloads = []
@@ -189,6 +184,11 @@ def post_init_hook(env):
 '''
         strs += '''
     create_models()
+'''
+        return strs
+
+    def create_fields(self):
+        strs = f'''
 '''
         return strs
 
