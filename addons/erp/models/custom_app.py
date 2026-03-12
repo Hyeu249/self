@@ -16,6 +16,11 @@ class CustomApp(models.Model):
     _name = 'erp.custom.app'
     _description = 'Custom App'
 
+    _unique_name = models.Constraint(
+        'UNIQUE(name)', 
+        'This name is already registered!'
+    )
+
     name = fields.Char(string='Name')
     description = fields.Text(string='Description')
 
@@ -100,21 +105,20 @@ from odoo.exceptions import ValidationError
 def post_init_hook(env):
     custom_module_id = False
     if 'erp.custom.app' in env:
-        custom_module_id = env['erp.custom.app'].create({{
+        custom_module_id = env['{self._name}'].create({{
             "name": "{self.name}",
             "description": "{self.description}",
         }})
     {model_strs}
 
 def uninstall_hook(env):
-    pass
+    rec = env['{self._name}'].search([('name', '=', '{self.name}')], limit=1)
+
+    if rec:
+        rec.unlink()
 """)
 
     def remove_module(self):
-        # folder = self.get_folder_path()
-
-        # if os.path.exists(folder):
-        #     shutil.rmtree(folder)
         build = self.env['erp.build']
         for model in self.model_ids:
             build.delete_model(model)
