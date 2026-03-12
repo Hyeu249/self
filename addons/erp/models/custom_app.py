@@ -79,7 +79,7 @@ class CustomApp(models.Model):
     "version": "1.0",
     "author": "{self.env.user.name}",
     "summary": "{self.description}",
-    "depends": ["mail", "base_automation"],
+    "depends": ["mail", "base_automation", "erp"],
     "application": True,
     "post_init_hook": "post_init_hook",
     "uninstall_hook": "uninstall_hook",
