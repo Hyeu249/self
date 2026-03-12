@@ -177,7 +177,7 @@ def post_init_hook(env):
             groups.append(group_id.id)
 '''
                 strs += f'''
-        field_vals['groups_vals'] = [(6, 0, groups)]
+        field_vals['groups_vals'] = groups
 '''
                 strs += '''
         payloads.append(field_vals)
@@ -189,6 +189,20 @@ def post_init_hook(env):
 
     def create_fields(self):
         strs = f'''
+    #create fields for all models
+    fields = sorted(
+        payloads,
+        key=lambda f: bool(f['related'] or f['depends'] or f['ttype'] == 'one2many')
+    )
+    for field in fields:
+        selection_vals = field.pop('selection_vals', False)
+        groups_vals = field.pop('groups_vals', False)
+        field_id = env['ir.model.fields'].create(field)
+        for selection in selection_vals:
+            temp_vals = selection
+            temp_vals['field_id'] = field_id.id
+            env['ir.model.fields.selection'].create(temp_vals)
+        field_id.groups = [(6, 0, groups_vals)]
 '''
         return strs
 
@@ -201,8 +215,8 @@ def post_init_hook(env):
         with open(init_file_path, 'w', encoding='utf-8') as f:
             f.write(f"""
     {self.create_module_py_str()}
-    {self.create_fields()}
     {self.create_models_and_prepare_fields()}
+    {self.create_fields()}
 
 def uninstall_hook(env):
     rec = env['{self._name}'].search([('name', '=', '{self.name}')], limit=1)
