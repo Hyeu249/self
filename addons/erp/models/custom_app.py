@@ -126,6 +126,11 @@ def post_init_hook(env):
 '''
         return strs
 
+    def create_fields(self):
+        strs = f'''
+'''
+        return strs
+
     def create_models_and_prepare_fields(self):
         strs = f'''
     payloads = []
@@ -138,9 +143,9 @@ def post_init_hook(env):
                 new_vals[f] = vals.get(f)
             strs += f'''
         #model {model.name}
-        vals = {new_vals}
-        vals['from_app_id'] = custom_module_id.id if custom_module_id else False
-        model_id = env['ir.model'].create(vals)
+        model_vals = {new_vals}
+        model_vals['from_app_id'] = custom_module_id.id if custom_module_id else False
+        model_id = env['ir.model'].create(model_vals)
         x_name = env['ir.model.fields'].search([('model_id', '=', model_id.id), ('name', '=', 'x_name')], limit=1)
         if x_name:
             x_name.unlink()
@@ -155,9 +160,20 @@ def post_init_hook(env):
                 for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
                     new_vals[f] = vals.get(f)
                 strs += f'''
-        vals = {new_vals}
-        vals['model_id'] = model_id.id
-        payloads.append(vals)
+        field_vals = {new_vals}
+        field_vals['model_id'] = model_id.id
+        field_vals['selection_vals'] = []
+'''
+                for selection in field.selection_ids:
+                    vals = selection.read()[0]
+                    new_vals = {}
+                    for f in ['sequence', 'value', 'name']:
+                        new_vals[f] = vals.get(f)
+                    strs += f'''
+        field_vals['selection_vals'].append({new_vals})
+'''
+                strs += '''
+        payloads.append(field_vals)
 '''
         strs += '''
     create_models()
@@ -173,6 +189,7 @@ def post_init_hook(env):
         with open(init_file_path, 'w', encoding='utf-8') as f:
             f.write(f"""
     {self.create_module_py_str()}
+    {self.create_fields()}
     {self.create_models_and_prepare_fields()}
 
 def uninstall_hook(env):
