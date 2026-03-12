@@ -183,7 +183,7 @@ class IrModel(models.Model):
             for field in fields:
                 vals = field.read()[0]
                 new_vals = {}
-                for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking']:
+                for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
                     new_vals[f] = vals.get(f)
                 fields_strs += f'''
         vals = {new_vals}
