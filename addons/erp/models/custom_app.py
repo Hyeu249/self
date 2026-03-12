@@ -73,9 +73,8 @@ class CustomApp(models.Model):
 
     def create_or_get_manifest(self, new_folder):
         manifest_file_path = os.path.join(new_folder, '__manifest__.py')
-        if not os.path.exists(manifest_file_path):
-            with open(manifest_file_path, 'w', encoding='utf-8') as f:
-                f.write(f"""{{
+        with open(manifest_file_path, 'w', encoding='utf-8') as f:
+            f.write(f"""{{
     "name": "{self.description}",
     "version": "1.0",
     "author": "{self.env.user.name}",
@@ -83,6 +82,7 @@ class CustomApp(models.Model):
     "depends": ["mail", "base_automation"],
     "application": True,
     "post_init_hook": "post_init_hook",
+    "uninstall_hook": "uninstall_hook",
 }}""")
         return manifest_file_path
 
