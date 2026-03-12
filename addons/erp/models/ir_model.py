@@ -190,8 +190,9 @@ class IrModel(models.Model):
         if not group_id:
             raise ValidationError('Group {group.name} not found, please create it first.')
 '''
-            strs += f'''
-        field_id.groups = [(4, {field.groups.ids})]
+            if field.groups.ids:
+                strs += f'''
+        field_id.groups = [(6, 0, {field.groups.ids})]
 '''
         return strs
 
@@ -224,7 +225,7 @@ class IrModel(models.Model):
         if not group_id:
             raise ValidationError('Group {access.group_id.name} not found, please create it first.')
 
-        vals['group_id'] = {access.group_id.id}
+        vals['group_id'] = group_id.id
         vals['model_id'] = model_id.id
         env['{access._name}'].create(vals)
 '''
