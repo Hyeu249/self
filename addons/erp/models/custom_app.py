@@ -131,7 +131,6 @@ def post_init_hook(env):
     def create_model_rules_py_str(self, model_id):
         strs = f'''
         #model rules
-        rule_group_ids = []
 '''
         model = self.env['ir.model'].browse(model_id)
         for rule in model.rule_ids:
@@ -139,7 +138,9 @@ def post_init_hook(env):
             new_vals = {}
             for f in ['name', 'domain_force', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
                 new_vals[f] = vals.get(f)
-
+            strs += '''
+        rule_group_ids = []
+'''      
             for group in rule.groups:
                 strs += f'''
         group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
@@ -163,8 +164,6 @@ def post_init_hook(env):
     def create_menus_py_str(self, model_id):
         strs = f'''
         #model menus
-        action_group_ids = []
-        menu_group_ids = []
 '''
         model = self.env['ir.model'].browse(model_id)
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
@@ -176,6 +175,7 @@ def post_init_hook(env):
             action_name = f"ir.actions.act_window,{action.id}"
             menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])
             strs += '''
+        action_group_ids = []
 '''          
             for group in action.group_ids:
                 strs += f'''
@@ -199,6 +199,9 @@ def post_init_hook(env):
                 new_vals = {}
                 for f in ['name', 'sequence']:
                     new_vals[f] = vals.get(f)
+                strs += '''
+        menu_group_ids = []
+'''
                 for group in menu.group_ids:
                     strs += f'''
         group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
@@ -224,10 +227,45 @@ def post_init_hook(env):
         env['ir.ui.menu'].create(menu_vals)
 '''
         return strs
-
-    def create_models_and_prepare_fields(self):
+    
+    def create_views_py_str(self, model_id):
         strs = f'''
-    payloads = []
+        #model views
+'''
+        model = self.env['ir.model'].browse(model_id)
+        views = self.env["ir.ui.view"].search([('model', '=', model.model)])
+        for view in views:
+            vals = view.read()[0]
+            new_vals = {}
+            for f in ['name', 'model', 'arch_base', 'mode', 'priority', 'active', 'type']:
+                new_vals[f] = vals.get(f)
+            strs += f'''
+        view_group_ids = []
+'''
+            for group in view.group_ids:
+                strs += f'''
+        group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+        privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+        if not group_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+        elif {bool(group.privilege_id.name)} and not privilege_id:
+            raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+        else:
+            view_group_ids.append(group_id.id)
+'''
+            strs += f'''
+        view_vals = {new_vals}
+        view_vals['group_ids'] = [(6, 0, view_group_ids)]
+        view_vals['model_id'] = model_id.id
+        views_payloads.append(view_vals)
+'''
+        return strs
+
+    def create_models_and_prepare_payloads(self):
+        strs = f'''
+    fields_payloads = []
+    views_payloads = []
     def create_models():
 '''
         for model in self.model_ids:
@@ -246,6 +284,7 @@ def post_init_hook(env):
         {self.create_model_access_right_py_str(model.id)}
         {self.create_model_rules_py_str(model.id)}
         {self.create_menus_py_str(model.id)}
+        {self.create_views_py_str(model.id)}
 '''
             strs += f'''
         #prepare fields for model {model.name}
@@ -281,7 +320,7 @@ def post_init_hook(env):
         field_vals['groups_vals'] = groups
 '''
                 strs += '''
-        payloads.append(field_vals)
+        fields_payloads.append(field_vals)
 '''
         strs += '''
     create_models()
@@ -292,7 +331,7 @@ def post_init_hook(env):
         strs = f'''
     #create fields for all models
     fields = sorted(
-        payloads,
+        fields_payloads,
         key=lambda f: bool(f['related'] or f['depends'] or f['ttype'] == 'one2many' or f['ttype'] == 'many2many')
     )
     for field in fields:
@@ -319,14 +358,22 @@ def post_init_hook(env):
 '''
         return strs
 
+    def create_views(self):
+        strs = '''
+    for view in views_payloads:
+        env['ir.ui.view'].create(view)
+'''
+        return strs
+
     def update_module(self):
         new_folder = self.create_or_get_folder()
         init_file_path = os.path.join(new_folder, '__init__.py')
         with open(init_file_path, 'w', encoding='utf-8') as f:
             f.write(f"""
     {self.create_module_py_str()}
-    {self.create_models_and_prepare_fields()}
+    {self.create_models_and_prepare_payloads()}
     {self.create_fields()}
+    {self.create_views()}
 
 def uninstall_hook(env):
     rec = env['{self._name}'].search([('name', '=', '{self.name}')], limit=1)
