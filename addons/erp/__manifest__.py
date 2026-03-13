@@ -9,6 +9,7 @@
         "security/ir.model.access.csv",
         "views/build.xml",
         "views/app.xml",
+        "views/act_window.xml",
         # "views/header.xml",
     ],
     "application": True,

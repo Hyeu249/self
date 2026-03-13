@@ -1,5 +1,4 @@
-from dataclasses import fields
-from odoo import models, api
+from odoo import models, api, fields
 from odoo.tools.safe_eval import safe_eval, datetime, dateutil, time
 from odoo.exceptions import ValidationError
 import unicodedata
@@ -224,6 +223,14 @@ class IrActionsServer(models.Model):
 
 class IrActionsAct_window(models.Model):
     _inherit = 'ir.actions.act_window'
+
+    name_id = fields.Char(string="Name id")
+
+    @api.onchange('name')
+    def _onchange_name_id(self):
+        for record in self:
+            if record.name:
+                record.name_id = record.name
 
     def open(self):
         return self.read()[0]
