@@ -396,7 +396,49 @@ def post_init_hook(env):
     auto_vals['model_id'] = model_id.id
     auto_vals['trigger_field_ids'] = [(6, 0, trigger_field_ids)]
     auto_vals['on_change_field_ids'] = [(6, 0, on_change_field_ids)]
-    env['base.automation'].create(auto_vals)
+    auto_id = env['base.automation'].create(auto_vals)
+'''
+                for action in auto.action_server_ids:
+                    action_vals = action.read()[0]
+                    new_action_vals = {}
+                    for f in ['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value']:
+                        new_action_vals[f] = action_vals.get(f)
+                    strs += '''
+    action_group_ids = []
+'''
+                    for group in action.group_ids:
+                        strs += f'''
+    group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+    privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+    if not group_id:
+        raise ValidationError('Group {group.name} not found, please create it first.')
+    elif {bool(group.privilege_id.name)} and not privilege_id:
+        raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+    else:
+        action_group_ids.append(group_id.id)
+'''
+                    strs += '''
+    sequence_id = False
+'''
+                    if action.sequence_id:
+                        se_vals = action.sequence_id.read()[0]
+                        new_se_vals = {}
+                        for f in ['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range']:
+                            new_se_vals[f] = se_vals.get(f)
+                        strs += f'''
+    sequence_id = env['ir.sequence'].create({new_se_vals})
+'''
+                    strs += f'''
+    action_vals = {new_action_vals}
+    if sequence_id:
+        # field_id = env['ir.model.fields'].search([('name', '=', '{action.update_field_id.name}'), ('model', '=', '{action.update_field_id.model}')], limit=1)
+        # action_vals['update_field_id'] = field_id.id if field_id else False
+        action_vals['sequence_id'] = sequence_id.id if sequence_id else False
+    action_vals['model_id'] = model_id.id
+    action_vals['base_automation_id'] = auto_id.id
+    action_vals['group_ids'] = [(6, 0, action_group_ids)]
+    env['ir.actions.server'].create(action_vals)
 '''
         return strs
 
