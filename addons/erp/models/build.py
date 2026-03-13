@@ -215,6 +215,7 @@ class Build(models.TransientModel):
         action = self.env["ir.actions.act_window"].create(
             {
                 "name": name,
+                "name_id": name,
                 "res_model": model,
                 "type": "ir.actions.act_window",
                 "view_mode": "list,form",

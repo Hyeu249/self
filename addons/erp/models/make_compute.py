@@ -111,10 +111,7 @@ class IrActionsServer(models.Model):
         return eval_context
     
     def get_act_window(self, model_name):
-        if isinstance(model_name, int):
-            return self.env['ir.actions.act_window'].browse(model_name)
-        else:
-            return self.env['ir.actions.act_window'].search([('name', '=', model_name)], limit=1)
+        return self.env['ir.actions.act_window'].search([('name_id', '=', model_name)], limit=1)
 
     def display_sequence(self, record):
         sequence = self.env['ir.sequence'].search([('code', '=', record._description)], limit=1)
