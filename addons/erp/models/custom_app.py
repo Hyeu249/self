@@ -145,9 +145,9 @@ def post_init_hook(env):
         group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
         privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
 
-        if not group_id or not privilege_id:
+        if not group_id:
             raise ValidationError('Group {group.name} not found, please create it first.')
-        elif not privilege_id:
+        elif {bool(group.privilege_id.name)} and not privilege_id:
             raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
         else:
             rule_group_ids.append(group_id.id)
@@ -157,6 +157,71 @@ def post_init_hook(env):
         rule_vals['groups'] = [(6, 0, rule_group_ids)]
         rule_vals['model_id'] = model_id.id
         env['ir.rule'].create(rule_vals)
+'''
+        return strs
+
+    def create_menus_py_str(self, model_id):
+        strs = f'''
+        #model menus
+        action_group_ids = []
+        menu_group_ids = []
+'''
+        model = self.env['ir.model'].browse(model_id)
+        actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
+        for action in actions:
+            vals = action.read()[0]
+            new_vals = {}
+            for f in ['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help']:
+                new_vals[f] = vals.get(f)
+            action_name = f"ir.actions.act_window,{action.id}"
+            menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])
+            strs += '''
+'''          
+            for group in action.group_ids:
+                strs += f'''
+        group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+        privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+        if not group_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+        elif {bool(group.privilege_id.name)} and not privilege_id:
+            raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+        else:
+            action_group_ids.append(group_id.id)
+'''
+            strs += f'''
+        action_vals = {new_vals}
+        action_vals['group_ids'] = [(6, 0, action_group_ids)]
+        action_id = env['ir.actions.act_window'].create(action_vals)
+'''
+            for menu in menus: 
+                vals = menu.read()[0]
+                new_vals = {}
+                for f in ['name', 'sequence']:
+                    new_vals[f] = vals.get(f)
+                for group in menu.group_ids:
+                    strs += f'''
+        group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+        privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+        if not group_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+        elif {bool(group.privilege_id.name)} and not privilege_id:
+            raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+        else:
+            menu_group_ids.append(group_id.id)
+'''
+                strs += f'''
+        parent_id = env['ir.ui.menu'].search([('name', '=', '{menu.parent_id.name}')], limit=1)
+        if not parent_id:
+            raise ValidationError('Menu {menu.parent_id.name} not found, please create it first.')
+'''
+                strs += f'''
+        menu_vals = {new_vals}
+        menu_vals['action'] = f"ir.actions.act_window,{{action_id.id}}"
+        menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
+        menu_vals['parent_id'] = parent_id.id
+        env['ir.ui.menu'].create(menu_vals)
 '''
         return strs
 
@@ -180,6 +245,7 @@ def post_init_hook(env):
             x_name.unlink()
         {self.create_model_access_right_py_str(model.id)}
         {self.create_model_rules_py_str(model.id)}
+        {self.create_menus_py_str(model.id)}
 '''
             strs += f'''
         #prepare fields for model {model.name}
@@ -243,7 +309,7 @@ def post_init_hook(env):
 
         field_id = env['ir.model.fields'].create(field)
         for selection in selection_vals:
-            temp_vals = selection
+            temp_vals = selection.copy()
             temp_vals['field_id'] = field_id.id
             if field['ttype'] == 'reference':
                 t_model = env['ir.model'].search([('model', '=', temp_vals['value'])], limit=1)
