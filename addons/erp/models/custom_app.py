@@ -365,6 +365,41 @@ def post_init_hook(env):
 '''
         return strs
 
+    def create_automations(self):
+        strs = '''
+    #models automation
+'''
+        for model in self.model_ids:
+            autos = self.env['base.automation'].search([('model_id', '=', model.id)])
+            for auto in autos:
+                vals = auto.read()[0]
+                new_vals = {}
+                for f in ['name', 'trigger', 'filter_pre_domain', 'previous_domain', 'filter_domain', 'description']:
+                    new_vals[f] = vals.get(f)
+                strs += f'''
+    trigger_field_ids = []
+    on_change_field_ids = []
+'''
+                for trigger in auto.trigger_field_ids:
+                    strs += f'''
+    field_id = env['ir.model.fields'].search([('model_id', '=', '{model.model}'), ('name', '=', '{trigger.name}')])
+    trigger_field_ids.append(field_id.id)
+'''
+                for on_change in auto.on_change_field_ids:
+                    strs += f'''
+    field_id = env['ir.model.fields'].search([('model_id', '=', '{model.model}'), ('name', '=', '{on_change.name}')])
+    on_change_field_ids.append(field_id.id)
+'''
+                strs += f'''
+    auto_vals = {new_vals}
+    model_id = env['ir.model'].search([('model', '=', '{model.model}')])
+    auto_vals['model_id'] = model_id.id
+    auto_vals['trigger_field_ids'] = [(6, 0, trigger_field_ids)]
+    auto_vals['on_change_field_ids'] = [(6, 0, on_change_field_ids)]
+    env['base.automation'].create(auto_vals)
+'''
+        return strs
+
     def update_module(self):
         new_folder = self.create_or_get_folder()
         init_file_path = os.path.join(new_folder, '__init__.py')
@@ -374,6 +409,7 @@ def post_init_hook(env):
     {self.create_models_and_prepare_payloads()}
     {self.create_fields()}
     {self.create_views()}
+    {self.create_automations()}
 
 def uninstall_hook(env):
     rec = env['{self._name}'].search([('name', '=', '{self.name}')], limit=1)
