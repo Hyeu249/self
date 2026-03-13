@@ -401,7 +401,7 @@ def post_init_hook(env):
                 for action in auto.action_server_ids:
                     action_vals = action.read()[0]
                     new_action_vals = {}
-                    for f in ['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value']:
+                    for f in ['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type']:
                         new_action_vals[f] = action_vals.get(f)
                     strs += '''
     action_group_ids = []
@@ -435,6 +435,9 @@ def post_init_hook(env):
         # field_id = env['ir.model.fields'].search([('name', '=', '{action.update_field_id.name}'), ('model', '=', '{action.update_field_id.model}')], limit=1)
         # action_vals['update_field_id'] = field_id.id if field_id else False
         action_vals['sequence_id'] = sequence_id.id if sequence_id else False
+    if {bool(action.binding_model_id)}:
+        binding_model_id = env['ir.model'].search([('model', '=', '{action.binding_model_id.model}')], limit=1)
+        action_vals['binding_model_id'] = binding_model_id.id
     action_vals['model_id'] = model_id.id
     action_vals['base_automation_id'] = auto_id.id
     action_vals['group_ids'] = [(6, 0, action_group_ids)]
