@@ -490,6 +490,38 @@ def post_init_hook(env):
     action_vals['group_ids'] = [(6, 0, action_group_ids)]
     env['ir.actions.server'].create(action_vals)
 '''
+            sche_ids = self.env['ir.cron'].search([('model_id', '=', model.id)])
+            for sche in sche_ids:
+                sche_vals = sche.read()[0]
+                new_sche_vals = {}
+                for f in ['name', 'interval_number', 'interval_type', 'active', 'priority', 'code']:
+                    new_sche_vals[f] = sche_vals.get(f)
+                strs += '''
+    sche_group_ids = []
+'''
+                for group in sche.group_ids:
+                    strs += f'''
+    group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+    privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+    if not group_id:
+        raise ValidationError('Group {group.name} not found, please create it first.')
+    elif {bool(group.privilege_id.name)} and not privilege_id:
+        raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+    else:
+        sche_group_ids.append(group_id.id)
+'''
+                strs += f'''
+    sche_vals = {new_sche_vals}
+    if {bool(sche.user_id.name)}:
+        user_id = env['res.users'].search([('name', '=', '{sche.user_id.name}')], limit=1)
+        if not user_id:
+            raise ValidationError('User {sche.user_id.name} not found, please create it first.')
+        sche_vals['user_id'] = user_id.id
+    sche_vals['model_id'] = model_id.id
+    sche_vals['group_ids'] = [(6, 0, sche_group_ids)]
+    env['ir.cron'].create(sche_vals)
+'''
         return strs
 
     def update_module(self):
