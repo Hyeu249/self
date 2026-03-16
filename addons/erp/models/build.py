@@ -23,6 +23,24 @@ class IrUiMenu(models.Model):
 
     is_custom = fields.Boolean(string="Is Custom")
 
+    @api.constrains('name', 'parent_id', 'is_custom')
+    def _check_unique_name_parent(self):
+        for rec in self:
+            if not rec.name:
+                continue
+
+            domain = [
+                ('id', '!=', rec.id),
+                ('name', '=', rec.name),
+                ('parent_id', '=', rec.parent_id.id),
+                ('is_custom', '=', True),
+            ]
+
+            if self.search_count(domain):
+                raise ValidationError(
+                    "Menu name already exists under the same parent."
+                )
+
 class IrModelFields(models.Model):
     _inherit = "ir.model.fields.selection"
 
