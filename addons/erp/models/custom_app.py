@@ -171,10 +171,10 @@ def post_init_hook(env):
         model = self.env['ir.model'].browse(model_id)
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
         for action in actions:
-            vals = action.read()[0]
-            new_vals = {}
+            action_vals = action.read()[0]
+            new_action_vals = {}
             for f in ['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help']:
-                new_vals[f] = vals.get(f)
+                new_action_vals[f] = action_vals.get(f)
             action_name = f"ir.actions.act_window,{action.id}"
             menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])
             strs += '''
@@ -193,15 +193,15 @@ def post_init_hook(env):
             action_group_ids.append(group_id.id)
 '''
             strs += f'''
-        action_vals = {new_vals}
+        action_vals = {new_action_vals}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 '''
             for menu in menus: 
-                vals = menu.read()[0]
-                new_vals = {}
+                menu_vals = menu.read()[0]
+                new_menu_vals = {}
                 for f in ['name', 'sequence']:
-                    new_vals[f] = vals.get(f)
+                    new_menu_vals[f] = menu_vals.get(f)
                 strs += '''
         menu_group_ids = []
 '''
@@ -217,16 +217,46 @@ def post_init_hook(env):
         else:
             menu_group_ids.append(group_id.id)
 '''
-                strs += f'''
-        parent_id = env['ir.ui.menu'].search([('name', '=', '{menu.parent_id.name}')], limit=1)
-        if not parent_id:
-            raise ValidationError('Menu {menu.parent_id.name} not found, please create it first.')
+                def recursion_parent_menu(menu):
+                    nonlocal strs
+                    var_name = f"menu_{menu.id}"
+                    var_group_name = f"group_{menu.id}_ids"
+
+                    strs += f'''
+        {var_group_name} = []
 '''
+                    for group in menu.group_ids:
+                        strs += f'''
+        group_id = env['res.groups'].search([('name', '=', '{group.name}')], limit=1)
+        privilege_id = env['res.groups.privilege'].search([('name', '=', '{group.privilege_id.name}')], limit=1)
+
+        if not group_id:
+            raise ValidationError('Group {group.name} not found, please create it first.')
+        elif {bool(group.privilege_id.name)} and not privilege_id:
+            raise ValidationError('Privilege {group.privilege_id.name} not found, please create it first.')
+        else:
+            {var_group_name}.append(group_id.id)
+    '''
+                    parent_var = False
+                    if menu.parent_id:
+                        parent_var = recursion_parent_menu(menu.parent_id)
+                    strs += f'''
+        menu_domain = [('name', '=', '{menu.name}'), ('is_custom', '=', True)]
+        menu_create_domain = {{'name': '{menu.name}', 'group_ids': [(6, 0, {var_group_name})], 'is_custom': True}}
+        if {parent_var}:
+            menu_domain.append(('parent_id', '=', {parent_var}.id))
+            menu_create_domain['parent_id'] = {parent_var}.id
+        {var_name} = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not {var_name}:
+            {var_name} = env['ir.ui.menu'].create(menu_create_domain)
+'''
+                    return var_name
+                var_name = recursion_parent_menu(menu.parent_id) if menu.parent_id else False
                 strs += f'''
-        menu_vals = {new_vals}
+        menu_vals = {new_menu_vals}
         menu_vals['action'] = f"ir.actions.act_window,{{action_id.id}}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = parent_id.id
+        menu_vals['parent_id'] = {var_name}.id if {var_name} else False
         env['ir.ui.menu'].create(menu_vals)
 '''
         return strs
