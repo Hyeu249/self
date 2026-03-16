@@ -38,7 +38,7 @@ class IrUiMenu(models.Model):
 
             if self.search_count(domain):
                 raise ValidationError(
-                    "Menu name already exists under the same parent."
+                    f"Menu {rec.name} already exists under the same parent."
                 )
 
 class IrModelFields(models.Model):

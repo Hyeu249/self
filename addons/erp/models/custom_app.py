@@ -242,7 +242,7 @@ def post_init_hook(env):
                         parent_var = recursion_parent_menu(menu.parent_id)
                     strs += f'''
         menu_domain = [('name', '=', '{menu.name}'), ('is_custom', '=', True)]
-        menu_create_domain = {{'name': '{menu.name}', 'group_ids': [(6, 0, {var_group_name})], 'is_custom': True}}
+        menu_create_domain = {{'name': '{menu.name}', 'sequence': {menu.sequence}, 'group_ids': [(6, 0, {var_group_name})], 'is_custom': True}}
         if {parent_var}:
             menu_domain.append(('parent_id', '=', {parent_var}.id))
             menu_create_domain['parent_id'] = {parent_var}.id
