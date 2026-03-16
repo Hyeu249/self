@@ -10,6 +10,7 @@
         "views/build.xml",
         "views/app.xml",
         "views/act_window.xml",
+        "views/ir_ui_menu.xml",
         # "views/header.xml",
     ],
     "application": True,

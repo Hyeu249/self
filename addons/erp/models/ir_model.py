@@ -154,5 +154,8 @@ class IrModel(models.Model):
             'res_model': 'ir.ui.menu',
             'view_mode': 'list,form',
             'domain': [('action', 'in', action_names)],
-            'context': {'default_action': action_names[0] if action_names else False},
+            'context': {
+                'default_action': action_names[0] if action_names else False,
+                'default_is_custom': True
+            },
         }

@@ -47,12 +47,15 @@ class CustomApp(models.Model):
         return result
 
     def create_menu(self):
-        menu_id = self.env["ir.ui.menu"].create(
-            {
-                "name": self.name,
-                "is_custom": True,
-            }
-        )
+        menu_id = self.env['ir.ui.menu'].search([('name', '=', self.name), ('parent_id', '=', False), ('is_custom', '=', True)])
+        
+        if not menu_id:
+            menu_id = self.env["ir.ui.menu"].create(
+                {
+                    "name": self.name,
+                    "is_custom": True,
+                }
+            )
         self.menu_id = menu_id.id
 
     def unlink(self):
