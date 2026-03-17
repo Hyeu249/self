@@ -159,10 +159,12 @@ class Build(models.TransientModel):
     def delete_model(self, model=False):
         model_id = model or self.model_id
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model_id.model)])
+        sequences = self.env["ir.sequence"].search([('code', '=', model_id.model)])
         for action in actions:
             menus = self.env['ir.ui.menu'].search([('action', '=', f"ir.actions.act_window,{action.id}")])
             menus.unlink()
             action.unlink()
+        sequences.unlink()
         model_id.view_ids.unlink()
         model_id.unlink()
 

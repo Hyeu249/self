@@ -231,11 +231,3 @@ class IrActionsAct_window(models.Model):
 
     def open(self):
         return self.read()[0]
-    
-class IrSequence(models.Model):
-    _inherit = 'ir.sequence'
-
-    @api.onchange("name")
-    def _onchange_code(self):
-        for record in self:
-            record.code = record.name
