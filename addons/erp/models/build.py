@@ -156,21 +156,20 @@ class Build(models.TransientModel):
 
         self.create_menu(self.model_description, self.model_name, self.custom_app_id.menu_id.id)
 
-    def delete_model(self, model=False):
-        model_id = model or self.model_id
-        actions = self.env["ir.actions.act_window"].search([('res_model', '=', model_id.model)])
-        sequences = self.env["ir.sequence"].search([('code', '=', model_id.model)])
+    def clean_up_model(self, model=False):
+        actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
+        sequences = self.env["ir.sequence"].search([('code', '=', model.model)])
         for action in actions:
             menus = self.env['ir.ui.menu'].search([('action', '=', f"ir.actions.act_window,{action.id}")])
             menus.unlink()
             action.unlink()
         sequences.unlink()
-        model_id.view_ids.unlink()
-        model_id.unlink()
+        model.view_ids.unlink()
+        return model
 
     def confirm_stage_4(self):
         if self.action_type == 'delete':
-            self.delete_model()
+            self.model_id.unlink()
         elif self.action_type == 'edit':
             return self.action_open_ir_model()
 

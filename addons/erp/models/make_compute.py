@@ -114,8 +114,9 @@ class IrActionsServer(models.Model):
         return self.env['ir.actions.act_window'].search([('name_id', '=', model_name)], limit=1)
 
     def display_sequence(self, record):
-        sequence = self.env['ir.sequence'].search([('code', '=', record._description)], limit=1)
-        record.write({"x_name": sequence.get_next_char(sequence.number_next_actual)})
+        sequence = self.env['ir.sequence'].search([('code', '=', record._name)], limit=1)
+        if sequence:
+            record.write({"x_name": sequence.get_next_char(sequence.number_next_actual)})
 
     def get_model(self, model_name):
         t = self.env["ir.model"].search([('name', '=', model_name)], limit=1)

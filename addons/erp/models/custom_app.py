@@ -534,7 +534,6 @@ def uninstall_hook(env):
 """)
 
     def remove_module(self):
-        build = self.env['erp.build']
         field_ids = self.env['ir.model.fields'].search([('model_id', 'in', self.model_ids.ids), ('state', '=', 'manual')])
         fields = sorted(
             field_ids,
@@ -550,4 +549,4 @@ def uninstall_hook(env):
         for field in fields:
             field.unlink()
         for model in self.model_ids:
-            build.delete_model(model)
+            model.unlink()

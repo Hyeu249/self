@@ -55,6 +55,13 @@ class IrModel(models.Model):
         compute="_compute_menu_count"
     )
 
+    def unlink(self):
+        build = self.env['erp.build']
+        for record in self:
+            build.clean_up_model(record)
+
+        return super(IrModel, self).unlink()
+
     def _compute_menu_count(self):
         ActWindow = self.env['ir.actions.act_window']
         Menu = self.env['ir.ui.menu']
