@@ -115,10 +115,7 @@ def post_init_hook(env):
 '''
         model = self.env['ir.model'].browse(model_id)
         for access in model.access_ids:
-            vals = access.read()[0]
-            new_vals = {}
-            for f in ['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
-                new_vals[f] = vals.get(f)
+            new_vals = access.read(['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink'])[0]
             strs += f'''
         access_vals = {new_vals}
         group_id = env['{access.group_id._name}'].search([('name', '=', '{access.group_id.name}')], limit=1)
@@ -137,10 +134,7 @@ def post_init_hook(env):
 '''
         model = self.env['ir.model'].browse(model_id)
         for rule in model.rule_ids:
-            vals = rule.read()[0]
-            new_vals = {}
-            for f in ['name', 'domain_force', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink']:
-                new_vals[f] = vals.get(f)
+            new_vals = rule.read(['name', 'domain_force', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink'])[0]
             strs += '''
         rule_group_ids = []
 '''      
@@ -171,10 +165,7 @@ def post_init_hook(env):
         model = self.env['ir.model'].browse(model_id)
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
         for action in actions:
-            action_vals = action.read()[0]
-            new_action_vals = {}
-            for f in ['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help']:
-                new_action_vals[f] = action_vals.get(f)
+            new_action_vals = action.read(['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help'])[0]
             action_name = f"ir.actions.act_window,{action.id}"
             menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])
             strs += '''
@@ -198,10 +189,7 @@ def post_init_hook(env):
         action_id = env['ir.actions.act_window'].create(action_vals)
 '''
             for menu in menus: 
-                menu_vals = menu.read()[0]
-                new_menu_vals = {}
-                for f in ['name', 'sequence']:
-                    new_menu_vals[f] = menu_vals.get(f)
+                new_menu_vals = menu.read(['name', 'sequence'])[0]
                 strs += '''
         menu_group_ids = []
 '''
@@ -268,10 +256,7 @@ def post_init_hook(env):
         model = self.env['ir.model'].browse(model_id)
         views = self.env["ir.ui.view"].search([('model', '=', model.model)])
         for view in views:
-            vals = view.read()[0]
-            new_vals = {}
-            for f in ['name', 'model', 'arch_base', 'mode', 'priority', 'active', 'type']:
-                new_vals[f] = vals.get(f)
+            new_vals = view.read(['name', 'model', 'arch_base', 'mode', 'priority', 'active', 'type'])[0]
             strs += f'''
         view_group_ids = []
 '''
@@ -302,10 +287,7 @@ def post_init_hook(env):
     def create_models():
 '''
         for model in self.model_ids:
-            vals = model.read()[0]
-            new_vals = {}
-            for f in ['name', 'model', 'state', 'transient', 'is_filter_manual', 'is_mail_thread', 'is_mail_activity']:
-                new_vals[f] = vals.get(f)
+            new_vals = model.read(['name', 'model', 'state', 'transient', 'is_filter_manual', 'is_mail_thread', 'is_mail_activity'])[0]
             strs += f'''
         #model {model.name}
         model_vals = {new_vals}
@@ -323,10 +305,7 @@ def post_init_hook(env):
         #prepare fields for model {model.name}
 '''
             for field in model.field_id:
-                vals = field.read()[0]
-                new_vals = {}
-                for f in ['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field']:
-                    new_vals[f] = vals.get(f)
+                new_vals = field.read(['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field'])[0]
                 strs += f'''
         groups = []
         field_vals = {new_vals}
@@ -334,10 +313,7 @@ def post_init_hook(env):
         field_vals['selection_vals'] = []
 '''
                 for selection in field.selection_ids:
-                    vals = selection.read()[0]
-                    new_vals = {}
-                    for f in ['sequence', 'value', 'name']:
-                        new_vals[f] = vals.get(f)
+                    new_vals = selection.read(['sequence', 'value', 'name'])[0]
                     strs += f'''
         field_vals['selection_vals'].append({new_vals})
 '''
@@ -408,10 +384,7 @@ def post_init_hook(env):
     model_id = env['ir.model'].search([('model', '=', '{model.model}')])
 '''
             for auto in autos:
-                vals = auto.read()[0]
-                new_vals = {}
-                for f in ['name', 'trigger', 'filter_pre_domain', 'previous_domain', 'filter_domain', 'description']:
-                    new_vals[f] = vals.get(f)
+                new_vals = auto.read(['name', 'trigger', 'filter_pre_domain', 'previous_domain', 'filter_domain', 'description'])[0]
                 strs += f'''
     trigger_field_ids = []
     on_change_field_ids = []
@@ -434,10 +407,7 @@ def post_init_hook(env):
     auto_id = env['base.automation'].create(auto_vals)
 '''
                 for action in auto.action_server_ids:
-                    action_vals = action.read()[0]
-                    new_action_vals = {}
-                    for f in ['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type']:
-                        new_action_vals[f] = action_vals.get(f)
+                    new_action_vals = action.read(['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type'])[0]
                     strs += '''
     action_group_ids = []
 '''
@@ -457,10 +427,7 @@ def post_init_hook(env):
     sequence_id = False
 '''
                     if action.sequence_id:
-                        se_vals = action.sequence_id.read()[0]
-                        new_se_vals = {}
-                        for f in ['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range']:
-                            new_se_vals[f] = se_vals.get(f)
+                        new_se_vals = action.sequence_id.read(['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range'])[0]
                         strs += f'''
     sequence_id = env['ir.sequence'].create({new_se_vals})
 '''
@@ -480,10 +447,7 @@ def post_init_hook(env):
 '''
             action_ids = self.env['ir.actions.server'].search([('model_id', '=', model.id), ('base_automation_id', '=', False)])
             for action in action_ids:
-                action_vals = action.read()[0]
-                new_action_vals = {}
-                for f in ['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type']:
-                    new_action_vals[f] = action_vals.get(f)
+                new_action_vals = action.read(['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type'])[0]
                 strs += '''
     action_group_ids = []
 '''
@@ -503,10 +467,7 @@ def post_init_hook(env):
     sequence_id = False
 '''
                 if action.sequence_id:
-                    se_vals = action.sequence_id.read()[0]
-                    new_se_vals = {}
-                    for f in ['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range']:
-                        new_se_vals[f] = se_vals.get(f)
+                    new_se_vals = action.sequence_id.read(['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range'])[0]
                     strs += f'''
     sequence_id = env['ir.sequence'].create({new_se_vals})
 '''
@@ -525,10 +486,7 @@ def post_init_hook(env):
 '''
             sche_ids = self.env['ir.cron'].search([('model_id', '=', model.id)])
             for sche in sche_ids:
-                sche_vals = sche.read()[0]
-                new_sche_vals = {}
-                for f in ['name', 'interval_number', 'interval_type', 'active', 'priority', 'code']:
-                    new_sche_vals[f] = sche_vals.get(f)
+                new_sche_vals = sche.read(['name', 'interval_number', 'interval_type', 'active', 'priority', 'code'])[0]
                 strs += '''
     sche_group_ids = []
 '''
@@ -577,5 +535,19 @@ def uninstall_hook(env):
 
     def remove_module(self):
         build = self.env['erp.build']
+        field_ids = self.env['ir.model.fields'].search([('model_id', 'in', self.model_ids.ids), ('state', '=', 'manual')])
+        fields = sorted(
+            field_ids,
+            key=lambda f: bool(f['related'] or f['depends'] or f['ttype'] == 'one2many' or f['ttype'] == 'many2many'),
+            reverse=True
+        )
+        for field in fields:
+            field.write({
+                "related": False,
+                "depends": False,
+                "compute": False,
+            })
+        for field in fields:
+            field.unlink()
         for model in self.model_ids:
             build.delete_model(model)
