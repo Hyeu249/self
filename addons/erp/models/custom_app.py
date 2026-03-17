@@ -339,6 +339,7 @@ def post_init_hook(env):
     def create_fields(self):
         strs = f'''
     #create fields for all models
+    update_fields = []
     fields = sorted(
         fields_payloads,
         key=lambda f: bool(f['related'] or f['depends'] or f['ttype'] == 'one2many' or f['ttype'] == 'many2many')
@@ -346,6 +347,9 @@ def post_init_hook(env):
     for field in fields:
         selection_vals = field.pop('selection_vals', False)
         groups_vals = field.pop('groups_vals', False)
+        related = field.pop('related', False)
+        depends = field.pop('depends', False)
+        compute = field.pop('compute', False)
 
         if field['relation']:
             t_model = env['ir.model'].search([('model', '=', field['relation'])], limit=1)
@@ -356,6 +360,13 @@ def post_init_hook(env):
                 field['selected_field_id'] = t_field.id if t_field else False
 
         field_id = env['ir.model.fields'].create(field)
+        if related or related or related:
+            update_fields.append({{
+                'id': field_id.id,
+                'related': related,
+                'depends': depends,
+                'compute': compute,
+            }})
         for selection in selection_vals:
             temp_vals = selection.copy()
             temp_vals['field_id'] = field_id.id
@@ -364,6 +375,13 @@ def post_init_hook(env):
                 temp_vals['selected_model_id'] = t_model.id if t_model else False
             env['ir.model.fields.selection'].create(temp_vals)
         field_id.groups = [(6, 0, groups_vals)]
+    for field in update_fields:
+        field_id = env['ir.model.fields'].browse(field['id'])
+        field_id.write({{
+            'related': field['related'],
+            'depends': field['depends'],
+            'compute': field['compute'],
+        }})
 '''
         return strs
 
