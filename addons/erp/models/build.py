@@ -159,11 +159,13 @@ class Build(models.TransientModel):
     def clean_up_model(self, model=False):
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
         sequences = self.env["ir.sequence"].search([('code', '=', model.model)])
+        filters = self.env["ir.filters"].search([('model_id', '=', model.model)])
         for action in actions:
             menus = self.env['ir.ui.menu'].search([('action', '=', f"ir.actions.act_window,{action.id}")])
             menus.unlink()
             action.unlink()
         sequences.unlink()
+        filters.unlink()
         model.view_ids.unlink()
         return model
 

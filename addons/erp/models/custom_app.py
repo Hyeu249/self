@@ -163,11 +163,31 @@ def post_init_hook(env):
         #model menus
 '''
         model = self.env['ir.model'].browse(model_id)
+        no_action_filters = self.env['ir.filters'].search([('model_id', '=', model.model), ('action_id', '=', False)])
+        for filter_ in no_action_filters:
+            filter_vals = filter_.read(['name', 'model_id', 'is_default', 'domain', 'context', 'sort'])[0]
+            strs += '''
+        filter_user_ids = []
+'''
+            for user in filter_.user_ids:
+                strs += f'''
+        user_id = env['res.users'].search([('name', '=', '{user.name}')], limit=1)
+        if not user_id:
+            raise ValidationError('User {user.name} not found, please create it first.')
+        else:
+            filter_user_ids.append(user_id.id)
+'''
+            strs += f'''
+        filter_vals = {filter_vals}
+        filter_vals['user_ids'] = [(6, 0, filter_user_ids)]
+        env['ir.filters'].create(filter_vals)
+'''
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
         for action in actions:
             new_action_vals = action.read(['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help'])[0]
             action_name = f"ir.actions.act_window,{action.id}"
             menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])
+            filters = self.env['ir.filters'].search([('action_id', '=', action.id)])
             strs += '''
         action_group_ids = []
 '''          
@@ -187,6 +207,25 @@ def post_init_hook(env):
         action_vals = {new_action_vals}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
+'''
+            for filter_ in filters:
+                filter_vals = filter_.read(['name', 'model_id', 'is_default', 'domain', 'context', 'sort'])[0]
+                strs += '''
+        filter_user_ids = []
+'''
+                for user in filter_.user_ids:
+                    strs += f'''
+        user_id = env['res.users'].search([('name', '=', '{user.name}')], limit=1)
+        if not user_id:
+            raise ValidationError('User {user.name} not found, please create it first.')
+        else:
+            filter_user_ids.append(user_id.id)
+'''
+                strs += f'''
+        filter_vals = {filter_vals}
+        filter_vals['action_id'] = action_id.id if action_id else False
+        filter_vals['user_ids'] = [(6, 0, filter_user_ids)]
+        env['ir.filters'].create(filter_vals)
 '''
             for menu in menus: 
                 new_menu_vals = menu.read(['name', 'sequence'])[0]
