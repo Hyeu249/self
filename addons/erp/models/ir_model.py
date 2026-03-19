@@ -4,6 +4,7 @@ import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
+import uuid
 
 class IrModel(models.Model):
     _inherit = "ir.model"
@@ -11,6 +12,11 @@ class IrModel(models.Model):
         if self.env.context.get('install_mode'):
             return []                   # no default field when importing
         return [Command.create({'name': 'x_name', 'field_description': 'Name', 'ttype': 'char', 'copied': True})]
+
+    model = fields.Char(
+        default=lambda self: f"x_{uuid.uuid4().hex}",
+        required=True
+    )
 
     field_id = fields.One2many(
         'ir.model.fields',

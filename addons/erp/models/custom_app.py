@@ -234,7 +234,7 @@ def post_init_hook(env):
         env['ir.filters'].create(filter_vals)
 '''
             for menu in menus: 
-                new_menu_vals = menu.read(['name', 'sequence'])[0]
+                new_menu_vals = menu.read(['name', 'sequence', 'is_custom'])[0]
                 new_menu_vals.pop('id', False)
                 strs += '''
         menu_group_ids = []
