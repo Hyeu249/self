@@ -98,6 +98,7 @@ class CustomApp(models.Model):
     def create_module_py_str(self):
         strs = f'''
 from odoo.exceptions import ValidationError
+from markupsafe import Markup
 
 def post_init_hook(env):
     custom_module_id = False
@@ -116,6 +117,7 @@ def post_init_hook(env):
         model = self.env['ir.model'].browse(model_id)
         for access in model.access_ids:
             new_vals = access.read(['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink'])[0]
+            new_vals.pop('id', False)
             strs += f'''
         access_vals = {new_vals}
         group_id = env['{access.group_id._name}'].search([('name', '=', '{access.group_id.name}')], limit=1)
@@ -135,6 +137,7 @@ def post_init_hook(env):
         model = self.env['ir.model'].browse(model_id)
         for rule in model.rule_ids:
             new_vals = rule.read(['name', 'domain_force', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink'])[0]
+            new_vals.pop('id', False)
             strs += '''
         rule_group_ids = []
 '''      
@@ -166,6 +169,7 @@ def post_init_hook(env):
         no_action_filters = self.env['ir.filters'].search([('model_id', '=', model.model), ('action_id', '=', False)])
         for filter_ in no_action_filters:
             filter_vals = filter_.read(['name', 'model_id', 'is_default', 'domain', 'context', 'sort'])[0]
+            filter_vals.pop('id', False)
             strs += '''
         filter_user_ids = []
 '''
@@ -185,6 +189,7 @@ def post_init_hook(env):
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
         for action in actions:
             new_action_vals = action.read(['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help'])[0]
+            new_action_vals.pop('id', False)
             action_name = f"ir.actions.act_window,{action.id}"
             menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])
             filters = self.env['ir.filters'].search([('action_id', '=', action.id)])
@@ -210,6 +215,7 @@ def post_init_hook(env):
 '''
             for filter_ in filters:
                 filter_vals = filter_.read(['name', 'model_id', 'is_default', 'domain', 'context', 'sort'])[0]
+                filter_vals.pop('id', False)
                 strs += '''
         filter_user_ids = []
 '''
@@ -229,6 +235,7 @@ def post_init_hook(env):
 '''
             for menu in menus: 
                 new_menu_vals = menu.read(['name', 'sequence'])[0]
+                new_menu_vals.pop('id', False)
                 strs += '''
         menu_group_ids = []
 '''
@@ -296,6 +303,7 @@ def post_init_hook(env):
         views = self.env["ir.ui.view"].search([('model', '=', model.model)])
         for view in views:
             new_vals = view.read(['name', 'model', 'arch_base', 'mode', 'priority', 'active', 'type'])[0]
+            new_vals.pop('id', False)
             strs += f'''
         view_group_ids = []
 '''
@@ -327,6 +335,7 @@ def post_init_hook(env):
 '''
         for model in self.model_ids:
             new_vals = model.read(['name', 'model', 'state', 'transient', 'is_filter_manual', 'is_mail_thread', 'is_mail_activity'])[0]
+            new_vals.pop('id', False)
             strs += f'''
         #model {model.name}
         model_vals = {new_vals}
@@ -345,6 +354,7 @@ def post_init_hook(env):
 '''
             for field in model.field_id:
                 new_vals = field.read(['name', 'field_description', 'ttype', 'help', 'sequence', 'relation', 'relation_field', 'relation_table', 'column1', 'column2', 'on_delete', 'domain', 'related', 'depends', 'compute', 'required', 'readonly', 'invisible', 'store', 'index', 'copied', 'tracking', 'approval_field'])[0]
+                new_vals.pop('id', False)
                 strs += f'''
         groups = []
         field_vals = {new_vals}
@@ -353,6 +363,7 @@ def post_init_hook(env):
 '''
                 for selection in field.selection_ids:
                     new_vals = selection.read(['sequence', 'value', 'name'])[0]
+                    new_vals.pop('id', False)
                     strs += f'''
         field_vals['selection_vals'].append({new_vals})
 '''
@@ -442,6 +453,7 @@ def post_init_hook(env):
 '''
             for auto in autos:
                 new_vals = auto.read(['name', 'trigger', 'filter_pre_domain', 'previous_domain', 'filter_domain', 'description'])[0]
+                new_vals.pop('id', False)
                 strs += f'''
     trigger_field_ids = []
     on_change_field_ids = []
@@ -465,6 +477,7 @@ def post_init_hook(env):
 '''
                 for action in auto.action_server_ids:
                     new_action_vals = action.read(['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type'])[0]
+                    new_action_vals.pop('id', False)
                     strs += '''
     action_group_ids = []
 '''
@@ -485,6 +498,7 @@ def post_init_hook(env):
 '''
                     if action.sequence_id:
                         new_se_vals = action.sequence_id.read(['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range'])[0]
+                        new_se_vals.pop('id', False)
                         strs += f'''
     sequence_id = env['ir.sequence'].create({new_se_vals})
 '''
@@ -505,6 +519,7 @@ def post_init_hook(env):
             action_ids = self.env['ir.actions.server'].search([('model_id', '=', model.id), ('base_automation_id', '=', False)])
             for action in action_ids:
                 new_action_vals = action.read(['name', 'sequence', 'state', 'code', 'evaluation_type', 'update_path', 'value', 'binding_type'])[0]
+                new_action_vals.pop('id', False)
                 strs += '''
     action_group_ids = []
 '''
@@ -525,6 +540,7 @@ def post_init_hook(env):
 '''
                 if action.sequence_id:
                     new_se_vals = action.sequence_id.read(['name', 'implementation', 'code', 'active', 'prefix', 'suffix', 'padding', 'number_increment', 'use_date_range'])[0]
+                    new_se_vals.pop('id', False)
                     strs += f'''
     sequence_id = env['ir.sequence'].create({new_se_vals})
 '''
@@ -544,6 +560,7 @@ def post_init_hook(env):
             sche_ids = self.env['ir.cron'].search([('model_id', '=', model.id)])
             for sche in sche_ids:
                 new_sche_vals = sche.read(['name', 'interval_number', 'interval_type', 'active', 'priority', 'code'])[0]
+                new_sche_vals.pop('id', False)
                 strs += '''
     sche_group_ids = []
 '''

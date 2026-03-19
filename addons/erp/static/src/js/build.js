@@ -11,7 +11,7 @@ export class Build extends Component {
     this.state = useState({ isErpAdmin: false });
 
     onWillStart(async () => {
-      this.state.isErpAdmin = await user.hasGroup("erp.group_erp_admin");
+      this.state.isErpAdmin = await user.hasGroup("base.group_system");
     });
   }
   async onClickBuild() {
