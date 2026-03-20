@@ -4,7 +4,6 @@ import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
-import uuid
 
 class IrModel(models.Model):
     _inherit = "ir.model"

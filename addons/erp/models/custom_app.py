@@ -5,6 +5,7 @@ from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
 import unicodedata
+import uuid
 
 def dash_text(text):
     text = unicodedata.normalize('NFD', text)
@@ -23,6 +24,14 @@ class CustomApp(models.Model):
 
     name = fields.Char(string='Name')
     description = fields.Text(string='Description')
+
+    uuid = fields.Char(
+        string="uuid",
+        default=lambda self: f"uuid_{uuid.uuid4().hex}",
+        readonly=True,
+        required=True,
+        copy=False,
+    )
 
     model_ids = fields.One2many(
         'ir.model',
@@ -96,6 +105,8 @@ class CustomApp(models.Model):
         return new_folder
 
     def create_module_py_str(self):
+        module_vals = self.read(['name', 'description', 'uuid'])[0]
+        module_vals.pop('id', False)
         strs = f'''
 from odoo.exceptions import ValidationError
 from markupsafe import Markup
@@ -103,10 +114,8 @@ from markupsafe import Markup
 def post_init_hook(env):
     custom_module_id = False
     if 'erp.custom.app' in env:
-        custom_module_id = env['{self._name}'].create({{
-            "name": "{self.name}",
-            "description": "{self.description}",
-        }})
+        module_vals = {module_vals}
+        custom_module_id = env['{self._name}'].create(module_vals)
 '''
         return strs
 
@@ -681,7 +690,7 @@ def post_init_hook(env):
     {self.create_automations()}
 
 def uninstall_hook(env):
-    rec = env['{self._name}'].search([('name', '=', '{self.name}')], limit=1)
+    rec = env['{self._name}'].search([('uuid', '=', '{self.uuid}')], limit=1)
 
     if rec:
         rec.unlink()
