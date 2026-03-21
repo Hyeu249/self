@@ -75,6 +75,7 @@ class BackupOperation(models.Model):
             "path": file_path, 
             "backup_operation_id": self.id
         })
+        self.status = 'running'
         return file_path
 
     def cleanup_old_backups(self):
@@ -85,3 +86,10 @@ class BackupOperation(models.Model):
 
         to_delete = details[self.retention:]
         to_delete.unlink()
+        self.status = 'running'
+    
+    def confirm_status(self):
+        self.status = 'confirm'
+
+    def cancel_status(self):
+        self.status = 'cancel'

@@ -23,11 +23,24 @@
                 <button name="backup_db"
                         type="object"
                         string="Backup Now"
+                        invisible="status != 'confirm' and status != 'running'"
                         class="btn-primary"/>
                 <button name="cleanup_old_backups"
                         type="object"
                         string="Cleanup"
+                        invisible="1"
                         class="btn-primary"/>
+
+                <button name="confirm_status"
+                        type="object"
+                        string="Confirm"
+                        invisible="status != 'draft'"
+                        class="btn-primary"/>
+                <button name="cancel_status"
+                        type="object"
+                        string="Cancel"
+                        invisible="status != 'confirm'"
+                        class="btn-secondary"/>
             </header>
 
             <sheet>
@@ -35,14 +48,14 @@
                     <group>
                         <label for="interval_number" string="Execute Every"/>
                         <div>
-                            <field name="interval_number" class="oe_inline"/>
-                            <field name="interval_type" class="oe_inline"/>
+                            <field name="interval_number" class="oe_inline" readonly="status != 'draft'"/>
+                            <field name="interval_type" class="oe_inline" readonly="status != 'draft'"/>
                         </div>
-                        <field name="nextcall"/>
+                        <field name="nextcall" readonly="status != 'draft'"/>
                     </group>
 
                     <group>
-                        <field name="retention"/>
+                        <field name="retention" readonly="status != 'draft'"/>
                         <div class="text-muted mb-3" name="retention_note" colspan="4">
                             <strong>Note:</strong> 
                             <ul>
