@@ -55,6 +55,12 @@ class BackupOperation(models.Model):
 
     ref = fields.Char(string="Code", default=lambda self: _("New"))
 
+    @api.constrains('interval_number', 'interval_type')
+    def _check_interval_type_in_minutes(self):
+        for rec in self:
+            if rec.interval_type == "minutes" and rec.interval_number < 15:
+                raise ValidationError(f"Backup theo 'phút' phải lớn hơn 15(phút).")
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
