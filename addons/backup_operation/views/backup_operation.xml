@@ -1,0 +1,97 @@
+<odoo>
+    <record id="view_backup_operation_list" model="ir.ui.view">
+        <field name="name">backup.operation.list</field>
+        <field name="model">backup.operation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="nextcall"/>
+                <field name="status"/>
+                <field name="interval_number"/>
+                <field name="interval_type"/>
+                <field name="retention"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_backup_operation_form" model="ir.ui.view">
+        <field name="name">backup.operation.form</field>
+        <field name="model">backup.operation</field>
+        <field name="arch" type="xml">
+            <form>
+            <header>
+                <field name="status" widget="statusbar" options="{'clickable': 1}"/>
+                <button name="backup_db"
+                        type="object"
+                        string="Backup Now"
+                        class="btn-primary"/>
+            </header>
+
+            <sheet>
+                <group>
+                    <group>
+                        <label for="interval_number" string="Execute Every"/>
+                        <div>
+                            <field name="interval_number" class="oe_inline"/>
+                            <field name="interval_type" class="oe_inline"/>
+                        </div>
+                        <field name="nextcall"/>
+                        <field name="retention"/>
+                    </group>
+
+                    <group>
+                        <field name="retention"/>
+                        <div class="text-muted mb-3" name="retention_note" colspan="4">
+                            <strong>Note:</strong> 
+                            <ul>
+                                <li>After enabling Drop Database backup you need to set backup retention count.</li>
+                                <li>The Backup Retention Count is the number of backups you wish to keep.</li>
+                            </ul>
+                        </div>
+                    </group>
+                </group>
+
+                <notebook>
+                    <page string="Attachments">
+                        <field name="attachment_ids">
+                        </field>
+                    </page>
+                </notebook>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_backup_operation_search" model="ir.ui.view">
+        <field name="name">backup.operation.search</field>
+        <field name="model">backup.operation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="nextcall"/>
+                <field name="status"/>
+                <field name="interval_number"/>
+                <field name="interval_type"/>
+                <field name="retention"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_backup_operation" model="ir.actions.act_window">
+        <field name="name">Backup operation</field>
+        <field name="res_model">backup.operation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_backup_operation"
+              name="Backup operation"
+              action="action_backup_operation"
+              sequence="1"/>
+
+    <record id="sequence_backup_operation" model="ir.sequence">
+        <field name="name">Backup operation</field>
+        <field name="code">backup.operation</field>
+        <field name="prefix">PROCESS-</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

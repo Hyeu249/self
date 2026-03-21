@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+backup_operation.access_backup_operation_for_base,access_backup_operation_for_base,backup_operation.model_backup_operation,base.group_system,1,1,1,1
