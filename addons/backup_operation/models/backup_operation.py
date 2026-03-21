@@ -26,7 +26,6 @@ class BackupOperation(models.Model):
     _description = "Backup Operation"
 
     retention = fields.Integer("Backup retention count", required=True, default=7)
-    nextcall = fields.Datetime("Backup starting time", required=True, default=fields.Datetime.now)
     interval_number = fields.Integer("Interval Number", required=True)
     interval_type = fields.Selection([
         ('minutes', 'Minutes'),
@@ -75,7 +74,8 @@ class BackupOperation(models.Model):
             "path": file_path, 
             "backup_operation_id": self.id
         })
-        self.status = 'running'
+        if self.status != "running":
+            self.status = 'running'
         return file_path
 
     def cleanup_old_backups(self):
@@ -85,11 +85,22 @@ class BackupOperation(models.Model):
         )
 
         to_delete = details[self.retention:]
-        to_delete.unlink()
-        self.status = 'running'
+        if to_delete:
+            to_delete.unlink()
+        
+        if self.status != "running":
+            self.status = 'running'
     
     def confirm_status(self):
         self.status = 'confirm'
 
     def cancel_status(self):
         self.status = 'cancel'
+
+    def cron_backup(self):
+        for record in self.search([("status", "in", ["confirm", "running"])]):
+            record.backup_db()
+
+    def cron_cleanup_backups(self):
+        for record in self.search([("status", "in", ["confirm", "running"])]):
+            record.cleanup_old_backups()

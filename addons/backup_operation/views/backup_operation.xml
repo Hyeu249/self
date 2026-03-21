@@ -4,7 +4,6 @@
         <field name="model">backup.operation</field>
         <field name="arch" type="xml">
             <list>
-                <field name="nextcall"/>
                 <field name="status"/>
                 <field name="interval_number"/>
                 <field name="interval_type"/>
@@ -51,7 +50,6 @@
                             <field name="interval_number" class="oe_inline" readonly="status != 'draft'"/>
                             <field name="interval_type" class="oe_inline" readonly="status != 'draft'"/>
                         </div>
-                        <field name="nextcall" readonly="status != 'draft'"/>
                     </group>
 
                     <group>
@@ -86,7 +84,6 @@
         <field name="model">backup.operation</field>
         <field name="arch" type="xml">
             <search>
-                <field name="nextcall"/>
                 <field name="status"/>
                 <field name="interval_number"/>
                 <field name="interval_type"/>
@@ -112,6 +109,26 @@
         <field name="prefix">PROCESS-</field>
         <field name="padding">4</field>
         <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="ir_cron_backup_db" model="ir.cron">
+        <field name="name">Backup operation: Backup DB</field>
+        <field name="model_id" ref="model_backup_operation"/>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.cron_backup()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+    </record>
+
+    <record id="ir_cron_cleanup_backups" model="ir.cron">
+        <field name="name">Backup operation: Cleanup old backups</field>
+        <field name="model_id" ref="model_backup_operation"/>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.cron_cleanup_backups()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
     </record>
 
 </odoo>
