@@ -2,6 +2,7 @@ services:
   web:
     image: odoo:19.0
     container_name: odoo_web
+    restart: unless-stopped
     depends_on:
       - db
     expose:
@@ -19,6 +20,7 @@ services:
   db:
     image: postgres:15
     container_name: odoo_db
+    restart: unless-stopped
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=odoo
@@ -31,6 +33,7 @@ services:
   nginx:
     image: nginx:alpine
     container_name: odoo_nginx
+    restart: unless-stopped
     depends_on:
       - web
     ports:
@@ -41,6 +44,7 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     container_name: pg_admin
+    restart: unless-stopped
     profiles:
       - pgadmin
     environment:
