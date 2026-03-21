@@ -39,7 +39,7 @@
                 <button name="cancel_status"
                         type="object"
                         string="Cancel"
-                        invisible="status != 'confirm'"
+                        invisible="status != 'confirm' and status != 'running'"
                         class="btn-secondary"/>
             </header>
 
