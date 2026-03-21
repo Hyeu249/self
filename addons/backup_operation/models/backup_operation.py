@@ -25,6 +25,7 @@ class BackupOperation(models.Model):
     _name = "backup.operation"
     _description = "Backup Operation"
 
+    nextcall = fields.Datetime("Backup starting time", required=True, default=fields.Datetime.now)
     retention = fields.Integer("Backup retention count", required=True, default=7)
     interval_number = fields.Integer("Interval Number", required=True)
     interval_type = fields.Selection([
@@ -98,8 +99,37 @@ class BackupOperation(models.Model):
         self.status = 'cancel'
 
     def cron_backup(self):
+        from datetime import timedelta
+        from dateutil.relativedelta import relativedelta
+        import logging
+
+        _logger = logging.getLogger(__name__)
+
+        now = fields.Datetime.now()
+
         for record in self.search([("status", "in", ["confirm", "running"])]):
-            record.backup_db()
+            try:
+                if record.interval_type == 'minutes':
+                    delta = timedelta(minutes=record.interval_number)
+                elif record.interval_type == 'hours':
+                    delta = timedelta(hours=record.interval_number)
+                elif record.interval_type == 'days':
+                    delta = timedelta(days=record.interval_number)
+                elif record.interval_type == 'weeks':
+                    delta = timedelta(weeks=record.interval_number)
+                elif record.interval_type == 'months':
+                    delta = relativedelta(months=record.interval_number)
+                else:
+                    continue
+
+                next_run = record.nextcall + delta
+
+                if now >= next_run:
+                    record.backup_db()
+                    record.nextcall = now
+
+            except Exception as e:
+                _logger.error(f"Cron backup failed for ID {record.id}: {str(e)}")
 
     def cron_cleanup_backups(self):
         for record in self.search([("status", "in", ["confirm", "running"])]):

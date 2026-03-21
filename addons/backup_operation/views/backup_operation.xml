@@ -4,6 +4,7 @@
         <field name="model">backup.operation</field>
         <field name="arch" type="xml">
             <list>
+                <field name="nextcall"/>
                 <field name="status"/>
                 <field name="interval_number"/>
                 <field name="interval_type"/>
@@ -50,6 +51,7 @@
                             <field name="interval_number" class="oe_inline" readonly="status != 'draft'"/>
                             <field name="interval_type" class="oe_inline" readonly="status != 'draft'"/>
                         </div>
+                        <field name="nextcall" readonly="status != 'draft'"/>
                     </group>
 
                     <group>
@@ -84,6 +86,7 @@
         <field name="model">backup.operation</field>
         <field name="arch" type="xml">
             <search>
+                <field name="nextcall"/>
                 <field name="status"/>
                 <field name="interval_number"/>
                 <field name="interval_type"/>
