@@ -26,7 +26,7 @@ class BackupOperation(models.Model):
     _description = "Backup Operation"
 
     retention = fields.Integer("Backup retention count", required=True, default=7)
-    nextcall = fields.Datetime("Backup starting time", default=fields.Datetime.now)
+    nextcall = fields.Datetime("Backup starting time", required=True, default=fields.Datetime.now)
     interval_number = fields.Integer("Interval Number", required=True)
     interval_type = fields.Selection([
         ('minutes', 'Minutes'),
