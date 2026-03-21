@@ -51,8 +51,12 @@
                 </group>
 
                 <notebook>
-                    <page string="Attachments">
-                        <field name="attachment_ids">
+                    <page string="Backup details">
+                        <field name="detail_ids">
+                            <list editable="bottom">
+                                <field name="create_date" string="Backup time"/>
+                                <field name="path"/>
+                            </list>
                         </field>
                     </page>
                 </notebook>

@@ -1,9 +1,14 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class IrAttachment(models.Model):
-    _inherit = "ir.attachment"
+class BackupDetail(models.Model):
+    _name = "backup.detail"
 
+    path = fields.Char(
+        string="Path",
+        required=True,
+        readonly=True
+    )
     backup_operation_id = fields.Many2one('backup.operation')
 
 class BackupOperation(models.Model):
@@ -32,14 +37,14 @@ class BackupOperation(models.Model):
         string="Status", 
         default='draft'
     )
-    attachment_ids = fields.One2many(
-        'ir.attachment', 
+    detail_ids = fields.One2many(
+        'backup.detail', 
         'backup_operation_id',
         string="Backup File",
     )
 
-    @api.model
-    def backup_db(self, data=False):
+    def backup_db(self):
+        self.ensure_one()
         from odoo.service.db import dump_db
         import os
         from datetime import datetime, timezone
@@ -56,4 +61,9 @@ class BackupOperation(models.Model):
         file_path = os.path.join(backup_path, f"{dbname}_{now_local.strftime('%d-%m-%Y_%H-%M-%S')}.{backup_format}")
         with open(file_path, "wb") as f:
             dump_db(dbname, f, backup_format, filestore)
+        
+        self.detail_ids.create({
+            "path": file_path, 
+            "backup_operation_id": self.id
+        })
         return file_path
