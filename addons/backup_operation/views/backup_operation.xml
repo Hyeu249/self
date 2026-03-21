@@ -24,6 +24,10 @@
                         type="object"
                         string="Backup Now"
                         class="btn-primary"/>
+                <button name="cleanup_old_backups"
+                        type="object"
+                        string="Cleanup"
+                        class="btn-primary"/>
             </header>
 
             <sheet>
@@ -35,7 +39,6 @@
                             <field name="interval_type" class="oe_inline"/>
                         </div>
                         <field name="nextcall"/>
-                        <field name="retention"/>
                     </group>
 
                     <group>

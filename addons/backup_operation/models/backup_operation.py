@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+import os
 
 class BackupDetail(models.Model):
     _name = "backup.detail"
@@ -10,6 +11,15 @@ class BackupDetail(models.Model):
         readonly=True
     )
     backup_operation_id = fields.Many2one('backup.operation')
+
+    def unlink(self):
+        for record in self:
+            if record.path and os.path.exists(record.path):
+                try:
+                    os.remove(record.path)
+                except Exception as e:
+                    raise ValidationError(f"Cannot delete file {record.path}")
+        return super(BackupDetail, self).unlink()
 
 class BackupOperation(models.Model):
     _name = "backup.operation"
@@ -46,7 +56,6 @@ class BackupOperation(models.Model):
     def backup_db(self):
         self.ensure_one()
         from odoo.service.db import dump_db
-        import os
         from datetime import datetime, timezone
         import pytz
 
@@ -67,3 +76,12 @@ class BackupOperation(models.Model):
             "backup_operation_id": self.id
         })
         return file_path
+
+    def cleanup_old_backups(self):
+        details = self.detail_ids.sorted(
+            key=lambda r: r.create_date,
+            reverse=True
+        )
+
+        to_delete = details[self.retention:]
+        to_delete.unlink()
