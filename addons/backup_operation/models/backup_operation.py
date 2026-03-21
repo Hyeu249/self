@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 import os
 
@@ -52,6 +52,14 @@ class BackupOperation(models.Model):
         'backup_operation_id',
         string="Backup File",
     )
+
+    ref = fields.Char(string="Code", default=lambda self: _("New"))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals["ref"] = self.env["ir.sequence"].next_by_code("backup.operation")
+        return super(BackupOperation, self).create(vals_list)
 
     def backup_db(self):
         self.ensure_one()
