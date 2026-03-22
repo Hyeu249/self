@@ -35,7 +35,7 @@ class BackupOperation(models.Model):
         ('weeks', 'Weeks'),
         ('months', 'Months')],
         required=True,
-        string="Interval Unit", 
+        string="Interval Type", 
         default='days'
     )
     status = fields.Selection([
@@ -50,7 +50,7 @@ class BackupOperation(models.Model):
     detail_ids = fields.One2many(
         'backup.detail', 
         'backup_operation_id',
-        string="Backup File",
+        string="Backup details",
     )
 
     ref = fields.Char(string="Code", default=lambda self: _("New"))
