@@ -194,7 +194,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__action_type
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__stage
 msgid "Action"
-msgstr ""
+msgstr "Hành động"
 
 #. module: nosheet
 #: model:ir.model,name:nosheet.model_ir_actions_act_window
@@ -490,7 +490,7 @@ msgstr ""
 #. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__mode
 msgid "Mode"
-msgstr ""
+msgstr "Chế độ"
 
 #. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_ir_model__model
@@ -519,7 +519,7 @@ msgstr "Mô hình"
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__name
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 msgid "Name"
-msgstr ""
+msgstr "Tên"
 
 #. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_ir_actions_act_window__name_id

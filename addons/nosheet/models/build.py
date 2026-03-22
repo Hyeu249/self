@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 import uuid
 from odoo.fields import Command, Domain
@@ -7,10 +7,10 @@ import os
 import shutil
 
 title = {
-    '1': 'Pick Options',
-    '2': 'Please create your model name',
-    '3': 'Please set your module',
-    '4': 'Please pick your model',
+    '1': _('Pick Options'),
+    '2': _('Please create your model name'),
+    '3': _('Please set your module'),
+    '4': _('Please pick your model'),
 }
 previous_stage = {
     '2': '1',
