@@ -5,9 +5,9 @@ from markupsafe import Markup
 
 def post_init_hook(env):
     custom_module_id = False
-    if 'erp.custom.app' in env:
+    if 'nosheet.custom.app' in env:
         module_vals = {'name': 'Phần mềm kế toán', 'description': 'Phần mềm kế toán', 'uuid': 'uuid_ffa9efc5c0074f499c2e5e84dba64dd4'}
-        custom_module_id = env['erp.custom.app'].create(module_vals)
+        custom_module_id = env['nosheet.custom.app'].create(module_vals)
 
     
     fields_payloads = []
@@ -3968,7 +3968,7 @@ def post_init_hook(env):
 
 
 def uninstall_hook(env):
-    rec = env['erp.custom.app'].search([('uuid', '=', 'uuid_ffa9efc5c0074f499c2e5e84dba64dd4')], limit=1)
+    rec = env['nosheet.custom.app'].search([('uuid', '=', 'uuid_ffa9efc5c0074f499c2e5e84dba64dd4')], limit=1)
 
     if rec:
         rec.unlink()

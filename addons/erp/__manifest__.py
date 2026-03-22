@@ -18,7 +18,7 @@
     "application": True,
     "assets": {
         "web.assets_backend": [
-            "erp/static/src/**",
+            "nosheet/static/src/**",
         ],
     },
 }

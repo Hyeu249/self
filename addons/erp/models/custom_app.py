@@ -14,7 +14,7 @@ def dash_text(text):
     return text.lower().strip()
 
 class CustomApp(models.Model):
-    _name = 'erp.custom.app'
+    _name = 'nosheet.custom.app'
     _description = 'Custom App'
 
     _unique_name = models.Constraint(
@@ -78,8 +78,8 @@ class CustomApp(models.Model):
         current_file = os.path.abspath(__file__)
 
         models_dir = os.path.dirname(current_file)
-        erp_dir = os.path.dirname(models_dir)
-        addons_dir = os.path.dirname(erp_dir)
+        nosheet_dir = os.path.dirname(models_dir)
+        addons_dir = os.path.dirname(nosheet_dir)
         new_folder = os.path.join(addons_dir, dash_text(self.name))
         return new_folder
 
@@ -91,7 +91,7 @@ class CustomApp(models.Model):
     "version": "1.0",
     "author": "{self.env.user.name}",
     "summary": "{self.description}",
-    "depends": ["mail", "base_automation", "erp"],
+    "depends": ["mail", "base_automation", "nosheet"],
     "application": True,
     "post_init_hook": "post_init_hook",
     "uninstall_hook": "uninstall_hook",
@@ -113,7 +113,7 @@ from markupsafe import Markup
 
 def post_init_hook(env):
     custom_module_id = False
-    if 'erp.custom.app' in env:
+    if 'nosheet.custom.app' in env:
         module_vals = {module_vals}
         custom_module_id = env['{self._name}'].create(module_vals)
 '''

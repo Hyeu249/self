@@ -1,6 +1,6 @@
 <odoo>
-    <record id="view_erp_ir_actions_server_form" model="ir.ui.view">
-        <field name="name">erp.ir.actions.server.form</field>
+    <record id="view_nosheet_ir_actions_server_form" model="ir.ui.view">
+        <field name="name">nosheet.ir.actions.server.form</field>
         <field name="model">ir.actions.server</field>
         <field name="arch" type="xml">
         <form string="Server Action">

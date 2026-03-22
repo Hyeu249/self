@@ -1,7 +1,7 @@
 <odoo>
-    <record id="view_erp_build_form" model="ir.ui.view">
-        <field name="name">erp.build.form</field>
-        <field name="model">erp.build</field>
+    <record id="view_nosheet_build_form" model="ir.ui.view">
+        <field name="name">nosheet.build.form</field>
+        <field name="model">nosheet.build</field>
         <field name="arch" type="xml">
             <form string="Build">
             <sheet>
@@ -74,15 +74,15 @@
         </field>
     </record>
 
-    <record id="action_erp_build" model="ir.actions.act_window">
+    <record id="action_nosheet_build" model="ir.actions.act_window">
         <field name="name">Build</field>
-        <field name="res_model">erp.build</field>
+        <field name="res_model">nosheet.build</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
 
-    <record id="view_erp_ir_model_form" model="ir.ui.view">
-        <field name="name">erp.ir.model.form</field>
+    <record id="view_nosheet_ir_model_form" model="ir.ui.view">
+        <field name="name">nosheet.ir.model.form</field>
         <field name="model">ir.model</field>
         <field name="arch" type="xml">
             <form string="Model Description" duplicate="0">
@@ -314,7 +314,7 @@
         </field>
     </record>
 
-    <record id="erp_action_update_view" model="ir.actions.server">
+    <record id="nosheet_action_update_view" model="ir.actions.server">
         <field name="name">Update View</field>
         <field name="model_id" ref="base.model_ir_ui_view"/>
         <field name="binding_model_id" ref="base.model_ir_ui_view" />
@@ -325,7 +325,7 @@
         </field>
     </record>
 
-    <record id="erp_ir_fields_action_update_view" model="ir.actions.server">
+    <record id="nosheet_ir_fields_action_update_view" model="ir.actions.server">
         <field name="name">Update View</field>
         <field name="model_id" ref="base.model_ir_model_fields"/>
         <field name="binding_model_id" ref="base.model_ir_model_fields" />

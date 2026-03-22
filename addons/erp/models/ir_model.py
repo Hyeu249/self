@@ -28,7 +28,7 @@ class IrModel(models.Model):
         string="Is Filter Manual",
     )
     from_app_id = fields.Many2one(
-        'erp.custom.app',
+        'nosheet.custom.app',
         string='From App',
     )
 
@@ -61,7 +61,7 @@ class IrModel(models.Model):
     )
 
     def unlink(self):
-        build = self.env['erp.build']
+        build = self.env['nosheet.build']
         for record in self:
             build.clean_up_model(record)
 

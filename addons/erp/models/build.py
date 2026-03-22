@@ -72,7 +72,7 @@ class IrModelFields(models.Model):
                 record.name = ""
 
 class Build(models.TransientModel):
-    _name = 'erp.build'
+    _name = 'nosheet.build'
     _description = 'Build'
 
     action_type = fields.Selection(
@@ -117,7 +117,7 @@ class Build(models.TransientModel):
         domain=[('state', '=', "manual")],
     )
     custom_app_id = fields.Many2one(
-        "erp.custom.app",
+        "nosheet.custom.app",
         string="Custom App",
     )
 
@@ -125,7 +125,7 @@ class Build(models.TransientModel):
         return {
             'type': 'ir.actions.act_window',
             'name': title.get(self.stage),
-            'res_model': 'erp.build',
+            'res_model': 'nosheet.build',
             'view_mode': 'form',
             'target': 'new',
 
@@ -182,7 +182,7 @@ class Build(models.TransientModel):
             "name": "IR Model",
             "res_model": "ir.model",
             "view_mode": "form",
-            "view_id": self.env.ref("erp.view_erp_ir_model_form").id,
+            "view_id": self.env.ref("nosheet.view_nosheet_ir_model_form").id,
             "res_id": self.model_id.id,
             "target": "current",
         }

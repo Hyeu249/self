@@ -1,6 +1,6 @@
 <odoo>
-    <record id="view_erp_res_groups_form" model="ir.ui.view">
-        <field name="name">erp.res.groups.form</field>
+    <record id="view_nosheet_res_groups_form" model="ir.ui.view">
+        <field name="name">nosheet.res.groups.form</field>
         <field name="model">res.groups</field>
         <field name="arch" type="xml">
         <form string="Groups">
@@ -69,8 +69,8 @@
         </field>
     </record>
 
-    <record id="view_erp_res_groups_privilege_form" model="ir.ui.view">
-        <field name="name">erp.res.groups.privilege.form</field>
+    <record id="view_nosheet_res_groups_privilege_form" model="ir.ui.view">
+        <field name="name">nosheet.res.groups.privilege.form</field>
         <field name="model">res.groups.privilege</field>
         <field name="arch" type="xml">
         <form>

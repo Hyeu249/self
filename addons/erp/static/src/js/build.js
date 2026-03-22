@@ -15,7 +15,7 @@ export class Build extends Component {
     });
   }
   async onClickBuild() {
-    await this.env.services.action.doAction("erp.action_erp_build");
+    await this.env.services.action.doAction("nosheet.action_nosheet_build");
   }
 
   async onClickBug() {
