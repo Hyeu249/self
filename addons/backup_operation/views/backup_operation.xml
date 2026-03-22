@@ -109,7 +109,7 @@
     <menuitem id="menu_backup_operation"
               name="Backup operation"
               action="action_backup_operation"
-              sequence="1"/>
+              sequence="999"/>
 
     <record id="sequence_backup_operation" model="ir.sequence">
         <field name="name">Backup operation</field>
