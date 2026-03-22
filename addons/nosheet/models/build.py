@@ -251,7 +251,7 @@ class Build(models.TransientModel):
                 "name": model_name + ".list",
                 "model": model_name,
                 "arch_base": """
-                    <list>
+                    <list editable='bottom'>
                         <field name="x_name"/>
                     </list>
                 """,

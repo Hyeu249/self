@@ -8,6 +8,8 @@ import os
 class IrUiView(models.Model):
     _inherit = "ir.ui.view"
 
+    is_editable = fields.Boolean(string="Is Editable", default=True)
+
     def update_view(self):
         if self.type == 'list':
             return self.update_list_view()
@@ -24,7 +26,11 @@ class IrUiView(models.Model):
     def update_list_view(self):
         normal_field_ids, one2many_fields = self.get_custom_fields()
 
-        root = ET.Element("list")
+        atts = {}
+        if self.is_editable:
+            atts["editable"] = "bottom"
+
+        root = ET.Element("list", atts)
 
         for field in normal_field_ids:
             ET.SubElement(root, "field", {

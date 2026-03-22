@@ -11,6 +11,7 @@
         "views/app.xml",
         "views/act_window.xml",
         "views/ir_ui_menu.xml",
+        "views/ir_ui_view.xml",
         "views/ir_actions_server.xml",
         "views/res_groups.xml",
         # "views/header.xml",
