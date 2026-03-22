@@ -8,10 +8,10 @@ import { user } from "@web/core/user";
 export class Build extends Component {
   setup() {
     this.isDebug = Boolean(odoo.debug);
-    this.state = useState({ isErpAdmin: false });
+    this.state = useState({ isNoSheetAdmin: false });
 
     onWillStart(async () => {
-      this.state.isErpAdmin = await user.hasGroup("base.group_system");
+      this.state.isNoSheetAdmin = await user.hasGroup("base.group_system");
     });
   }
   async onClickBuild() {
@@ -25,7 +25,7 @@ export class Build extends Component {
 }
 
 Build.template = xml`
-<div class="d-flex flex-row" t-if="state.isErpAdmin">
+<div class="d-flex flex-row" t-if="state.isNoSheetAdmin">
     <button class="btn text-white d-flex align-items-center gap-1"
         t-on-click="onClickBuild"
         t-if="isDebug"

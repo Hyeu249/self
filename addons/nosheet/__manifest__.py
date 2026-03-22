@@ -1,8 +1,8 @@
 {
-    "name": "ERP",
+    "name": "NoSheet",
     "version": "1.0",
     "author": "Hieu",
-    "summary": "ERP",
+    "summary": "NoSheet",
     "depends": ["mail", "base_automation"],
     "data": [
         "security/role.xml",
