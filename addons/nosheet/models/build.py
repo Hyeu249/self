@@ -7,10 +7,10 @@ import os
 import shutil
 
 title = {
-    '1': _('Pick Options'),
-    '2': _('Please write your model name'),
-    '3': _('Please create your module'),
-    '4': _('Please pick your model'),
+    '1': _('Chọn hành động'),
+    '2': _('Điền tên mô hình'),
+    '3': _('Tạo hoặc chọn module'),
+    '4': _('Chọn mô hình'),
 }
 previous_stage = {
     '2': '1',

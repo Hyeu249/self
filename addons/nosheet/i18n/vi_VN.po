@@ -568,26 +568,26 @@ msgstr ""
 #. module: nosheet
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
-msgid "Pick Options"
-msgstr "Chọn hành động"
+msgid "Chọn hành động"
+msgstr "Pick Options"
 
 #. module: nosheet
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
-msgid "Please write your model name"
-msgstr "Điền tên mô hình"
+msgid "Điền tên mô hình"
+msgstr "Please write your model name"
 
 #. module: nosheet
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
-msgid "Please pick your model"
-msgstr "Chọn mô hình"
+msgid "Chọn mô hình"
+msgstr "Please pick your model"
 
 #. module: nosheet
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
-msgid "Please create your module"
-msgstr "Tạo hoặc chọn module"
+msgid "Tạo hoặc chọn module"
+msgstr "Please create your module"
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
