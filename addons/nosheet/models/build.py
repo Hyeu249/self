@@ -8,8 +8,8 @@ import shutil
 
 title = {
     '1': _('Pick Options'),
-    '2': _('Please create your model name'),
-    '3': _('Please set your module'),
+    '2': _('Please write your model name'),
+    '3': _('Please create your module'),
     '4': _('Please pick your model'),
 }
 previous_stage = {

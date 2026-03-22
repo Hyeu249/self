@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260118\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 02:06+0000\n"
-"PO-Revision-Date: 2026-03-22 02:06+0000\n"
+"POT-Creation-Date: 2026-03-22 02:36+0000\n"
+"PO-Revision-Date: 2026-03-22 02:36+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -564,6 +564,30 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_window_action_form
 msgid "Path"
 msgstr ""
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Pick Options"
+msgstr "Chọn hành động"
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Please write your model name"
+msgstr "Điền tên mô hình"
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Please pick your model"
+msgstr "Chọn mô hình"
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Please create your module"
+msgstr "Tạo hoặc chọn module"
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
