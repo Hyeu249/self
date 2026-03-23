@@ -296,8 +296,8 @@ msgstr "Apps riêng"
 #. module: nosheet
 #: model:ir.actions.act_window,name:nosheet.action_custom_app
 #: model:ir.ui.menu,name:nosheet.menu_custom_app
-msgid "Custom Apps"
-msgstr "App riêng"
+msgid "Studio"
+msgstr ""
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
