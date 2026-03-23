@@ -150,18 +150,22 @@
                     <group>
                         <group>
                             <field name="name"/>
-                            <field name="model" readonly="id"/>
                             <field name="transient"/>
-                            <field name="order"/>
                         </group>
                         <group>
                             <field name="is_filter_manual"/>
-                            <field name="state" readonly="1" groups="base.group_no_one"/>
-                            <field name="modules" groups="base.group_no_one"/>
                             <field name="from_app_id"/>
                         </group>
                     </group>
                     <notebook>
+                        <page string="Meta" name="meta">
+                            <group>
+                                <field name="model" readonly="id"/>
+                                <field name="order"/>
+                                <field name="state" readonly="1" groups="base.group_no_one"/>
+                                <field name="modules" groups="base.group_no_one"/>
+                            </group>
+                        </page>
                         <page string="Fields" name="fields">
                             <field name="field_id">
                                 <list string="Fields Description">
@@ -311,7 +315,22 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
+        </field>
+    </record>
+
+    <record id="view_nosheet_model_tree" model="ir.ui.view">
+        <field name="name">nosheet.ir.model.list</field>
+        <field name="model">ir.model</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <list string="Model Description" duplicate="0">
+                <field name="model" column_invisible="1"/>
+                <field name="name"/>
+                <field name="state" column_invisible="1"/>
+                <field name="transient"/>
+            </list>
         </field>
     </record>
 

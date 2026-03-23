@@ -16,6 +16,7 @@ def dash_text(text):
 class CustomApp(models.Model):
     _name = 'nosheet.custom.app'
     _description = 'Custom App'
+    _inherit = ['mail.thread']
 
     _unique_name = models.Constraint(
         'UNIQUE(name)', 

@@ -6,12 +6,14 @@ import xml.etree.ElementTree as ET
 import os
 
 class IrModel(models.Model):
-    _inherit = "ir.model"
+    _inherit = ["ir.model", 'mail.thread']
+
     def _default_field_id(self):
         if self.env.context.get('install_mode'):
             return []                   # no default field when importing
         return [Command.create({'name': 'x_name', 'field_description': 'Name', 'ttype': 'char', 'copied': True})]
 
+    name = fields.Char(string='Model Description', translate=True, required=True, tracking=True)
     model = fields.Char(
         default=lambda self: f"x_{uuid.uuid4().hex}",
         required=True
@@ -31,6 +33,7 @@ class IrModel(models.Model):
     from_app_id = fields.Many2one(
         'nosheet.custom.app',
         string='From App',
+        tracking=True
     )
 
     def _get_field_id_domain(self):
