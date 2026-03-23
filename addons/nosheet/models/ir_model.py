@@ -26,6 +26,7 @@ class IrModel(models.Model):
     )
     is_filter_manual = fields.Boolean(
         string="Is Filter Manual",
+        default=True
     )
     from_app_id = fields.Many2one(
         'nosheet.custom.app',
@@ -59,6 +60,17 @@ class IrModel(models.Model):
         string="Menus",
         compute="_compute_menu_count"
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        result =  super(IrModel, self).create(vals_list)
+
+        build = self.env['nosheet.build']
+        for record in result:
+            if record.from_app_id.menu_id:
+                build.add_views_menu_and_access(record.model, record.from_app_id.menu_id.id)
+
+        return result
 
     def unlink(self):
         build = self.env['nosheet.build']

@@ -150,11 +150,16 @@ class Build(models.TransientModel):
 
     def confirm_stage_3(self):
         self.create_model(self.model_description, self.model_name)
-        self.create_tree_view_id(self.model_name)
-        self.create_form_view_id(self.model_name)
-        self.create_search_view_id(self.model_name)
+        self.add_views_menu_and_access(self.model_name, self.custom_app_id.menu_id.id)
+    
+    def add_views_menu_and_access(self, model_name, parent_menu_id):
+        model_id = self.env["ir.model"].search([("model", "=", model_name)], limit=1)
+        self.create_tree_view_id(model_id.model)
+        self.create_form_view_id(model_id.model)
+        self.create_search_view_id(model_id.model)
+        self.create_model_access(model_id.id, model_id.model)
 
-        self.create_menu(self.model_description, self.model_name, self.custom_app_id.menu_id.id)
+        self.create_menu(model_id.name, model_id.model, parent_menu_id)
 
     def clean_up_model(self, model=False):
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
@@ -190,6 +195,19 @@ class Build(models.TransientModel):
     def previous(self):
         self.stage = previous_stage.get(self.stage, '1')
         return self.go_to_stage()
+    
+    def create_model_access(self, model_id, model_name):
+        self.env["ir.model.access"].create(
+            {
+                "name": f"access_{model_name}_user",
+                "model_id": model_id,
+                "group_id": self.env.ref("base.group_user").id,
+                "perm_read": True,
+                "perm_write": True,
+                "perm_create": True,
+                "perm_unlink": True,
+            }
+        )
 
     def create_model(self, name, model):
         model_id = self.env['ir.model'].create(
@@ -201,18 +219,6 @@ class Build(models.TransientModel):
                 "is_mail_thread": True,
                 "is_mail_activity": True,
                 "is_filter_manual": True
-            }
-        )
-
-        self.env["ir.model.access"].create(
-            {
-                "name": f"access_{model}_user",
-                "model_id": model_id.id,
-                "group_id": self.env.ref("base.group_user").id,
-                "perm_read": True,
-                "perm_write": True,
-                "perm_create": True,
-                "perm_unlink": True,
             }
         )
 
