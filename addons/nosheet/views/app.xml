@@ -17,10 +17,15 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="uuid"/>
-                        <field name="name"/>
-                        <field name="description"/>
-                        <field name="menu_id"/>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+
+                        <group>
+                            <field name="uuid"/>
+                            <field name="menu_id"/>
+                        </group>
                     </group>
 
                     <notebook>
