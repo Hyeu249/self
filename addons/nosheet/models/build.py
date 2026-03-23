@@ -251,7 +251,7 @@ class Build(models.TransientModel):
         return action
 
     def create_tree_view_id(self, model_name):
-        return self.env['ir.ui.view'].create(
+        view_id = self.env['ir.ui.view'].create(
             {
                 "name": model_name + ".list",
                 "model": model_name,
@@ -262,9 +262,11 @@ class Build(models.TransientModel):
                 """,
             }
         )
+        view_id.update_view()
+        return view_id
 
     def create_form_view_id(self, model_name):
-        return self.env['ir.ui.view'].create(
+        view_id = self.env['ir.ui.view'].create(
             {
                 "name": model_name + ".form",
                 "model": model_name,
@@ -281,11 +283,17 @@ class Build(models.TransientModel):
             },
         )
 
+        view_id.update_view()
+        return view_id
+
     def create_search_view_id(self, model_name):
-        return self.env['ir.ui.view'].create(
+        view_id = self.env['ir.ui.view'].create(
             {
                 "name": model_name + ".search",
                 "model": model_name,
                 "arch_base": """<search><field name="x_name"/></search>""",
             },
         )
+
+        view_id.update_view()
+        return view_id
