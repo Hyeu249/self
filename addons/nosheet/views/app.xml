@@ -57,6 +57,7 @@
         <field name="name">Studio</field>
         <field name="res_model">nosheet.custom.app</field>
         <field name="view_mode">list,form</field>
+        <field name="context">{'create_views_menu_access': True}</field>
     </record>
 
     <menuitem id="menu_custom_app"

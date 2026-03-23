@@ -470,7 +470,7 @@ def post_init_hook(env):
                 field['selected_field_id'] = t_field.id if t_field else False
 
         field_id = env['ir.model.fields'].create(field)
-        if related or related or related:
+        if related or depends or compute:
             update_fields.append({{
                 'id': field_id.id,
                 'related': related,

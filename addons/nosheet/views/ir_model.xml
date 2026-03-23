@@ -271,4 +271,8 @@
         </field>
     </record>
 
+    <record id="base.action_model_model" model="ir.actions.act_window">
+        <field name="context">{'create_views_menu_access': True}</field>
+    </record>
+
 </odoo>

@@ -68,10 +68,11 @@ class IrModel(models.Model):
     def create(self, vals_list):
         result =  super(IrModel, self).create(vals_list)
 
-        build = self.env['nosheet.build']
-        for record in result:
-            if record.from_app_id.menu_id:
-                build.add_views_menu_and_access(record.model, record.from_app_id.menu_id.id)
+        if self.env.context.get('create_views_menu_access'):
+            build = self.env['nosheet.build']
+            for record in result:
+                if record.from_app_id.menu_id:
+                    build.add_views_menu_and_access(record.model, record.from_app_id.menu_id.id)
 
         return result
 
