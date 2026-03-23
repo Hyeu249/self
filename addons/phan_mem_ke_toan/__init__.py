@@ -2728,7 +2728,7 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Thanh toán', 'name_id': False, 'res_model': 'x_model_thanh_toan', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'new', 'cache': True, 'view_mode': 'form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': "{'x_hd_id': False}", 'limit': 80, 'filter': False, 'help': False}
+        action_vals = {'name': 'Thanh toán', 'name_id': 'Thanh toán', 'res_model': 'x_model_thanh_toan', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'new', 'cache': True, 'view_mode': 'form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': "{'x_hd_id': 1}", 'limit': 80, 'filter': False, 'help': False}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
