@@ -109,6 +109,7 @@
     <menuitem id="menu_backup_operation"
               name="Backup operation"
               action="action_backup_operation"
+              groups="base.group_no_one"
               sequence="999"/>
 
     <record id="sequence_backup_operation" model="ir.sequence">
