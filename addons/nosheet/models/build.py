@@ -149,6 +149,7 @@ class Build(models.TransientModel):
         return self.go_to_stage()
 
     def confirm_stage_3(self):
+        self = self.with_context(create_views_menu_access=True)
         self.create_model()
     
     def add_views_menu_and_access(self, model_name, parent_menu_id):
