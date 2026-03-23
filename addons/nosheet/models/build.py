@@ -149,8 +149,7 @@ class Build(models.TransientModel):
         return self.go_to_stage()
 
     def confirm_stage_3(self):
-        self.create_model(self.model_description, self.model_name)
-        self.add_views_menu_and_access(self.model_name, self.custom_app_id.menu_id.id)
+        self.create_model()
     
     def add_views_menu_and_access(self, model_name, parent_menu_id):
         model_id = self.env["ir.model"].search([("model", "=", model_name)], limit=1)
@@ -209,11 +208,11 @@ class Build(models.TransientModel):
             }
         )
 
-    def create_model(self, name, model):
+    def create_model(self):
         model_id = self.env['ir.model'].create(
             {
-                "name": name,
-                "model": model,
+                "name": self.model_description,
+                "model": self.model_name,
                 "from_app_id": self.custom_app_id.id,
                 "state": "manual",
                 "is_mail_thread": True,
@@ -222,7 +221,7 @@ class Build(models.TransientModel):
             }
         )
 
-        return model
+        return model_id
 
     def create_menu(self, name, model, parent_menu_id):
         if not parent_menu_id:
