@@ -71,7 +71,9 @@ def make_compute_patched(field_name, text, deps):
     return api.depends(*deps)(func)
 
 class IrModelFields(models.Model):
-    _inherit = 'ir.model.fields'
+    _inherit = ["ir.model.fields", 'mail.thread']
+
+    field_description = fields.Char(string='Field Label', default='', required=True, translate=True, tracking=True)
 
     def _instanciate_attrs(self, field_data):
         attrs = super(IrModelFields, self)._instanciate_attrs(field_data=field_data)

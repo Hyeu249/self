@@ -57,6 +57,7 @@
     <menuitem id="menu_custom_app"
               name="Custom Apps"
               action="action_custom_app"
+              groups="base.group_no_one"
               sequence="1000"/>
 
     <record id="nosheet_custom_app_update_module" model="ir.actions.server">

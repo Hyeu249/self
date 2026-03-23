@@ -14,6 +14,7 @@
         "views/ir_ui_view.xml",
         "views/ir_actions_server.xml",
         "views/res_groups.xml",
+        "views/ir_model.xml",
         # "views/header.xml",
     ],
     "application": True,
