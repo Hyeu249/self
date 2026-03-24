@@ -6,17 +6,24 @@
         <field name="arch" type="xml">
 
             <xpath expr="//search" position="inside">
-                <filter name="not_odoo_author"
-                        string="Not Odoo"
-                        domain="[('author', '!=', 'Odoo S.A.')]"/>
+            <filter name="odoo_not_tobuy"
+                string="Odoo not Enterprise"
+                domain="[('to_buy', '=', False)]"/>
             </xpath>
-
+            <group>
+                <filter name="odoo_tobuy"
+                    string="Odoo Enterprise"
+                    domain="[('to_buy', '=', True)]"/>
+                <filter name="not_odoo_author"
+                    string="Not Odoo"
+                    domain="[('author', '!=', 'Odoo S.A.')]"/>
+            </group>
         </field>
     </record>
 
     <record id="base.open_module_tree" model="ir.actions.act_window">
         <field name="context">
-            {'search_default_app': 1, 'search_default_not_odoo_author': 1}
+            {'search_default_app': 1, 'search_default_odoo_not_tobuy': 1, 'search_default_not_odoo_author': 1}
         </field>
     </record>
 </odoo>
