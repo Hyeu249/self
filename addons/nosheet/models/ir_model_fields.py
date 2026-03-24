@@ -4,9 +4,18 @@ import uuid
 from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
+import unicodedata
+
+def dash_text(text):
+    text = unicodedata.normalize('NFD', text)
+    text = "".join(c for c in text if unicodedata.category(c) != 'Mn')
+    text = "_".join(text.split(" "))
+    return text.lower()
 
 class IrModelFields(models.Model):
     _inherit = "ir.model.fields"
+
+    field_description = fields.Char(string='Field Label', default='', required=True, translate=True, tracking=True)
 
     invisible = fields.Boolean("Invisible", default=False)
     approval_field = fields.Boolean("Approval Field", default=False)
@@ -20,6 +29,13 @@ class IrModelFields(models.Model):
         string='Relation Field',
         domain="[('state', '=', 'manual'), ('model_id', '=', selected_model_id)]"
     )
+
+    @api.onchange('field_description')
+    def _onchange_field_description(self):
+        for record in self:
+            name = "x_" + dash_text(record.field_description)
+            if record.name != name:
+                record.name = name
 
     @api.onchange('selected_model_id')
     def _onchange_selected_model_id(self):

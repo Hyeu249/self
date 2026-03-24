@@ -1,13 +1,7 @@
 from odoo import models, api, fields
 from odoo.tools.safe_eval import safe_eval, datetime, dateutil, time
 from odoo.exceptions import ValidationError
-import unicodedata
 
-def dash_text(text):
-    text = unicodedata.normalize('NFD', text)
-    text = "".join(c for c in text if unicodedata.category(c) != 'Mn')
-    text = "_".join(text.split(" "))
-    return text.lower()
 
 SAFE_EVAL_BASE = {
     'datetime': datetime,
@@ -73,7 +67,40 @@ def make_compute_patched(field_name, text, deps):
 class IrModelFields(models.Model):
     _inherit = ["ir.model.fields", 'mail.thread']
 
-    field_description = fields.Char(string='Field Label', default='', required=True, translate=True, tracking=True)
+    ttype2 = fields.Selection(
+        selection=[
+                ('char', 'char'),
+                ('text', 'text'),
+                ('integer', 'integer'),
+                ('float', 'float'),
+                ('boolean', 'boolean'),
+                ('date', 'date'),
+                ('datetime', 'datetime'),
+                ('selection', 'selection'),
+                ('many2one', 'many2one'),
+                ('one2many', 'one2many'),
+                ('many2many', 'many2many'),
+                ('reference', 'reference'),
+                ('html', 'html'),
+                ('binary', 'binary'),
+                ('monetary', 'monetary'),
+        ],
+        string='Field Type',
+        required=True
+    )
+
+    @api.onchange('ttype2')
+    def _onchange_ttype2(self):
+        for record in self:
+            if record.ttype2:
+                record.ttype = record.ttype2
+
+    def write(self, vals):
+        if "ttype2" in vals:
+            vals['ttype'] = vals['ttype2']
+        result = super(IrModelFields, self).write(vals)
+
+        return result
 
     def _instanciate_attrs(self, field_data):
         attrs = super(IrModelFields, self)._instanciate_attrs(field_data=field_data)
@@ -82,13 +109,6 @@ class IrModelFields(models.Model):
             attrs['compute'] = make_compute_patched(field_data["name"], field_data['compute'], field_data['depends'])
 
         return attrs
-
-    @api.onchange('field_description')
-    def _onchange_field_description(self):
-        for record in self:
-            name = "x_" + dash_text(record.field_description)
-            if record.name != name:
-                record.name = name
 
 class IrActionsServer(models.Model):
     _inherit = 'ir.actions.server'
