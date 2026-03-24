@@ -199,7 +199,7 @@ class Build(models.TransientModel):
     def create_model_access(self, model_id, model_name):
         self.env["ir.model.access"].create(
             {
-                "name": f"access_{model_name}_user",
+                "name": f"Quyền cơ bản",
                 "model_id": model_id,
                 "group_id": self.env.ref("base.group_user").id,
                 "perm_read": True,
