@@ -18,6 +18,31 @@ export class Build extends Component {
     await this.env.services.action.doAction("nosheet.action_nosheet_build");
   }
 
+  async onClickGoModel() {
+    const currentAction = this.env.services.action.currentController?.action;
+
+    const resModel = currentAction?.res_model;
+
+    const orm = this.env.services.orm;
+
+    const result = await orm.searchRead(
+      "ir.model",
+      [["model", "=", resModel]],
+      ["id"],
+    );
+
+    const modelId = result?.[0]?.id;
+
+    if (modelId) {
+      await this.env.services.action.doAction({
+        type: "ir.actions.act_window",
+        res_model: "ir.model",
+        res_id: modelId,
+        views: [[false, "form"]],
+      });
+    }
+  }
+
   async onClickBug() {
     let debug = this.isDebug ? 0 : "assets";
     router.pushState({ debug: debug }, { reload: true });
@@ -26,6 +51,21 @@ export class Build extends Component {
 
 Build.template = xml`
 <div class="d-flex flex-row" t-if="state.isNoSheetAdmin">
+  <button class="btn text-white d-flex align-items-center justify-content-center"
+      t-on-click="onClickBug"
+      title="Bug"
+      t-if="!isDebug"
+  >
+      <i class="fa fa-lock"/>
+  </button>
+
+  <button class="btn text-white d-flex align-items-center"
+      t-on-click="onClickGoModel"
+      t-if="isDebug"
+  >
+      <i class="fa fa-folder-open"/>
+  </button>
+
     <button class="btn text-white d-flex align-items-center gap-1"
         t-on-click="onClickBuild"
         t-if="isDebug"
@@ -34,13 +74,6 @@ Build.template = xml`
         <span>Build</span>
     </button>
 
-    <button class="btn text-white d-flex align-items-center justify-content-center"
-        t-on-click="onClickBug"
-        title="Bug"
-    >
-        <i class="fa fa-lock" t-if="!isDebug"/>
-        <i class="fa fa-unlock-alt" t-if="isDebug"/>
-    </button>
 </div>
 `;
 
