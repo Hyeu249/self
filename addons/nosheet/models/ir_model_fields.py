@@ -19,7 +19,7 @@ class IrModelFields(models.Model):
 
     invisible = fields.Boolean("Invisible", default=False)
     approval_field = fields.Boolean("Approval Field", default=False)
-    sequence = fields.Integer("Sequence")
+    sequence = fields.Integer("Sequence", default=1)
     selected_model_id = fields.Many2one(
         'ir.model', 
         string='Model',
