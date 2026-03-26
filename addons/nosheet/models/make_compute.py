@@ -95,9 +95,17 @@ class IrModelFields(models.Model):
             if record.ttype2:
                 record.ttype = record.ttype2
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if "ttype" in vals and not vals.get("ttype2", False):
+                vals['ttype2'] = vals['ttype']
+        return super(IrModelFields, self).create(vals_list)
+
     def write(self, vals):
-        if "ttype2" in vals:
+        if "ttype2" in vals and vals['ttype2'] != vals['ttype']:
             vals['ttype'] = vals['ttype2']
+
         result = super(IrModelFields, self).write(vals)
 
         return result
