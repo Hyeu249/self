@@ -3,7 +3,7 @@
         <field name="name">nosheet.build.form</field>
         <field name="model">nosheet.build</field>
         <field name="arch" type="xml">
-            <form string="Build">
+            <form string="Điền tên mô hình">
             <sheet>
                 <group invisible="stage != '1'">
                     <field name="mode"/>
@@ -75,7 +75,7 @@
     </record>
 
     <record id="action_nosheet_build" model="ir.actions.act_window">
-        <field name="name">Build</field>
+        <field name="name">Điền tên mô hình</field>
         <field name="res_model">nosheet.build</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>

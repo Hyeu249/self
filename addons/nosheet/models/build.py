@@ -103,7 +103,7 @@ class Build(models.TransientModel):
                 ('4', '4'),
             ],
             string='Action',
-            default='1',
+            default='2',
             required=True,
         )
     model_description = fields.Char(string='Name')
