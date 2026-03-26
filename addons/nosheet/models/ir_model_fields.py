@@ -9,6 +9,7 @@ import unicodedata
 def dash_text(text):
     text = unicodedata.normalize('NFD', text)
     text = "".join(c for c in text if unicodedata.category(c) != 'Mn')
+    text = text.replace('đ', 'd').replace('Đ', 'D')
     text = "_".join(text.split(" "))
     return text.lower()
 

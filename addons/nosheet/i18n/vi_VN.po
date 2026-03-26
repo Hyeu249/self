@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260118\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-22 02:36+0000\n"
-"PO-Revision-Date: 2026-03-22 02:36+0000\n"
+"POT-Creation-Date: 2026-03-26 05:13+0000\n"
+"PO-Revision-Date: 2026-03-26 05:13+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -34,12 +34,12 @@ msgid ""
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "<code>datetime</code> (Python module)"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "<code>dateutil</code> (Python module)"
 msgstr ""
 
@@ -95,12 +95,12 @@ msgid ""
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "<code>self</code> (the set of records to compute)"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "<code>time</code> (Python module)"
 msgstr ""
 
@@ -185,7 +185,9 @@ msgid "Access Groups"
 msgstr "Nhóm truy cập"
 
 #. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_res_groups_form
 msgid "Access Rights"
 msgstr ""
@@ -195,6 +197,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__stage
 msgid "Action"
 msgstr "Hành động"
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_needaction
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_needaction
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_needaction
+msgid "Action Needed"
+msgstr ""
 
 #. module: nosheet
 #: model:ir.model,name:nosheet.model_ir_actions_act_window
@@ -207,14 +216,31 @@ msgid "Approval Field"
 msgstr "Trường luồng duyệt?"
 
 #. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
+msgid "Architecture"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_attachment_count
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_attachment_count
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_ir_model__base_automation_count
 msgid "Automations"
 msgstr ""
 
 #. module: nosheet
-#: model:ir.actions.act_window,name:nosheet.action_nosheet_build
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
+msgid ""
+"Be aware that editing the architecture of a standard view is not advised, since the changes will be overwritten during future module updates.<br/>\n"
+"                We recommend applying modifications to standard views through inherited views or customization with Odoo Studio."
+msgstr ""
+
+#. module: nosheet
 #: model:ir.model,name:nosheet.model_nosheet_build
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
 msgid "Build"
 msgstr ""
 
@@ -234,6 +260,18 @@ msgid "Choose a value..."
 msgstr ""
 
 #. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Chọn hành động"
+msgstr "Pick Options"
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Chọn mô hình"
+msgstr "Please pick your model"
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 msgid "Code"
 msgstr ""
@@ -244,15 +282,15 @@ msgid "Code History"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "Compute"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid ""
 "Computed fields are defined with the fields\n"
-"                                                <strong>Dependencies</strong> and <strong>Compute</strong>."
+"                            <strong>Dependencies</strong> and <strong>Compute</strong>."
 msgstr ""
 
 #. module: nosheet
@@ -292,12 +330,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__custom_app_id
 msgid "Custom App"
 msgstr "Apps riêng"
-
-#. module: nosheet
-#: model:ir.actions.act_window,name:nosheet.action_custom_app
-#: model:ir.ui.menu,name:nosheet.menu_custom_app
-msgid "Studio"
-msgstr ""
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
@@ -367,6 +399,16 @@ msgid "External ID"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__field_description
+msgid "Field Label"
+msgstr "Nhãn trường"
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__ttype2
+msgid "Field Type"
+msgstr ""
+
+#. module: nosheet
 #: model:ir.model,name:nosheet.model_ir_model_fields
 #: model:ir.model.fields,field_description:nosheet.field_ir_model__field_id
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
@@ -375,6 +417,7 @@ msgid "Fields"
 msgstr "Trường"
 
 #. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
 msgid "Fields Description"
 msgstr ""
@@ -387,6 +430,20 @@ msgstr "Lựa chọn Trường"
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_window_action_form
 msgid "Filters"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_follower_ids
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_follower_ids
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_partner_ids
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_partner_ids
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_partner_ids
+msgid "Followers (Partners)"
 msgstr ""
 
 #. module: nosheet
@@ -411,13 +468,20 @@ msgid "Groups"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__has_message
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__has_message
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_window_action_form
 msgid "Help"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "How to define a computed field"
 msgstr ""
 
@@ -437,8 +501,30 @@ msgid "ID"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,help:nosheet.field_ir_model__message_needaction
+#: model:ir.model.fields,help:nosheet.field_ir_model_fields__message_needaction
+#: model:ir.model.fields,help:nosheet.field_nosheet_custom_app__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,help:nosheet.field_ir_model__message_has_error
+#: model:ir.model.fields,help:nosheet.field_ir_model__message_has_sms_error
+#: model:ir.model.fields,help:nosheet.field_ir_model_fields__message_has_error
+#: model:ir.model.fields,help:nosheet.field_ir_model_fields__message_has_sms_error
+#: model:ir.model.fields,help:nosheet.field_nosheet_custom_app__message_has_error
+#: model:ir.model.fields,help:nosheet.field_nosheet_custom_app__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_res_groups_form
 msgid "Inherited"
+msgstr ""
+
+#. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
+msgid "Inherited Views"
 msgstr ""
 
 #. module: nosheet
@@ -452,9 +538,21 @@ msgid "Is Custom"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_ui_view__is_editable
+msgid "Is Editable"
+msgstr ""
+
+#. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_ir_model__is_filter_manual
 msgid "Is Filter Manual"
 msgstr "Chỉ hiển thị thủ công?"
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_is_follower
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_is_follower
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_is_follower
+msgid "Is Follower"
+msgstr ""
 
 #. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__write_uid
@@ -467,6 +565,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__write_date
 msgid "Last Updated on"
 msgstr ""
+
+#. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+msgid "Related"
+msgstr "Liên kết"
 
 #. module: nosheet
 #: model:ir.model,name:nosheet.model_ir_ui_menu
@@ -483,6 +586,21 @@ msgid "Menus"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_has_error
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_has_error
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_ids
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_ids
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
 msgid "Meta"
 msgstr ""
@@ -502,9 +620,11 @@ msgid "Model"
 msgstr "Mô hình"
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__name
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_model_tree
 msgid "Model Description"
-msgstr ""
+msgstr "Mô tả đối tượng"
 
 #. module: nosheet
 #: model:ir.model,name:nosheet.model_ir_model
@@ -539,6 +659,34 @@ msgid "Notes"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_needaction_counter
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_needaction_counter
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_has_error_counter
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_has_error_counter
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,help:nosheet.field_ir_model__message_needaction_counter
+#: model:ir.model.fields,help:nosheet.field_ir_model_fields__message_needaction_counter
+#: model:ir.model.fields,help:nosheet.field_nosheet_custom_app__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,help:nosheet.field_ir_model__message_has_error_counter
+#: model:ir.model.fields,help:nosheet.field_ir_model_fields__message_has_error_counter
+#: model:ir.model.fields,help:nosheet.field_nosheet_custom_app__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 msgid "ORM API Documentation"
 msgstr ""
@@ -554,40 +702,16 @@ msgid "Open a Window"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid ""
 "Other features are accessible through <code>self</code>, like\n"
-"                                                <code>self.env</code>, etc."
+"                            <code>self.env</code>, etc."
 msgstr ""
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_window_action_form
 msgid "Path"
 msgstr ""
-
-#. module: nosheet
-#. odoo-python
-#: code:addons/nosheet/models/build.py:0
-msgid "Chọn hành động"
-msgstr "Pick Options"
-
-#. module: nosheet
-#. odoo-python
-#: code:addons/nosheet/models/build.py:0
-msgid "Điền tên mô hình"
-msgstr "Please write your model name"
-
-#. module: nosheet
-#. odoo-python
-#: code:addons/nosheet/models/build.py:0
-msgid "Chọn mô hình"
-msgstr "Please pick your model"
-
-#. module: nosheet
-#. odoo-python
-#: code:addons/nosheet/models/build.py:0
-msgid "Tạo hoặc chọn module"
-msgstr "Please create your module"
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
@@ -605,7 +729,7 @@ msgid "Privileges"
 msgstr "Quyền hạn"
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "Properties"
 msgstr ""
 
@@ -641,6 +765,13 @@ msgid "Run this action manually."
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__message_has_sms_error
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__message_has_sms_error
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 msgid "Sample Payload"
 msgstr ""
@@ -666,7 +797,7 @@ msgid "Select fields to include in the request..."
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "Selection Options"
 msgstr ""
 
@@ -697,27 +828,33 @@ msgid "Set an explicit name"
 msgstr ""
 
 #. module: nosheet
+#: model:ir.actions.act_window,name:nosheet.action_custom_app
+#: model:ir.ui.menu,name:nosheet.menu_custom_app
+msgid "Studio"
+msgstr ""
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_menu_form
 msgid "Submenus"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid ""
 "The field <strong>Compute</strong> is the Python code to\n"
-"                                                compute the value of the field on a set of records. The value of\n"
-"                                                the field must be assigned to each record with a dictionary-like\n"
-"                                                assignment."
+"                            compute the value of the field on a set of records. The value of\n"
+"                            the field must be assigned to each record with a dictionary-like\n"
+"                            assignment."
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid ""
 "The field <strong>Dependencies</strong> lists the fields that\n"
-"                                                the current field depends on. It is a comma-separated list of\n"
-"                                                field names, like <code>name, size</code>. You can also refer to\n"
-"                                                fields accessible through other relational fields, for instance\n"
-"                                                <code>partner_id.company_id.name</code>."
+"                            the current field depends on. It is a comma-separated list of\n"
+"                            field names, like <code>name, size</code>. You can also refer to\n"
+"                            fields accessible through other relational fields, for instance\n"
+"                            <code>partner_id.company_id.name</code>."
 msgstr ""
 
 #. module: nosheet
@@ -731,7 +868,7 @@ msgid "The name of the record to create"
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid "The only predefined variables are"
 msgstr ""
 
@@ -752,6 +889,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 msgid "To return an action, assign: <code>action = {...}</code>"
 msgstr ""
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+msgid "Tạo hoặc chọn module"
+msgstr "Please create your module"
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
@@ -790,6 +933,11 @@ msgid "View"
 msgstr "Chế độ xem"
 
 #. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
+msgid "View Architecture"
+msgstr ""
+
+#. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
 msgid "View code history and restore a previous version"
 msgstr ""
@@ -797,6 +945,7 @@ msgstr ""
 #. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_ir_model__view_count
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_res_groups_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_window_action_form
 msgid "Views"
@@ -806,6 +955,45 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_menu_form
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_window_action_form
 msgid "Visibility"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,field_description:nosheet.field_ir_model__website_message_ids
+#: model:ir.model.fields,field_description:nosheet.field_ir_model_fields__website_message_ids
+#: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields,help:nosheet.field_ir_model__website_message_ids
+#: model:ir.model.fields,help:nosheet.field_ir_model_fields__website_message_ids
+#: model:ir.model.fields,help:nosheet.field_nosheet_custom_app__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__binary
+msgid "binary"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__boolean
+msgid "boolean"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__char
+msgid "char"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__date
+msgid "date"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__datetime
+msgid "datetime"
 msgstr ""
 
 #. module: nosheet
@@ -819,10 +1007,45 @@ msgid "e.g. https://maker.ifttt.com/use/..."
 msgstr ""
 
 #. module: nosheet
-#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_form
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__float
+msgid "float"
+msgstr ""
+
+#. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_model_fields_form
 msgid ""
 "for record in self:\n"
-"        record['size'] = len(record.name)"
+"    record['size'] = len(record.name)"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__html
+msgid "html"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__integer
+msgid "integer"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__many2many
+msgid "many2many"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__many2one
+msgid "many2one"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__monetary
+msgid "monetary"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__one2many
+msgid "one2many"
 msgstr ""
 
 #. module: nosheet
@@ -833,8 +1056,31 @@ msgid ""
 msgstr ""
 
 #. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__reference
+msgid "reference"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__selection
+msgid "selection"
+msgstr ""
+
+#. module: nosheet
+#: model:ir.model.fields.selection,name:nosheet.selection__ir_model_fields__ttype2__text
+msgid "text"
+msgstr ""
+
+#. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_custom_app__uuid
 #: model:ir.model.fields,field_description:nosheet.field_res_groups__uuid
 #: model:ir.model.fields,field_description:nosheet.field_res_groups_privilege__uuid
 msgid "uuid"
 msgstr ""
+
+#. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/build.py:0
+#: model:ir.actions.act_window,name:nosheet.action_nosheet_build
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
+msgid "Điền tên mô hình"
+msgstr "Please write your model name"

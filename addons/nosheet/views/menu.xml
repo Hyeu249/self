@@ -5,4 +5,10 @@
         <field name="sequence">1</field>
     </record>
 
+    <record id="base.grant_menu_access" model="ir.actions.act_window">
+        <field name="context">
+            {'ir.ui.menu.full_list':True, 'default_is_custom': True}
+        </field>
+    </record>
+
 </odoo>
