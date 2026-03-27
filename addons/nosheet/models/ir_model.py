@@ -187,3 +187,7 @@ class IrModel(models.Model):
                 'default_is_custom': True
             },
         }
+
+    def update_views(self):
+        for view in self.view_ids:
+            view.update_view()

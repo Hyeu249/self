@@ -283,4 +283,15 @@
         <field name="context">{'create_views_menu_access': True}</field>
     </record>
 
+    <record id="nosheet_model_action_update_view" model="ir.actions.server">
+        <field name="name">Update Views</field>
+        <field name="model_id" ref="base.model_ir_model"/>
+        <field name="binding_model_id" ref="base.model_ir_model" />
+        <field name="state">code</field>
+        <field name="code">
+            for r in records:
+                r.update_views()
+        </field>
+    </record>
+
 </odoo>
