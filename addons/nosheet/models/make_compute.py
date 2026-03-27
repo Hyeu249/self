@@ -163,15 +163,15 @@ class IrActionsServer(models.Model):
             for k, v in (p.split(":", 1) for p in map_str.split(","))
         }
         value = data.get("value")
-        duplicate = data.get("duplicate")
+        multi = data.get("multi")
         before = data.get("before")
 
         domain = []
         order = "id"
         fields = [value]
 
-        if duplicate:
-            fields.append(duplicate)
+        if multi:
+            fields.append(multi)
         if before:
             domain.append((before, '<', record[before]))
             order = f"{before}, id"
@@ -189,8 +189,8 @@ class IrActionsServer(models.Model):
         for line in lines:
             a = line[value]
             c = [a]
-            if duplicate:
-                b = int(line[duplicate])
+            if multi:
+                b = int(line[multi])
                 c = [a * b / abs(b)] * abs(b)
 
             arr.extend(c)
