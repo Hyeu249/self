@@ -9,7 +9,6 @@
                     <group>
                         <group name="main_details">
                             <field name="name"/>
-                            <field name="name_id"/>
                             <field name="xml_id" string="External ID"/>
                             <field name="path" string="Path"/>
                             <field name="res_model" string="Object"/>

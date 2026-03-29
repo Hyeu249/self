@@ -208,7 +208,7 @@ def post_init_hook(env):
 '''
         actions = self.env["ir.actions.act_window"].search([('res_model', '=', model.model)])
         for action in actions:
-            new_action_vals = action.read(['name', 'name_id', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help'])[0]
+            new_action_vals = action.read(['name', 'res_model', 'type', 'usage', 'target', 'cache', 'view_mode', 'mobile_view_mode', 'domain', 'context', 'limit', 'filter', 'help'])[0]
             new_action_vals.pop('id', False)
             action_name = f"ir.actions.act_window,{action.id}"
             menus = self.env['ir.ui.menu'].search([('action', '=', action_name)])

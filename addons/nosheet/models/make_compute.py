@@ -151,7 +151,6 @@ class IrActionsServer(models.Model):
             "views": [(False, "form")],
             "target": "new"
         }
-        return self.env['ir.actions.act_window'].search([('name_id', '=', model_name)], limit=1)
 
     def display_sequence(self, record):
         sequence = self.env['ir.sequence'].search([('code', '=', record._name)], limit=1)
@@ -261,14 +260,6 @@ class IrActionsServer(models.Model):
 
 class IrActionsAct_window(models.Model):
     _inherit = 'ir.actions.act_window'
-
-    name_id = fields.Char(string="Name id")
-
-    @api.onchange('name')
-    def _onchange_name_id(self):
-        for record in self:
-            if record.name:
-                record.name_id = record.name
 
     def open(self):
         return self.read()[0]
