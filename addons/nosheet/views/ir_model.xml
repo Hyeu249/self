@@ -152,20 +152,6 @@
         </field>
     </record>
 
-    <record id="view_nosheet_model_tree" model="ir.ui.view">
-        <field name="name">nosheet.ir.model.list</field>
-        <field name="model">ir.model</field>
-        <field name="priority" eval="1"/>
-        <field name="arch" type="xml">
-            <list string="Model Description" duplicate="0">
-                <field name="model" column_invisible="1"/>
-                <field name="name"/>
-                <field name="state" column_invisible="1"/>
-                <field name="transient"/>
-            </list>
-        </field>
-    </record>
-
     <record id="view_nosheet_ir_model_fields_form" model="ir.ui.view">
         <field name="name">nosheet.ir.model.fields.form</field>
         <field name="model">ir.model.fields</field>

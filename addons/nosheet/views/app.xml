@@ -31,6 +31,11 @@
                     <notebook>
                         <page string="Models">
                             <field name="model_ids">
+                                <list string="Model Description" duplicate="0">
+                                    <field name="name"/>
+                                    <field name="transient"/>
+                                    <field name="model" optional="hide"/>
+                                </list>
                             </field>
                         </page>
                     </notebook>
