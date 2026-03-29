@@ -5,6 +5,7 @@ from odoo.fields import Command, Domain
 import xml.etree.ElementTree as ET
 import os
 import unicodedata
+import re
 
 def dash_text(text):
     text = unicodedata.normalize('NFD', text)
@@ -192,9 +193,29 @@ class IrModelFields(models.Model):
                     if record.depends != depends:
                         record.depends = depends
                 elif "SUM_COL(" in compute:
-                    record.depends = False
+                    record.depends = self.get_sum_col_depends(compute)
+                elif "SUM_COL" in record.compute:
+                    pass
             else:
                 record.depends = False
+
+    def get_sum_col_depends(self, compute_str):
+        if not compute_str:
+            return False
+
+        compute_normalized = compute_str.replace("'", '"')
+
+        if "SUM_COL(" not in compute_normalized:
+            return False
+
+        start = compute_normalized.find('(')
+        end = compute_normalized.rfind(')')
+        params = compute_normalized[start + 1:end]
+
+        matches = re.findall(r'"(.*?)"', params)
+        if len(matches) >= 2:
+            return matches[1]
+        return False
 
     def unlink(self):
         for record in self:

@@ -141,6 +141,16 @@ class IrActionsServer(models.Model):
         return eval_context
     
     def get_act_window(self, model_name):
+        model = self.get_model(model_name)
+
+        return {
+            "type": "ir.actions.act_window",
+            "name": model._description,
+            "res_model": model._name,
+            "view_mode": "form",
+            "views": [(False, "form")],
+            "target": "new"
+        }
         return self.env['ir.actions.act_window'].search([('name_id', '=', model_name)], limit=1)
 
     def display_sequence(self, record):
