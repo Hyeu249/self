@@ -1,4 +1,4 @@
-from odoo import models, api, fields
+from odoo import models, api, fields, _
 from odoo.tools.safe_eval import safe_eval, datetime, dateutil, time
 from odoo.exceptions import ValidationError
 
@@ -69,21 +69,21 @@ class IrModelFields(models.Model):
 
     ttype2 = fields.Selection(
         selection=[
-                ('char', 'char'),
-                ('text', 'text'),
-                ('integer', 'integer'),
-                ('float', 'float'),
-                ('boolean', 'boolean'),
-                ('date', 'date'),
-                ('datetime', 'datetime'),
-                ('selection', 'selection'),
-                ('many2one', 'many2one'),
-                ('one2many', 'one2many'),
-                ('many2many', 'many2many'),
-                ('reference', 'reference'),
-                ('html', 'html'),
-                ('binary', 'binary'),
-                ('monetary', 'monetary'),
+                ('char', _('char')),
+                ('text', _('text')),
+                ('integer', _('integer')),
+                ('float', _('float')),
+                ('boolean', _('boolean')),
+                ('date', _('date')),
+                ('datetime', _('datetime')),
+                ('selection', _('selection')),
+                ('many2one', _('many2one')),
+                ('one2many', _('one2many')),
+                ('many2many', _('many2many')),
+                ('reference', _('reference')),
+                ('html', _('html')),
+                ('binary', _('binary')),
+                ('monetary', _('monetary')),
         ],
         string='Field Type',
         required=True

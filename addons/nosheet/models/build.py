@@ -6,12 +6,6 @@ import xml.etree.ElementTree as ET
 import os
 import shutil
 
-title = {
-    '1': _('Chọn hành động'),
-    '2': _('Điền tên mô hình'),
-    '3': _('Tạo hoặc chọn module'),
-    '4': _('Chọn mô hình'),
-}
 previous_stage = {
     '2': '1',
     '3': '2',
@@ -75,6 +69,14 @@ class Build(models.TransientModel):
     _name = 'nosheet.build'
     _description = 'Build'
 
+    def get_title(self, step):
+        return {
+            '1': _('Pick Options'),
+            '2': _('Enter Model Name'),
+            '3': _('Create or Select Module'),
+            '4': _('Select Model to Edit or Delete'),
+        }.get(step)
+
     action_type = fields.Selection(
             selection=[
                 ('create', 'Create'),
@@ -124,7 +126,7 @@ class Build(models.TransientModel):
     def go_to_stage(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': title.get(self.stage),
+            'name': self.get_title(self.stage),
             'res_model': 'nosheet.build',
             'view_mode': 'form',
             'target': 'new',
