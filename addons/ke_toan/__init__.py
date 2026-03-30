@@ -24,12 +24,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -220,12 +229,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -352,12 +370,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -460,12 +487,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -604,12 +640,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -701,12 +746,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -926,12 +980,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -1048,12 +1111,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -1214,12 +1286,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -1367,12 +1448,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -1389,12 +1479,6 @@ def post_init_hook(env):
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         filter_user_ids = []
-
-        user_id = env['res.users'].search([('name', '=', 'Administrator')], limit=1)
-        if not user_id:
-            raise ValidationError('User Administrator not found, please create it first.')
-        else:
-            filter_user_ids.append(user_id.id)
 
         filter_vals = {'name': 'Báo cáo hàng hoá', 'model_id': 'x_c78095f0ddb645eca0cd38dee357725c', 'is_default': True, 'domain': '[("x_loai_ky", "!=", False)]', 'context': "{'group_by': [], 'pivot_measures': ['x_so_luong', 'x_tong_gia_tri'], 'pivot_column_groupby': ['x_loai_ky', 'x_kho_hang'], 'pivot_row_groupby': ['x_hang_hoa']}", 'sort': '[]'}
         filter_vals['action_id'] = action_id.id if action_id else False
@@ -1644,12 +1728,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -1667,24 +1760,12 @@ def post_init_hook(env):
 
         filter_user_ids = []
 
-        user_id = env['res.users'].search([('name', '=', 'Administrator')], limit=1)
-        if not user_id:
-            raise ValidationError('User Administrator not found, please create it first.')
-        else:
-            filter_user_ids.append(user_id.id)
-
         filter_vals = {'name': 'Balance Sheet', 'model_id': 'x_e4a49df8fa1c4db9a0d729719332b9eb', 'is_default': False, 'domain': '[("x_report_type", "=", "Balance Sheet")]', 'context': "{'group_by': [], 'pivot_measures': ['x_balance'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['x_tai_khoan']}", 'sort': '[]'}
         filter_vals['action_id'] = action_id.id if action_id else False
         filter_vals['user_ids'] = [(6, 0, filter_user_ids)]
         env['ir.filters'].create(filter_vals)
 
         filter_user_ids = []
-
-        user_id = env['res.users'].search([('name', '=', 'Administrator')], limit=1)
-        if not user_id:
-            raise ValidationError('User Administrator not found, please create it first.')
-        else:
-            filter_user_ids.append(user_id.id)
 
         filter_vals = {'name': 'Profit and Loss', 'model_id': 'x_e4a49df8fa1c4db9a0d729719332b9eb', 'is_default': False, 'domain': '[("x_report_type", "=", "Profit and Loss")]', 'context': "{'group_by': [], 'pivot_measures': ['x_balance'], 'pivot_column_groupby': [], 'pivot_row_groupby': ['x_tai_khoan']}", 'sort': '[]'}
         filter_vals['action_id'] = action_id.id if action_id else False
@@ -1964,12 +2045,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -1980,12 +2070,6 @@ def post_init_hook(env):
         #model menus
 
         filter_user_ids = []
-
-        user_id = env['res.users'].search([('name', '=', 'Administrator')], limit=1)
-        if not user_id:
-            raise ValidationError('User Administrator not found, please create it first.')
-        else:
-            filter_user_ids.append(user_id.id)
 
         filter_vals = {'name': 'account', 'model_id': 'x_6fc605916fea47c3bbd6da0a25660665', 'is_default': True, 'domain': '[("x_is_group", "=", False)]', 'context': "{'group_by': []}", 'sort': '[]'}
         filter_vals['user_ids'] = [(6, 0, filter_user_ids)]
@@ -2181,12 +2265,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -2352,12 +2445,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -2460,12 +2562,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -2586,12 +2697,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
@@ -2712,12 +2832,21 @@ def post_init_hook(env):
         
         #model access right
 
-        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
-        group_id = env['res.groups'].search([('name', '=', 'Role / User')], limit=1)
-        if not group_id:
-            raise ValidationError('Group Role / User not found, please create it first.')
+        group_id = False
 
-        access_vals['group_id'] = group_id.id
+        group_id = env['res.groups'].search([('uuid', '=', 'uuid_role_user')], limit=1)
+
+        if not group_id:
+            group_vals = {'name': 'Role / User', 'uuid': 'uuid_role_user', 'share': False, 'sequence': 0, 'api_key_duration': 90.0, 'comment': 'Access to the home menu'}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', 'False')], limit=1)
+            if False and not privilege_id:
+                privilege_vals = {}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+
+        access_vals = {'name': 'Quyền cơ bản', 'perm_read': True, 'perm_write': True, 'perm_create': True, 'perm_unlink': True}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['ir.model.access'].create(access_vals)
 
