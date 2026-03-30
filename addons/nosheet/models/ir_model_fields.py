@@ -32,6 +32,12 @@ class IrModelFields(models.Model):
         domain="[('state', '=', 'manual'), ('model_id', '=', selected_model_id)]"
     )
 
+    from_app_id = fields.Many2one(
+        'nosheet.custom.app',
+        related='model_id.from_app_id',
+        string='From App',
+    )
+
     @api.onchange('field_description')
     def _onchange_field_description(self):
         for record in self:

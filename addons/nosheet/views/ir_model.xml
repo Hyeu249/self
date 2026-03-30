@@ -89,7 +89,7 @@
                                     <field name="depends" optional="hide"/>
                                     <field name="compute" optional="show"/>
 
-                                    <field name="selected_model_id" optional="show" context="{'create_views_menu_access': True}" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']" required="ttype in ['many2one', 'one2many', 'many2many']"/>
+                                    <field name="selected_model_id" optional="show" context="{'create_views_menu_access': True, 'default_from_app_id': from_app_id}" invisible="ttype not in ['many2one', 'one2many', 'many2many']" readonly="ttype not in ['many2one', 'one2many', 'many2many']" required="ttype in ['many2one', 'one2many', 'many2many']"/>
                                     <field name="selected_field_id" optional="hide" invisible="ttype != 'one2many'" readonly="ttype != 'one2many'" required="ttype == 'one2many'"/>
 
                                     <field name="on_delete" optional="hide" groups="base.group_no_one" invisible="ttype != 'many2one'" readonly="ttype != 'many2one'"/>
@@ -100,6 +100,7 @@
                                     <field name="index" groups="base.group_no_one" optional="hide"/>
                                     <field name="store" groups="base.group_no_one" optional="hide"/>
 
+                                    <field name="from_app_id" column_invisible="1"/>
                                     <field name="relation" column_invisible="1"/>
                                     <field name="relation_field" column_invisible="1"/>
                                     <field name="relation_table" column_invisible="1"/>
