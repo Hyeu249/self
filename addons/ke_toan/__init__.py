@@ -3304,6 +3304,32 @@ def post_init_hook(env):
     action_vals['group_ids'] = [(6, 0, action_group_ids)]
     env['ir.actions.server'].create(action_vals)
 
+    trigger_field_ids = []
+    on_change_field_ids = []
+
+    auto_vals = {'name': 'delete', 'trigger': 'on_unlink', 'filter_pre_domain': False, 'previous_domain': False, 'filter_domain': False, 'description': False}
+    auto_vals['model_id'] = model_id.id
+    auto_vals['trigger_field_ids'] = [(6, 0, trigger_field_ids)]
+    auto_vals['on_change_field_ids'] = [(6, 0, on_change_field_ids)]
+    auto_id = env['base.automation'].create(auto_vals)
+
+    action_group_ids = []
+
+    sequence_id = False
+
+    action_vals = {'name': 'Execute Code', 'sequence': 5, 'state': 'code', 'code': 'DELETE("Sổ cái kế toán", [("x_loai_chung_tu", "=", REF_ID)])\n', 'evaluation_type': 'value', 'update_path': False, 'value': False, 'binding_type': 'action'}
+    if sequence_id:
+        # field_id = env['ir.model.fields'].search([('name', '=', 'False'), ('model', '=', 'False')], limit=1)
+        # action_vals['update_field_id'] = field_id.id if field_id else False
+        action_vals['sequence_id'] = sequence_id.id if sequence_id else False
+    if False:
+        binding_model_id = env['ir.model'].search([('model', '=', 'False')], limit=1)
+        action_vals['binding_model_id'] = binding_model_id.id
+    action_vals['model_id'] = model_id.id
+    action_vals['base_automation_id'] = auto_id.id
+    action_vals['group_ids'] = [(6, 0, action_group_ids)]
+    env['ir.actions.server'].create(action_vals)
+
     model_id = env['ir.model'].search([('model', '=', 'x_0cb7fa70192b4a6eab9403509aa45ca0')])
 
     trigger_field_ids = []
