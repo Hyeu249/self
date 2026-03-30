@@ -129,12 +129,34 @@ def post_init_hook(env):
             new_vals = access.read(['name', 'perm_read', 'perm_write', 'perm_create', 'perm_unlink'])[0]
             new_vals.pop('id', False)
             strs += f'''
-        access_vals = {new_vals}
-        group_id = env['{access.group_id._name}'].search([('name', '=', '{access.group_id.name}')], limit=1)
-        if not group_id:
-            raise ValidationError('Group {access.group_id.name} not found, please create it first.')
+        group_id = False
+'''
+            group_vals = {}
+            privilege_vals = {}
+            group_id = access.group_id
+            if group_id:
+                group_vals = group_id.read(['name', 'uuid', 'share', 'sequence', 'api_key_duration', 'comment'])[0]
+                group_vals.pop('id', False)
+                if group_id.privilege_id:
+                    privilege_vals = group_id.privilege_id.read(['name', 'uuid', 'placeholder', 'sequence', 'description'])[0]
+                    privilege_vals['category_id'] = group_id.privilege_id.category_id.id
+                    privilege_vals.pop('id', False)
+                strs += f'''
+        group_id = env['res.groups'].search([('uuid', '=', '{group_id.uuid}')], limit=1)
 
-        access_vals['group_id'] = group_id.id
+        if not group_id:
+            group_vals = {group_vals}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', '{group_id.privilege_id.uuid}')], limit=1)
+            if {bool(group_id.privilege_id.uuid)} and not privilege_id:
+                privilege_vals = {privilege_vals}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+'''
+
+            strs += f'''
+        access_vals = {new_vals}
+        access_vals['group_id'] = group_id.id if group_id else False
         access_vals['model_id'] = model_id.id
         env['{access._name}'].create(access_vals)
 '''
@@ -428,13 +450,27 @@ def post_init_hook(env):
         field_vals['selection_vals'].append({new_vals})
 '''
                 for group in field.groups:
+                    group_vals = group.read(['name', 'uuid', 'share', 'sequence', 'api_key_duration', 'comment'])[0]
+                    group_vals.pop('id', False)
+                    privilege_vals = {}
+                    if group.privilege_id:
+                        privilege_vals = group.privilege_id.read(['name', 'uuid', 'placeholder', 'sequence', 'description'])[0]
+                        privilege_vals['category_id'] = group.privilege_id.category_id.id
+                        privilege_vals.pop('id', False)
                     strs += f'''
-        group_id = env['{group._name}'].search([('name', '=', '{group.name}')], limit=1)
+        group_id = env['res.groups'].search([('uuid', '=', '{group.uuid}')], limit=1)
+
         if not group_id:
-            raise ValidationError('Group {group.name} not found, please create it first.')
-        else:
-            groups.append(group_id.id)
+            group_vals = {group_vals}
+            privilege_id = env['res.groups.privilege'].search([('uuid', '=', '{group.privilege_id.uuid}')], limit=1)
+            if {bool(group.privilege_id.uuid)} and not privilege_id:
+                privilege_vals = {privilege_vals}
+                privilege_id = env['res.groups.privilege'].create(privilege_vals)
+            group_vals['privilege_id'] = privilege_id.id if privilege_id else False
+            group_id = env['res.groups'].create(group_vals)
+        groups.append(group_id.id)
 '''
+
                 strs += f'''
         field_vals['groups_vals'] = groups
 '''
