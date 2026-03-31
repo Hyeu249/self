@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 import uuid
 from odoo.fields import Command, Domain
@@ -126,6 +126,48 @@ class IrUiView(models.Model):
                 "name": field.name
             })
         
+        ET.indent(root, space="    ")
+        new_xml = ET.tostring(root, encoding="unicode")
+        self.arch_base = new_xml
+
+    def remove_transient_footer(self):
+        if not self.model_id.transient and self.type != 'form':
+            return
+
+        parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+        root = ET.fromstring(self.arch_base, parser=parser)
+
+        for sheet in root.iter("sheet"):
+            for footer in sheet.iter("footer"):
+                sheet.remove(footer)
+
+        ET.indent(root, space="    ")
+        new_xml = ET.tostring(root, encoding="unicode")
+        self.arch_base = new_xml
+
+    def update_transient_ok_button(self):
+        if not self.model_id.transient and self.type != 'form':
+            return
+
+        parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+        root = ET.fromstring(self.arch_base, parser=parser)
+        for sheet in root.iter("sheet"):
+            footer = ET.SubElement(sheet, "footer")
+            ok_action = self.env["ir.actions.server"].search([('name', '=', 'ok'), ("model_id", "=", self.model_id.id)], limit=1)
+            if ok_action:
+                ET.SubElement(footer, "button", {
+                    "name": f"{ok_action.id}",
+                    "type": "action",
+                    "string": "Xác nhận",
+                    "class": "btn-primary"
+                })
+
+            ET.SubElement(footer, "button", {
+                "special": "cancel",
+                "string": "Huỷ",
+                "class": "btn-secondary"
+            })
+
         ET.indent(root, space="    ")
         new_xml = ET.tostring(root, encoding="unicode")
         self.arch_base = new_xml

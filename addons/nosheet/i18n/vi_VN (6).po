@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20260118\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-30 04:02+0000\n"
-"PO-Revision-Date: 2026-03-30 04:02+0000\n"
+"POT-Creation-Date: 2026-03-31 00:37+0000\n"
+"PO-Revision-Date: 2026-03-31 00:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -245,9 +245,11 @@ msgid "Build"
 msgstr ""
 
 #. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/ir_ui_view.py:0
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
 msgid "Cancel"
-msgstr ""
+msgstr "Huỷ"
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
@@ -282,9 +284,11 @@ msgid ""
 msgstr ""
 
 #. module: nosheet
+#. odoo-python
+#: code:addons/nosheet/models/ir_ui_view.py:0
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
 msgid "Confirm"
-msgstr ""
+msgstr "Xác nhận"
 
 #. module: nosheet
 #: model:ir.model.fields.selection,name:nosheet.selection__nosheet_build__action_type__create
@@ -305,7 +309,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
 msgid "Create or Select Module"
-msgstr "Tạo hoặc chọn module"
+msgstr ""
 
 #. module: nosheet
 #: model:ir.model.fields,field_description:nosheet.field_nosheet_build__create_uid
@@ -374,7 +378,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
 msgid "Enter Model Name"
-msgstr "Điền tên mô hình"
+msgstr ""
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
@@ -708,7 +712,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
 msgid "Pick Options"
-msgstr "Chọn hành động"
+msgstr ""
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_build_form
@@ -787,7 +791,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/nosheet/models/build.py:0
 msgid "Select Model to Edit or Delete"
-msgstr "Chọn mô hình"
+msgstr ""
 
 #. module: nosheet
 #: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_actions_server_form
@@ -1035,6 +1039,16 @@ msgstr "Số thực"
 msgid ""
 "for record in self:\n"
 "    record['size'] = len(record.name)"
+msgstr ""
+
+#. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
+msgid "hello"
+msgstr ""
+
+#. module: nosheet
+#: model_terms:ir.ui.view,arch_db:nosheet.view_nosheet_ir_ui_view_form
+msgid "hello22"
 msgstr ""
 
 #. module: nosheet

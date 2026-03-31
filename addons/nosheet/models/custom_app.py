@@ -534,7 +534,9 @@ def post_init_hook(env):
     def create_views(self):
         strs = '''
     for view in views_payloads:
-        env['ir.ui.view'].create(view)
+        view_id = env['ir.ui.view'].create(view)
+        view_id.remove_transient_footer()
+        view_id.update_transient_ok_button()
 '''
         return strs
 

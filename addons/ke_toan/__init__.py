@@ -50,38 +50,38 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Công ty', 'res_model': 'x_b5d5cecc141e40a3925a41923922bcc2', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Công ty', 'res_model': 'x_b5d5cecc141e40a3925a41923922bcc2', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Công ty', 'sequence': 4, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_133.id if menu_133 else False
+        menu_vals['parent_id'] = menu_151.id if menu_151 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -255,27 +255,27 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Danh mục hàng hoá', 'res_model': 'x_f19155e4689c401ea07a09b90a63f794', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Danh mục hàng hoá', 'res_model': 'x_f19155e4689c401ea07a09b90a63f794', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Danh mục hàng hoá', 'sequence': 1, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_125.id if menu_125 else False
+        menu_vals['parent_id'] = menu_150.id if menu_150 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -396,49 +396,49 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Hoá đơn', 'res_model': 'x_8d898fdcdadf451f844fa3ba69f9c226', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Hoá đơn', 'res_model': 'x_8d898fdcdadf451f844fa3ba69f9c226', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
+        group_154_ids = []
+
+        group_151_ids = []
+
         group_150_ids = []
 
-        group_133_ids = []
-
-        group_125_ids = []
-
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
         menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
         if not menu_150:
             menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
+        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
+
+        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_154_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_154 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_154:
+            menu_154 = env['ir.ui.menu'].create(menu_create_domain)
+
         menu_vals = {'name': 'Hoá đơn', 'sequence': 4, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_150.id if menu_150 else False
+        menu_vals['parent_id'] = menu_154.id if menu_154 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -513,49 +513,49 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Hợp đồng', 'res_model': 'x_5579eb7c8c8f454cb54cd8e85234d153', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Hợp đồng', 'res_model': 'x_5579eb7c8c8f454cb54cd8e85234d153', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
+        group_154_ids = []
+
+        group_151_ids = []
+
         group_150_ids = []
 
-        group_133_ids = []
-
-        group_125_ids = []
-
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
         menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
         if not menu_150:
             menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
+        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
+
+        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_154_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_154 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_154:
+            menu_154 = env['ir.ui.menu'].create(menu_create_domain)
+
         menu_vals = {'name': 'Hợp đồng', 'sequence': 1, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_150.id if menu_150 else False
+        menu_vals['parent_id'] = menu_154.id if menu_154 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -666,38 +666,38 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Kho hàng', 'res_model': 'x_a6da8efa11194f1bae3b7522c10e954b', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Kho hàng', 'res_model': 'x_a6da8efa11194f1bae3b7522c10e954b', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Kho hàng', 'sequence': 5, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_133.id if menu_133 else False
+        menu_vals['parent_id'] = menu_151.id if menu_151 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -772,27 +772,27 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Mua bán hàng hoá', 'res_model': 'x_bea12ff7f1fe4f6fadf098f0f84ab7d8', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Mua bán hàng hoá', 'res_model': 'x_bea12ff7f1fe4f6fadf098f0f84ab7d8', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Mua bán hàng hoá', 'sequence': 2, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_125.id if menu_125 else False
+        menu_vals['parent_id'] = menu_150.id if menu_150 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -1006,27 +1006,27 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Nghiệp vụ khác', 'res_model': 'x_4b01b3eb8ec04fff8d7a74437491f315', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Nghiệp vụ khác', 'res_model': 'x_4b01b3eb8ec04fff8d7a74437491f315', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Nghiệp vụ khác', 'sequence': 4, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_125.id if menu_125 else False
+        menu_vals['parent_id'] = menu_150.id if menu_150 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -1137,49 +1137,49 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Nhật ký thanh toán', 'res_model': 'x_0cb7fa70192b4a6eab9403509aa45ca0', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Nhật ký thanh toán', 'res_model': 'x_0cb7fa70192b4a6eab9403509aa45ca0', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
+        group_154_ids = []
+
+        group_151_ids = []
+
         group_150_ids = []
 
-        group_133_ids = []
-
-        group_125_ids = []
-
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
         menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
         if not menu_150:
             menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
+        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
+
+        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_154_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_154 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_154:
+            menu_154 = env['ir.ui.menu'].create(menu_create_domain)
+
         menu_vals = {'name': 'Nhật ký thanh toán', 'sequence': 5, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_150.id if menu_150 else False
+        menu_vals['parent_id'] = menu_154.id if menu_154 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -1312,49 +1312,49 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Phiếu kho', 'res_model': 'x_2d75d5f44f924a9282735b054b0007a1', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Phiếu kho', 'res_model': 'x_2d75d5f44f924a9282735b054b0007a1', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
+        group_154_ids = []
+
+        group_151_ids = []
+
         group_150_ids = []
 
-        group_133_ids = []
-
-        group_125_ids = []
-
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
         menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
         if not menu_150:
             menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
+        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
+
+        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_154_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_154 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_154:
+            menu_154 = env['ir.ui.menu'].create(menu_create_domain)
+
         menu_vals = {'name': 'Phiếu kho', 'sequence': 3, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_150.id if menu_150 else False
+        menu_vals['parent_id'] = menu_154.id if menu_154 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -1474,7 +1474,7 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Báo cáo hàng hoá', 'res_model': 'x_c78095f0ddb645eca0cd38dee357725c', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'pivot', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Báo cáo hàng hoá', 'res_model': 'x_c78095f0ddb645eca0cd38dee357725c', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'pivot', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
@@ -1487,79 +1487,79 @@ def post_init_hook(env):
 
         menu_group_ids = []
 
-        group_137_ids = []
+        group_162_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Báo cáo'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Báo cáo', 'sequence': 7, 'group_ids': [(6, 0, group_137_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_137 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_137:
-            menu_137 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Báo cáo', 'sequence': 7, 'group_ids': [(6, 0, group_162_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_162 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_162:
+            menu_162 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Báo cáo hàng hoá', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_137.id if menu_137 else False
+        menu_vals['parent_id'] = menu_162.id if menu_162 else False
         env['ir.ui.menu'].create(menu_vals)
 
         action_group_ids = []
 
-        action_vals = {'name': 'Sổ cái kho', 'res_model': 'x_c78095f0ddb645eca0cd38dee357725c', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Sổ cái kho', 'res_model': 'x_c78095f0ddb645eca0cd38dee357725c', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_142_ids = []
+        group_164_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Sổ cái'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Sổ cái', 'sequence': 9, 'group_ids': [(6, 0, group_142_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
-        menu_142 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_142:
-            menu_142 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Sổ cái', 'sequence': 9, 'group_ids': [(6, 0, group_164_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_164 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_164:
+            menu_164 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Sổ cái kho', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_142.id if menu_142 else False
+        menu_vals['parent_id'] = menu_164.id if menu_164 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -1754,7 +1754,7 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Báo cáo tổng hợp', 'res_model': 'x_e4a49df8fa1c4db9a0d729719332b9eb', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'pivot', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Báo cáo tổng hợp', 'res_model': 'x_e4a49df8fa1c4db9a0d729719332b9eb', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'pivot', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
@@ -1774,79 +1774,79 @@ def post_init_hook(env):
 
         menu_group_ids = []
 
-        group_137_ids = []
+        group_162_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Báo cáo'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Báo cáo', 'sequence': 7, 'group_ids': [(6, 0, group_137_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_137 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_137:
-            menu_137 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Báo cáo', 'sequence': 7, 'group_ids': [(6, 0, group_162_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_162 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_162:
+            menu_162 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Báo cáo tổng hợp', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_137.id if menu_137 else False
+        menu_vals['parent_id'] = menu_162.id if menu_162 else False
         env['ir.ui.menu'].create(menu_vals)
 
         action_group_ids = []
 
-        action_vals = {'name': 'Sổ cái kế toán', 'res_model': 'x_e4a49df8fa1c4db9a0d729719332b9eb', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Sổ cái kế toán', 'res_model': 'x_e4a49df8fa1c4db9a0d729719332b9eb', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_142_ids = []
+        group_164_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Sổ cái'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Sổ cái', 'sequence': 9, 'group_ids': [(6, 0, group_142_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
-        menu_142 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_142:
-            menu_142 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Sổ cái', 'sequence': 9, 'group_ids': [(6, 0, group_164_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_164 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_164:
+            menu_164 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Sổ cái kế toán', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_142.id if menu_142 else False
+        menu_vals['parent_id'] = menu_164.id if menu_164 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2077,38 +2077,38 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Tài khoản', 'res_model': 'x_6fc605916fea47c3bbd6da0a25660665', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Tài khoản', 'res_model': 'x_6fc605916fea47c3bbd6da0a25660665', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Tài khoản', 'sequence': 6, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_133.id if menu_133 else False
+        menu_vals['parent_id'] = menu_151.id if menu_151 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2291,27 +2291,27 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Xuất nhập kho', 'res_model': 'x_1252b666e8a04a17930b0c4166d12b43', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Xuất nhập kho', 'res_model': 'x_1252b666e8a04a17930b0c4166d12b43', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Xuất nhập kho', 'sequence': 3, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_125.id if menu_125 else False
+        menu_vals['parent_id'] = menu_150.id if menu_150 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2471,49 +2471,49 @@ def post_init_hook(env):
 
         action_group_ids = []
 
-        action_vals = {'name': 'Đại lý', 'res_model': 'x_00c5b25ba4f54ad085e01b57b20eb8a9', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': "<p class='o_view_nocontent_smiling_face'>Create new document</p>"}
+        action_vals = {'name': 'Đại lý', 'res_model': 'x_00c5b25ba4f54ad085e01b57b20eb8a9', 'type': 'ir.actions.act_window', 'usage': False, 'target': 'current', 'cache': True, 'view_mode': 'list,form', 'mobile_view_mode': 'kanban', 'domain': False, 'context': '{}', 'limit': 80, 'filter': False, 'help': Markup('<p class="o_view_nocontent_smiling_face">Create new document</p>')}
         action_vals['group_ids'] = [(6, 0, action_group_ids)]
         action_id = env['ir.actions.act_window'].create(action_vals)
 
         menu_group_ids = []
 
+        group_154_ids = []
+
+        group_151_ids = []
+
         group_150_ids = []
 
-        group_133_ids = []
-
-        group_125_ids = []
-
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
-
-        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
         menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
         if not menu_150:
             menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
+        menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
+
+        menu_domain = [('name', '=', 'Giấy tờ'), ('is_custom', '=', True)]
+        menu_create_domain = {'name': 'Giấy tờ', 'sequence': 8, 'group_ids': [(6, 0, group_154_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_154 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_154:
+            menu_154 = env['ir.ui.menu'].create(menu_create_domain)
+
         menu_vals = {'name': 'Đại lý', 'sequence': 2, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_150.id if menu_150 else False
+        menu_vals['parent_id'] = menu_154.id if menu_154 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2594,43 +2594,43 @@ def post_init_hook(env):
 
         menu_group_ids = []
 
-        group_161_ids = []
+        group_171_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Popup'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Popup', 'sequence': 10, 'group_ids': [(6, 0, group_161_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
-        menu_161 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_161:
-            menu_161 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Popup', 'sequence': 10, 'group_ids': [(6, 0, group_171_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_171 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_171:
+            menu_171 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Form báo cáo kho', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_161.id if menu_161 else False
+        menu_vals['parent_id'] = menu_171.id if menu_171 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2638,7 +2638,7 @@ def post_init_hook(env):
 
         view_group_ids = []
 
-        view_vals = {'name': 'x_176bc4d70e5c4c4cb919046b1475cec6.form', 'model': 'x_176bc4d70e5c4c4cb919046b1475cec6', 'arch_base': '<form>\n    <header/>\n    <sheet>\n        <group>\n            <field name="x_name" invisible="1"/>\n            <field name="x_tu_ngay"/>\n            <field name="x_den_ngay"/>\n        </group>\n        <notebook/>\n        <footer>\n            <button name="240" type="action" string="Xác nhận" class="btn-primary"/>\n            <button special="cancel" string="Huỷ" class="btn-secondary"/>\n        </footer>\n    </sheet>\n    <chatter/>\n</form>', 'mode': 'primary', 'priority': 16, 'active': True, 'type': 'form'}
+        view_vals = {'name': 'x_176bc4d70e5c4c4cb919046b1475cec6.form', 'model': 'x_176bc4d70e5c4c4cb919046b1475cec6', 'arch_base': '<form>\n    <header/>\n    <sheet>\n        <group>\n            <field name="x_name" invisible="1"/>\n            <field name="x_tu_ngay"/>\n            <field name="x_den_ngay"/>\n        </group>\n        <notebook/>\n        <footer>\n            <button name="1" type="action" string="Confirm" class="btn-primary"/>\n            <button special="cancel" string="Cancel" class="btn-secondary"/>\n        </footer>\n    </sheet>\n    <chatter/>\n</form>', 'mode': 'primary', 'priority': 16, 'active': True, 'type': 'form'}
         view_vals['group_ids'] = [(6, 0, view_group_ids)]
         view_vals['model_id'] = model_id.id
         views_payloads.append(view_vals)
@@ -2729,43 +2729,43 @@ def post_init_hook(env):
 
         menu_group_ids = []
 
-        group_161_ids = []
+        group_171_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Popup'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Popup', 'sequence': 10, 'group_ids': [(6, 0, group_161_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
-        menu_161 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_161:
-            menu_161 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Popup', 'sequence': 10, 'group_ids': [(6, 0, group_171_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_171 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_171:
+            menu_171 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Form báo cáo tổng hợp', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_161.id if menu_161 else False
+        menu_vals['parent_id'] = menu_171.id if menu_171 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2773,7 +2773,7 @@ def post_init_hook(env):
 
         view_group_ids = []
 
-        view_vals = {'name': 'x_5a4a212c55a341b1a0e0e90a99886031.form', 'model': 'x_5a4a212c55a341b1a0e0e90a99886031', 'arch_base': '<form>\n    <header/>\n    <sheet>\n        <group>\n            <field name="x_name" invisible="1"/>\n            <field name="x_tu_ngay"/>\n            <field name="x_den_ngay"/>\n        </group>\n        <notebook/>\n        <footer>\n            <button name="246" type="action" string="Xác nhận" class="btn-primary"/>\n            <button special="cancel" string="Huỷ" class="btn-secondary"/>\n        </footer>\n    </sheet>\n    <chatter/>\n</form>', 'mode': 'primary', 'priority': 16, 'active': True, 'type': 'form'}
+        view_vals = {'name': 'x_5a4a212c55a341b1a0e0e90a99886031.form', 'model': 'x_5a4a212c55a341b1a0e0e90a99886031', 'arch_base': '<form>\n    <header/>\n    <sheet>\n        <group>\n            <field name="x_name" invisible="1"/>\n            <field name="x_tu_ngay"/>\n            <field name="x_den_ngay"/>\n        </group>\n        <notebook/>\n        <footer>\n            <button name="1" type="action" string="Confirm" class="btn-primary"/>\n            <button special="cancel" string="Cancel" class="btn-secondary"/>\n        </footer>\n    </sheet>\n    <chatter/>\n</form>', 'mode': 'primary', 'priority': 16, 'active': True, 'type': 'form'}
         view_vals['group_ids'] = [(6, 0, view_group_ids)]
         view_vals['model_id'] = model_id.id
         views_payloads.append(view_vals)
@@ -2864,43 +2864,43 @@ def post_init_hook(env):
 
         menu_group_ids = []
 
-        group_161_ids = []
+        group_171_ids = []
 
-        group_133_ids = []
+        group_151_ids = []
 
-        group_125_ids = []
+        group_150_ids = []
 
         menu_domain = [('name', '=', 'Kế toán'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_125_ids)], 'is_custom': True}
+        menu_create_domain = {'name': 'Kế toán', 'sequence': 10, 'group_ids': [(6, 0, group_150_ids)], 'is_custom': True}
         if False:
             menu_domain.append(('parent_id', '=', False.id))
             menu_create_domain['parent_id'] = False.id
-        menu_125 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_125:
-            menu_125 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_150 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_150:
+            menu_150 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Kỹ thuật'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_133_ids)], 'is_custom': True}
-        if menu_125:
-            menu_domain.append(('parent_id', '=', menu_125.id))
-            menu_create_domain['parent_id'] = menu_125.id
-        menu_133 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_133:
-            menu_133 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Kỹ thuật', 'sequence': 10, 'group_ids': [(6, 0, group_151_ids)], 'is_custom': True}
+        if menu_150:
+            menu_domain.append(('parent_id', '=', menu_150.id))
+            menu_create_domain['parent_id'] = menu_150.id
+        menu_151 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_151:
+            menu_151 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_domain = [('name', '=', 'Popup'), ('is_custom', '=', True)]
-        menu_create_domain = {'name': 'Popup', 'sequence': 10, 'group_ids': [(6, 0, group_161_ids)], 'is_custom': True}
-        if menu_133:
-            menu_domain.append(('parent_id', '=', menu_133.id))
-            menu_create_domain['parent_id'] = menu_133.id
-        menu_161 = env['ir.ui.menu'].search(menu_domain, limit=1)
-        if not menu_161:
-            menu_161 = env['ir.ui.menu'].create(menu_create_domain)
+        menu_create_domain = {'name': 'Popup', 'sequence': 10, 'group_ids': [(6, 0, group_171_ids)], 'is_custom': True}
+        if menu_151:
+            menu_domain.append(('parent_id', '=', menu_151.id))
+            menu_create_domain['parent_id'] = menu_151.id
+        menu_171 = env['ir.ui.menu'].search(menu_domain, limit=1)
+        if not menu_171:
+            menu_171 = env['ir.ui.menu'].create(menu_create_domain)
 
         menu_vals = {'name': 'Form thanh toán', 'sequence': 10, 'is_custom': True}
         menu_vals['action'] = f"ir.actions.act_window,{action_id.id}"
         menu_vals['group_ids'] = [(6, 0, menu_group_ids)]
-        menu_vals['parent_id'] = menu_161.id if menu_161 else False
+        menu_vals['parent_id'] = menu_171.id if menu_171 else False
         env['ir.ui.menu'].create(menu_vals)
 
         
@@ -2908,7 +2908,7 @@ def post_init_hook(env):
 
         view_group_ids = []
 
-        view_vals = {'name': 'x_657e8bcb071e4f44a8aa9845fbdce258.form', 'model': 'x_657e8bcb071e4f44a8aa9845fbdce258', 'arch_base': '<form>\n    <header/>\n    <sheet>\n        <group>\n            <field name="x_name" invisible="1"/>\n            <field name="x_ngay_thang"/>\n            <field name="x_so_tien"/>\n            <field name="x_loai_thanh_toan"/>\n            <field name="x_chuc_nang"/>\n            <field name="x_hop_dong"/>\n        </group>\n        <notebook/>\n        <footer>\n            <button name="223" type="action" string="Xác nhận" class="btn-primary"/>\n            <button special="cancel" string="Huỷ" class="btn-secondary"/>\n        </footer>\n    </sheet>\n    <chatter/>\n</form>', 'mode': 'primary', 'priority': 16, 'active': True, 'type': 'form'}
+        view_vals = {'name': 'x_657e8bcb071e4f44a8aa9845fbdce258.form', 'model': 'x_657e8bcb071e4f44a8aa9845fbdce258', 'arch_base': '<form>\n    <header/>\n    <sheet>\n        <group>\n            <field name="x_name" invisible="1"/>\n            <field name="x_ngay_thang"/>\n            <field name="x_so_tien"/>\n            <field name="x_loai_thanh_toan"/>\n            <field name="x_chuc_nang"/>\n            <field name="x_hop_dong"/>\n        </group>\n        <notebook/>\n        <footer>\n            <button name="1" type="action" string="Confirm" class="btn-primary"/>\n            <button special="cancel" string="Cancel" class="btn-secondary"/>\n        </footer>\n    </sheet>\n    <chatter/>\n</form>', 'mode': 'primary', 'priority': 16, 'active': True, 'type': 'form'}
         view_vals['group_ids'] = [(6, 0, view_group_ids)]
         view_vals['model_id'] = model_id.id
         views_payloads.append(view_vals)
@@ -3042,7 +3042,9 @@ def post_init_hook(env):
 
     
     for view in views_payloads:
-        env['ir.ui.view'].create(view)
+        view_id = env['ir.ui.view'].create(view)
+        view_id.remove_transient_footer()
+        view_id.update_transient_ok_button()
 
     
     #models automation
