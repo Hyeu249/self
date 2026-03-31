@@ -736,6 +736,7 @@ def uninstall_hook(env):
 """)
 
     def remove_module(self):
+        self.model_ids.view_ids.unlink()
         field_ids = self.env['ir.model.fields'].search([('model_id', 'in', self.model_ids.ids), ('state', '=', 'manual')])
         fields = sorted(
             field_ids,

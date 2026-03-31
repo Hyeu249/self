@@ -37,4 +37,25 @@
             </form>
         </field>
     </record>
+
+    <record id="view_module_filter_inherit_menu" model="ir.ui.view">
+        <field name="name">view.module.filter.inherit.menu</field>
+        <field name="model">ir.ui.menu</field>
+        <field name="inherit_id" ref="base.edit_menu_access_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+            <filter name="is_custom_menu"
+                string="Is custom?"
+                domain="[('is_custom', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="base.grant_menu_access" model="ir.actions.act_window">
+        <field name="context">
+            {'ir.ui.menu.full_list':True, 'search_default_is_custom_menu': True, 'default_is_custom': True}        
+        </field>
+    </record>
+
 </odoo>
