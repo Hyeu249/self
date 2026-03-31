@@ -131,7 +131,7 @@ class IrUiView(models.Model):
         self.arch_base = new_xml
 
     def remove_transient_footer(self):
-        if not self.model_id.transient and self.type != 'form':
+        if not self.model_id.transient or self.type != 'form':
             return
 
         parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
@@ -146,7 +146,7 @@ class IrUiView(models.Model):
         self.arch_base = new_xml
 
     def update_transient_ok_button(self):
-        if not self.model_id.transient and self.type != 'form':
+        if not self.model_id.transient or self.type != 'form':
             return
 
         parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
