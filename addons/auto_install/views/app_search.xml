@@ -6,18 +6,18 @@
         <field name="arch" type="xml">
 
             <xpath expr="//search" position="inside">
-            <filter name="odoo_not_tobuy"
-                string="Odoo not Enterprise"
-                domain="[('to_buy', '=', False)]"/>
-            </xpath>
             <group>
                 <filter name="odoo_tobuy"
                     string="Odoo Enterprise"
                     domain="[('to_buy', '=', True)]"/>
-                <filter name="not_odoo_author"
-                    string="Not Odoo"
-                    domain="[('author', '!=', 'Odoo S.A.')]"/>
+                <filter name="odoo_not_tobuy"
+                    string="Odoo not Enterprise"
+                    domain="[('to_buy', '=', False)]"/>
             </group>
+            <filter name="not_odoo_author"
+                string="Not Odoo"
+                domain="[('author', '!=', 'Odoo S.A.')]"/>
+            </xpath>
         </field>
     </record>
 
