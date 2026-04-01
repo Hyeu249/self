@@ -241,6 +241,11 @@
                                 <li><code>datetime</code> (Python module)</li>
                                 <li><code>dateutil</code> (Python module)</li>
                                 <li><code>time</code> (Python module)</li>
+
+                                <li><code>SUM</code> Excel function</li>
+                                <li><code>MINUS</code> Excel function</li>
+                                <li><code>PRODUCT</code> Excel function</li>
+                                <li><code>SUM_COL</code> It calculates the sum of a field from related record.</li>
                             </ul>
                             <p>Other features are accessible through <code>self</code>, like
                             <code>self.env</code>, etc.</p>
